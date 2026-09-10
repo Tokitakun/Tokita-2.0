@@ -45,7 +45,10 @@ const ExperienceTimeline = () => {
       if (!track || !sectionRef.current) return;
 
       const getScrollAmount = () => {
-        return -(track.scrollWidth - window.innerWidth + 100);
+        const trackWidth = track.scrollWidth;
+        const viewportWidth = window.innerWidth;
+        // Buffer 150px setelah card terakhir untuk breathing room
+        return -(trackWidth - viewportWidth + 150);
       };
 
       const tween = gsap.to(track, {
@@ -85,20 +88,20 @@ const ExperienceTimeline = () => {
     <section
       id="journey"
       ref={sectionRef}
-      className="relative w-full bg-[#2A2A2A] min-h-screen flex items-center"
+      className="relative w-full bg-[#2A2A2A] min-h-screen flex items-center overflow-hidden"
     >
       {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#6B9FBF]/10 via-[#2A2A2A] to-[#2A2A2A] pointer-events-none" />
 
       {/* HEADER */}
-      <div className="absolute top-8 left-0 w-full z-30 px-6 md:px-12">
+      <div className="absolute top-6 md:top-8 left-0 w-full z-30 px-4 md:px-8 lg:px-12">
         <div ref={headerRef} className="max-w-7xl mx-auto flex justify-between items-end">
           <div>
-            <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 mb-4">
+            <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 mb-3 md:mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-[#6B9FBF] animate-pulse" />
               <span className="text-[10px] font-bold text-gray-300 tracking-widest uppercase">Timeline</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight">
               Perjalanan <span className="text-[#6B9FBF]">Karir</span>
             </h2>
           </div>
@@ -107,38 +110,38 @@ const ExperienceTimeline = () => {
       </div>
 
       {/* CONTAINER UTAMA */}
-      <div className="relative w-full h-screen flex items-center pl-6 md:pl-12">
+      <div className="relative w-full h-screen flex items-center pl-4 sm:pl-6 md:pl-8 lg:pl-12">
         
         {/* TRACK SEMUA KARTU (BERGERAK HORIZONTAL) */}
         <div
           ref={scrollingTrackRef}
-          className="flex items-center gap-6 h-full w-max pr-[50vw]"
+          className="flex items-start md:items-center gap-4 sm:gap-5 md:gap-6 lg:gap-8 h-auto w-max pr-[25vw] sm:pr-[30vw] md:pr-[40vw] lg:pr-[50vw] pt-20 md:pt-0 pb-8"
         >
-          {/* KARTU PENDIDIKAN - Sekarang jadi bagian dari track yang bergerak */}
-          <div className="w-[280px] md:w-[380px] h-[420px] flex-shrink-0">
-            <div className="h-full bg-[#2D2D2D]/90 backdrop-blur-xl border border-[#6B9FBF]/30 rounded-3xl p-6 shadow-2xl relative overflow-hidden group">
+          {/* KARTU PENDIDIKAN */}
+          <div className="w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px] flex-shrink-0">
+            <div className="h-auto min-h-[420px] max-h-[480px] bg-[#2D2D2D]/90 backdrop-blur-xl border border-[#6B9FBF]/30 rounded-2xl md:rounded-3xl p-5 md:p-6 shadow-2xl relative overflow-hidden group flex flex-col">
               {/* Glow Effect */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#6B9FBF]/20 blur-3xl rounded-full -mr-12 -mt-12 transition-all group-hover:bg-[#6B9FBF]/30" />
+              <div className="absolute top-0 right-0 w-20 h-20 md:w-24 md:h-24 bg-[#6B9FBF]/20 blur-3xl rounded-full -mr-10 -mt-10 transition-all group-hover:bg-[#6B9FBF]/30" />
               
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-4 flex-shrink-0">
                 <div className="p-2 bg-[#6B9FBF]/10 rounded-lg text-[#6B9FBF]">
                   <GraduationCap size={20} />
                 </div>
                 <span className="text-xs font-bold text-[#6B9FBF] uppercase tracking-wider">Foundation</span>
               </div>
 
-              <h3 className="text-2xl font-bold text-white mb-1">{educationData.title}</h3>
-              <p className="text-sm text-gray-400 mb-4 font-medium">{educationData.role}</p>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-1 flex-shrink-0">{educationData.title}</h3>
+              <p className="text-sm text-gray-400 mb-3 md:mb-4 font-medium flex-shrink-0">{educationData.role}</p>
               
-              <p className="text-sm text-gray-300 leading-relaxed mb-6 border-l-2 border-[#6B9FBF]/30 pl-3">
+              <p className="text-sm text-gray-300 leading-relaxed mb-4 md:mb-6 border-l-2 border-[#6B9FBF]/30 pl-3 line-clamp-4 flex-shrink-0">
                 {educationData.description}
               </p>
 
-              <ul className="space-y-2">
+              <ul className="space-y-2 flex-1 overflow-y-auto custom-scrollbar">
                 {educationData.details?.map((detail, i) => (
                   <li key={i} className="flex items-start gap-2 text-xs text-gray-400">
                     <span className="mt-1.5 w-1 h-1 rounded-full bg-[#6B9FBF] flex-shrink-0" />
-                    {detail}
+                    <span className="line-clamp-2">{detail}</span>
                   </li>
                 ))}
               </ul>
@@ -149,32 +152,32 @@ const ExperienceTimeline = () => {
           {experienceData.map((item, index) => (
             <div
               key={index}
-              className="w-[300px] md:w-[340px] h-[420px] flex-shrink-0 list-none"
+              className="w-[290px] sm:w-[330px] md:w-[350px] lg:w-[370px] flex-shrink-0 list-none"
             >
-              <div className="h-full bg-[#252525] border border-white/5 rounded-3xl p-6 hover:border-[#6B9FBF]/20 hover:bg-[#2A2A2A] transition-all duration-300 flex flex-col group relative">
+              <div className="h-auto min-h-[420px] max-h-[480px] bg-[#252525] border border-white/5 rounded-2xl md:rounded-3xl p-5 md:p-6 hover:border-[#6B9FBF]/20 hover:bg-[#2A2A2A] transition-all duration-300 flex flex-col group relative">
                 
                 {/* Garis konektor visual */}
-                <div className="absolute left-0 top-1/2 -translate-x-full h-px w-6 bg-white/10 hidden md:block" />
+                <div className="absolute left-0 top-1/2 -translate-x-full h-px w-4 md:w-6 bg-white/10 hidden md:block" />
 
-                <div className="flex justify-between items-start mb-6">
-                  <div className="p-2.5 bg-white/5 rounded-xl text-gray-300 group-hover:text-[#6B9FBF] group-hover:bg-[#6B9FBF]/10 transition-colors">
+                <div className="flex justify-between items-start mb-4 md:mb-6 flex-shrink-0">
+                  <div className="p-2 md:p-2.5 bg-white/5 rounded-xl text-gray-300 group-hover:text-[#6B9FBF] group-hover:bg-[#6B9FBF]/10 transition-colors">
                     {getTypeIcon(item.type)}
                   </div>
-                  <span className="text-[10px] font-mono text-gray-500 bg-white/5 px-2 py-1 rounded-md">
+                  <span className="text-[10px] font-mono text-gray-500 bg-white/5 px-2 py-1 rounded-md whitespace-nowrap">
                     {item.date}
                   </span>
                 </div>
 
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-white mb-1 group-hover:translate-x-1 transition-transform">
+                <div className="flex-1 flex flex-col">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-1 group-hover:translate-x-1 transition-transform flex-shrink-0">
                     {item.title}
                   </h3>
-                  <p className="text-sm text-[#6B9FBF] font-medium mb-4">{item.role}</p>
-                  <p className="text-sm text-gray-400 leading-relaxed mb-6 line-clamp-3">
+                  <p className="text-sm text-[#6B9FBF] font-medium mb-3 md:mb-4 flex-shrink-0">{item.role}</p>
+                  <p className="text-sm text-gray-400 leading-relaxed mb-4 md:mb-6 line-clamp-3 flex-shrink-0">
                     {item.description}
                   </p>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2 flex-1 overflow-y-auto custom-scrollbar">
                     {item.details?.slice(0, 3).map((detail, i) => (
                       <div key={i} className="flex items-center gap-2 text-xs text-gray-500">
                         <ArrowRight size={10} className="text-[#6B9FBF] flex-shrink-0" />
@@ -184,7 +187,7 @@ const ExperienceTimeline = () => {
                   </div>
                 </div>
 
-                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
+                <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between flex-shrink-0">
                   <span className="text-[10px] text-gray-600 uppercase tracking-widest">Detail</span>
                   <div className="w-6 h-6 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#6B9FBF] group-hover:bg-[#6B9FBF] transition-all">
                     <ArrowRight size={12} className="text-gray-500 group-hover:text-white" />
@@ -198,6 +201,24 @@ const ExperienceTimeline = () => {
 
       {/* OMORI Divider */}
       <div className="absolute bottom-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#8FC5F0] via-[#F08B8B] to-[#8FC5F0] opacity-80 z-30" />
+
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #6B9FBF;
+          border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #8FC5F0;
+        }
+      `}</style>
     </section>
   );
 };

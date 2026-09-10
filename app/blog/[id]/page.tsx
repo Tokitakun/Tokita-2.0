@@ -4,22 +4,12 @@ import { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
-  ArrowLeft, 
-  Calendar, 
-  Clock, 
-  BookOpen, 
-  Volume2, 
-  VolumeX, 
-  AlertTriangle, 
-  Quote, 
-  Sun, 
-  Moon,
-  Share2
+  ArrowLeft, Calendar, Clock, Volume2, VolumeX, 
+  AlertTriangle, Quote, Sun, Moon, Share2, Hash, 
+  ShieldAlert, Lock
 } from "lucide-react";
-import CustomCursor from "@/Components/cursor";
-import NavbarBlog from "@/Components/NavbarBlog";
-import Footer from "@/Components/footer";
 
+// Update Interface untuk menampung warnings
 interface Cerpen {
   id: number;
   title: string;
@@ -28,6 +18,7 @@ interface Cerpen {
   date: string;
   readTime: string;
   category: string;
+  warnings?: string[]; // Opsional dari JSON
 }
 
 export default function CerpenDetail() {
@@ -39,14 +30,14 @@ export default function CerpenDetail() {
   const [relatedCerpen, setRelatedCerpen] = useState<Cerpen[]>([]);
   
   // Settings
-  const [isDarkMode, setIsDarkMode] = useState(true); // Default dark for mystery vibe
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [audioEnabled, setAudioEnabled] = useState(false);
-  const [showTriggerWarning, setShowTriggerWarning] = useState(true);
+  
+  // GATEKEEPER STATE
+  const [hasAcknowledged, setHasAcknowledged] = useState(false);
   
   const bgmAudioRef = useRef<HTMLAudioElement | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  // Reading Progress
   const [readingProgress, setReadingProgress] = useState(0);
   
   useEffect(() => {
@@ -60,14 +51,12 @@ export default function CerpenDetail() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Audio Logic (Simplified)
   const toggleAudio = () => {
     if (!bgmAudioRef.current) {
       bgmAudioRef.current = new Audio('/audio/blog.mp3');
       bgmAudioRef.current.loop = true;
       bgmAudioRef.current.volume = 0.1;
     }
-
     if (audioEnabled) {
       bgmAudioRef.current.pause();
       setAudioEnabled(false);
@@ -77,7 +66,6 @@ export default function CerpenDetail() {
     }
   };
 
-  // Fetch Data
   useEffect(() => {
     const fetchCerpen = async () => {
       try {
@@ -92,7 +80,7 @@ export default function CerpenDetail() {
             .slice(0, 3);
           setRelatedCerpen(related);
         } else {
-          router.push('/blog'); // Redirect if not found
+          router.push('/blog');
         }
       } catch (error) {
         console.error("Error:", error);
@@ -103,13 +91,11 @@ export default function CerpenDetail() {
     if (params.id) fetchCerpen();
   }, [params.id, router]);
 
-  // Simple Content Parser (Highlights Dialogues)
   const renderContent = (text: string) => {
     return text.split('\n').map((line, i) => {
-      // Detect dialogue like "Hello" or 'Hi'
       if (line.match(/["'].*?["']/)) {
         return (
-          <p key={i} className="mb-4 leading-loose">
+          <p key={i} className="mb-6 leading-loose text-lg">
             {line.split(/(["'].*?["'])/g).map((part, j) => 
               part.match(/["'].*?["']/) ? (
                 <span key={j} className={`font-medium italic ${isDarkMode ? "text-sky-300" : "text-amber-700"}`}>
@@ -123,7 +109,7 @@ export default function CerpenDetail() {
         );
       }
       if (!line.trim()) return <br key={i} />;
-      return <p key={i} className="mb-4 leading-loose opacity-90">{line}</p>;
+      return <p key={i} className="mb-6 leading-loose text-lg opacity-90">{line}</p>;
     });
   };
 
@@ -132,7 +118,7 @@ export default function CerpenDetail() {
       <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? "bg-neutral-950" : "bg-[#fbf7f0]"}`}>
         <div className="flex flex-col items-center gap-4">
           <div className="w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin opacity-50" />
-          <p className="text-xs font-mono opacity-50">Memuat cerita...</p>
+          <p className="text-xs font-mono opacity-50">ACCESSING ARCHIVE...</p>
         </div>
       </div>
     );
@@ -140,7 +126,17 @@ export default function CerpenDetail() {
 
   if (!cerpen) return null;
 
-  // Dynamic Styles based on Mode
+  // LOGIKA WARNING OTOMATIS
+  // Cek apakah ada field warnings di JSON ATAU kategorinya mengandung kata kunci sensitif
+  const sensitiveKeywords = ["Suicide", "Bunuh", "Metode", "NSFW", "Peringatan"];
+  const hasSensitiveKeyword = sensitiveKeywords.some(keyword => cerpen.category.toLowerCase().includes(keyword.toLowerCase()));
+  
+  const needsWarning = (cerpen.warnings && cerpen.warnings.length > 0) || hasSensitiveKeyword;
+  const isLocked = needsWarning && !hasAcknowledged;
+
+  // Generate warning tags jika tidak ada di JSON tapi terdeteksi keyword
+  const displayWarnings = cerpen.warnings || (hasSensitiveKeyword ? ["Sensitive Content", "Mental Health"] : []);
+
   const theme = isDarkMode ? {
     bg: "bg-neutral-950",
     paper: "bg-neutral-900/50 border-neutral-800",
@@ -163,9 +159,6 @@ export default function CerpenDetail() {
 
   return (
     <div className={`relative min-h-screen transition-colors duration-500 ${theme.bg} selection:bg-sky-500/30`}>
-      <CustomCursor />
-      <NavbarBlog />
-      
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 z-50 bg-transparent">
         <div 
@@ -180,7 +173,7 @@ export default function CerpenDetail() {
         <div className="flex items-center justify-between mb-8 sticky top-20 z-40 py-2 backdrop-blur-md rounded-xl transition-all">
           <Link href="/blog" className={`inline-flex items-center gap-2 text-sm font-mono transition-colors ${theme.meta} hover:${theme.accent}`}>
             <ArrowLeft className="w-4 h-4" /> 
-            <span>Kembali</span>
+            <span>Back to Archive</span>
           </Link>
           
           <div className="flex items-center gap-2">
@@ -193,35 +186,81 @@ export default function CerpenDetail() {
           </div>
         </div>
 
-        {/* Trigger Warning */}
-        {showTriggerWarning && (
-          <div className={`mb-8 p-4 rounded-lg border text-sm flex gap-3 items-start ${theme.warning}`}>
-            <AlertTriangle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-            <div>
-              <p className="font-bold mb-1">Peringatan Konten</p>
-              <p className="opacity-90 text-xs leading-relaxed">
-                Cerita ini mengandung tema berat (depresi/mental health). Baca dengan bijak.
-              </p>
-              <button 
-                onClick={() => setShowTriggerWarning(false)}
-                className="mt-2 text-xs underline opacity-70 hover:opacity-100"
-              >
-                Mengerti, lanjutkan
-              </button>
+        {/* ========================================= */}
+        {/* CONTENT GATEKEEPER / WARNING MODAL        */}
+        {/* ========================================= */}
+        {isLocked && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-300">
+            <div className="max-w-md w-full bg-[#111] border border-red-500/30 rounded-2xl p-8 shadow-2xl shadow-red-900/20 relative overflow-hidden">
+              {/* Decorative Glow */}
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50" />
+              
+              <div className="flex flex-col items-center text-center space-y-6">
+                <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20">
+                  <ShieldAlert className="w-8 h-8 text-red-500" />
+                </div>
+                
+                <div>
+                  <h2 className="text-xl font-bold text-white mb-2 tracking-tight">Sensitive Content Warning</h2>
+                  <p className="text-gray-400 text-sm leading-relaxed">
+                    This archive entry contains themes that may be disturbing, including explicit descriptions of self-harm or suicide methods.
+                  </p>
+                </div>
+
+                {/* Warning Tags */}
+                <div className="flex flex-wrap justify-center gap-2">
+                  {displayWarnings.map((warn, i) => (
+                    <span key={i} className="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono uppercase tracking-wide">
+                      {warn}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="w-full pt-4 border-t border-white/5 flex flex-col gap-3">
+                  <button 
+                    onClick={() => setHasAcknowledged(true)}
+                    className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all active:scale-95"
+                  >
+                    I Understand, Proceed Anyway
+                  </button>
+                  <Link 
+                    href="/blog" 
+                    className="w-full py-3 bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2"
+                  >
+                    <ArrowLeft size={14} /> Return to Safety
+                  </Link>
+                </div>
+                
+                <p className="text-[10px] text-gray-600 font-mono mt-2">
+                  If you are in crisis, please contact professional help immediately.
+                </p>
+              </div>
             </div>
           </div>
         )}
 
-        {/* Main Article Card */}
-        <article className={`rounded-2xl p-6 md:p-10 border transition-all duration-500 ${theme.paper}`}>
+        {/* Main Article Card (Blurred if locked) */}
+        <article className={`rounded-2xl p-6 md:p-10 border transition-all duration-500 ${theme.paper} ${isLocked ? 'blur-xl select-none pointer-events-none opacity-50' : ''}`}>
           
-          {/* Header */}
+          {/* Header with NEW ID STYLE */}
           <header className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <span className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider border ${isDarkMode ? "border-sky-500/30 text-sky-400 bg-sky-500/10" : "border-amber-500/30 text-amber-700 bg-amber-500/10"}`}>
+            <div className="flex items-center gap-3 mb-6">
+              <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
+                isDarkMode 
+                  ? "border-sky-500/30 text-sky-400 bg-sky-500/10" 
+                  : "border-amber-500/30 text-amber-700 bg-amber-500/10"
+              }`}>
                 {cerpen.category}
               </span>
-              <span className={`text-[10px] font-mono ${theme.meta}`}>#{cerpen.id.toString().padStart(3, '0')}</span>
+
+              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-mono border ${
+                isDarkMode 
+                  ? "border-white/10 text-gray-400 bg-white/5" 
+                  : "border-black/5 text-gray-500 bg-black/5"
+              }`}>
+                <Hash size={10} className="opacity-50" />
+                <span>{String(cerpen.id).padStart(3, '0')}</span>
+              </div>
             </div>
             
             <h1 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${theme.heading}`}>
@@ -251,7 +290,7 @@ export default function CerpenDetail() {
 
           {/* Footer of Article */}
           <div className={`mt-12 pt-6 border-t flex justify-between items-center ${isDarkMode ? "border-neutral-800" : "border-amber-100"}`}>
-            <p className={`text-xs font-mono opacity-50 ${theme.text}`}>~ Selesai ~</p>
+            <p className={`text-xs font-mono opacity-50 ${theme.text}`}>~ END OF FILE ~</p>
             <button className={`p-2 rounded-full transition-colors ${theme.button}`}>
               <Share2 size={16} />
             </button>
@@ -259,13 +298,20 @@ export default function CerpenDetail() {
         </article>
 
         {/* Related Stories */}
-        {relatedCerpen.length > 0 && (
+        {!isLocked && relatedCerpen.length > 0 && (
           <div className="mt-16">
-            <h3 className={`text-sm font-bold uppercase tracking-widest mb-6 ${theme.meta}`}>Catatan Terkait</h3>
+            <h3 className={`text-sm font-bold uppercase tracking-widest mb-6 ${theme.meta}`}>Related Entries</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedCerpen.map((item) => (
                 <Link key={item.id} href={`/blog/${item.id}`} className="group block">
                   <div className={`p-4 rounded-xl border transition-all hover:-translate-y-1 ${theme.paper} hover:border-opacity-100`}>
+                    <div className="flex items-center gap-2 mb-2">
+                       <span className="text-[9px] font-mono opacity-50">#{String(item.id).padStart(3, '0')}</span>
+                       {/* Show warning icon if related post is sensitive */}
+                       {(item.warnings?.length || sensitiveKeywords.some(k => item.category.includes(k))) && (
+                         <ShieldAlert size={10} className="text-red-500" />
+                       )}
+                    </div>
                     <h4 className={`font-bold mb-2 line-clamp-2 group-hover:${theme.accent} transition-colors ${theme.heading}`}>
                       {item.title}
                     </h4>
@@ -278,8 +324,6 @@ export default function CerpenDetail() {
         )}
 
       </main>
-      
-      <Footer />
     </div>
   );
 }

@@ -14,18 +14,15 @@ import {
   Play,
   Pause,
   SkipForward,
-  SkipBack,
-  Volume2,
-  VolumeX,
-  Disc,
-  ListMusic,
   ChevronDown,
   Music2,
+  Disc,
+  ListMusic,
 } from "lucide-react";
 import { SiMyanimelist, SiRobloxstudio } from "react-icons/si";
 import { FaReact } from "react-icons/fa6";
 import { PiGameControllerDuotone } from "react-icons/pi";
-import law from "../../img/ce.webp";
+import law from "../../img/ce.webp"; // Pastikan path ini benar sesuai struktur foldermu
 
 // ============================================================================
 // PRO AUDIO PLAYER (WITH PLAYLIST DRAWER)
@@ -36,8 +33,6 @@ const ProAudioPlayer = () => {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
@@ -58,22 +53,22 @@ const ProAudioPlayer = () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onMeta = () => setDuration(audio.duration);
     const onTime = () => setCurrentTime(audio.currentTime);
     const onEnd = () => {
       if (currentIndex + 1 < tracks.length) setCurrentIndex(i => i + 1);
       else setIsPlaying(false);
     };
 
-    audio.addEventListener('loadedmetadata', onMeta);
     audio.addEventListener('timeupdate', onTime);
     audio.addEventListener('ended', onEnd);
     return () => {
-      audio.removeEventListener('loadedmetadata', onMeta);
       audio.removeEventListener('timeupdate', onTime);
       audio.removeEventListener('ended', onEnd);
     };
   }, [tracks.length]);
+
+  // Helper for time formatting inside component to avoid scope issues
+  const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
     if (!audioRef.current || !tracks.length) return;
@@ -81,7 +76,6 @@ const ProAudioPlayer = () => {
     if (audio.src !== tracks[currentIndex]?.file) {
       audio.src = tracks[currentIndex].file;
       audio.load();
-      setCurrentTime(0);
       if (isPlaying) audio.play().catch(() => {});
     }
   }, [currentIndex, tracks, isPlaying]);
@@ -94,7 +88,6 @@ const ProAudioPlayer = () => {
     if (audioRef.current) audioRef.current.volume = isMuted ? 0 : volume;
   }, [volume, isMuted]);
 
-  const fmt = (s: number) => isNaN(s) ? "0:00" : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
   const selectTrack = (i: number) => { setCurrentIndex(i); setIsPlaying(true); setShowPlaylist(false); };
 
   if (!tracks.length) return null;
@@ -175,18 +168,43 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className="relative overflow-hidden min-h-screen bg-[#2A2A2A] flex items-center justify-center">
+      
+      {/* --- BACKGROUND LAYERS --- */}
+      
+      {/* 1. Radial Gradients */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(107,159,191,0.15),_transparent_50%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_rgba(176,108,108,0.1),_transparent_40%)]" />
+      
+      {/* 2. Noise Texture */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
 
+      {/* 3. ANIMATED WAVES (NEW!) */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0 pointer-events-none">
+        <svg className="relative block w-[calc(100%+1.3px)] h-[120px] md:h-[180px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            {/* Wave 1 - Slowest & Furthest Back */}
+            <path 
+                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
+                className="fill-[#6B9FBF]/10 animate-wave-1"
+            ></path>
+            {/* Wave 2 - Medium Speed */}
+            <path 
+                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" 
+                className="fill-[#B06C6C]/10 animate-wave-2"
+            ></path>
+             {/* Wave 3 - Fastest & Front */}
+             <path 
+                d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" 
+                className="fill-[#2A2A2A] opacity-50 animate-wave-3"
+            ></path>
+        </svg>
+      </div>
+
+      {/* --- CONTENT --- */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-12 pt-20 pb-10 flex flex-col-reverse md:flex-row items-center justify-between gap-12 md:gap-20">
         
         {/* LEFT CONTENT */}
         <div ref={textRef} className="flex-1 text-center md:text-left space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-mono text-gray-300">Available for Hire</span>
-          </div>
+         
 
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
             Hello, I'm <br />
@@ -249,6 +267,28 @@ export default function Hero() {
           <ProAudioPlayer />
         </div>
       </div>
+
+      {/* Custom Styles for Wave Animation */}
+      <style jsx>{`
+        @keyframes wave-1 {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(-25px); }
+          100% { transform: translateX(0); }
+        }
+        @keyframes wave-2 {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(25px); }
+          100% { transform: translateX(0); }
+        }
+        @keyframes wave-3 {
+          0% { transform: translateX(0); }
+          50% { transform: translateX(-15px); }
+          100% { transform: translateX(0); }
+        }
+        .animate-wave-1 { animation: wave-1 10s ease-in-out infinite; }
+        .animate-wave-2 { animation: wave-2 15s ease-in-out infinite; }
+        .animate-wave-3 { animation: wave-3 8s ease-in-out infinite; }
+      `}</style>
     </section>
   );
 }
