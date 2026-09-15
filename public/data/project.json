@@ -35,7 +35,7 @@
   "tags": ["Next.js", "Express", "Zod", "Turborepo", "Node.js"],
   "status": "live",
   "featured": true,
-  "image": "/image.webp",
+  "image": "/finsmart.webp",
   "github": "https://github.com/IvanoWisnuBudiLaras/CAPSTONE",
   "demo": "https://finsmart-mu.vercel.app/dashboard",
   "year": 2026
@@ -48,7 +48,7 @@
   "tags": ["Next.js 14", "Tailwind", "Firebase", "Framer", "Typescript", "AI Engine","Location Service"],
   "status": "live",
   "featured": true,
-  "image": "/Aqua.webp",
+  "image": "/aqua.webp",
   "github": "https://github.com/Tokitakun/VibeAquaria",
   "demo": "https://vibeaquaria.vercel.app/home",
   "year": 2026
