@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, GraduationCap, Calendar, ArrowRight } from "lucide-react";
-import timelineData from "../public/data/timeline.json";
+import timelineData from "@/public/data/timeline.json";
 
 gsap.registerPlugin(ScrollTrigger);
 

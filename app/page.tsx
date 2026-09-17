@@ -3,15 +3,15 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Hero from "./hero/page";
-import Navbar from "../Components/Navbar";
-import About from "../Components/abu";
-import Skills from "@/Components/skills";
+import Hero from "@/components/sections/Hero";
+import Navbar from "@/components/layout/Navbar";
+import About from "@/components/About";
+import Skills from "@/components/sections/Skills";
 import Projects from "@/app/project/page";
-import EducationTimeline from "@/Components/timeline";
+import EducationTimeline from "@/components/sections/Timeline";
 import ContactSection from "@/app/contact/page";
-import CustomCursor from "@/Components/cursor"
-import Footer from "@/Components/footer";
+import CustomCursor from "@/components/layout/Cursor";
+import Footer from "@/components/layout/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 

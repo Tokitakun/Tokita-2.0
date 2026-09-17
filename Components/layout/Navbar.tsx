@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import Link from "next/link";
-import { Menu, X, BookOpen, FolderLock } from "lucide-react"; // Tambah icon FolderLock untuk vibe arsip
+import { Menu, X, BookOpen, FolderLock, Users } from "lucide-react"; // Tambah icon FolderLock & Users
 import { gsap } from "gsap";
 
 interface MenuItem {
@@ -26,6 +26,12 @@ const Navbar: React.FC = () => {
     { name: "Skills", to: "skills" },
     { name: "Projects", to: "projects" },
     { name: "Contact", to: "contact" },
+    { 
+      name: "Connect", 
+      to: "connect", 
+      isPage: true, 
+      href: "/connect", 
+    },
     // Highlighted Item
     { 
       name: "ARCHIVES", 
@@ -145,6 +151,8 @@ const Navbar: React.FC = () => {
                     >
                       {item.isHighlight ? (
                         <FolderLock size={14} className="text-sky-500" />
+                      ) : item.name === "Connect" ? (
+                        <Users size={14} className="text-sky-500" />
                       ) : (
                         item.name === "ARCHIVES" && <BookOpen size={14} className="text-sky-500" />
                       )}
@@ -216,6 +224,8 @@ const Navbar: React.FC = () => {
                 >
                   {item.isHighlight ? (
                     <FolderLock size={18} className="text-sky-500" />
+                  ) : item.name === "Connect" ? (
+                    <Users size={18} className="text-sky-500" />
                   ) : (
                     item.name === "ARCHIVES" && <BookOpen size={18} className="text-sky-500" />
                   )}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import CustomCursor from "@/Components/cursor";
+import CustomCursor from "@/components/layout/Cursor";
 
 // Mock font variables - tidak fetch dari mana-mana
 const geistSans = { variable: "--font-geist-sans" };

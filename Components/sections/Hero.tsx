@@ -22,7 +22,7 @@ import {
 import { SiMyanimelist, SiRobloxstudio } from "react-icons/si";
 import { FaReact } from "react-icons/fa6";
 import { PiGameControllerDuotone } from "react-icons/pi";
-import law from "../../img/ce.webp"; // Pastikan path ini benar sesuai struktur foldermu
+import law from "@/public/images/ce.webp";
 
 // ============================================================================
 // PRO AUDIO PLAYER (WITH PLAYLIST DRAWER)

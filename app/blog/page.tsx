@@ -17,9 +17,9 @@ import {
   RefreshCw,
   Feather
 } from "lucide-react";
-import CustomCursor from "@/Components/cursor";
-import NavbarBlog from "@/Components/NavbarBlog";
-import Footer from "@/Components/footer";
+import CustomCursor from "@/components/layout/Cursor";
+import NavbarBlog from "@/components/blog/NavbarBlog";
+import Footer from "@/components/layout/Footer";
 
 interface Cerpen {
   id: number;
