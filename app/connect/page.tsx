@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Github, ExternalLink, X, ChevronDown, MapPin } from "lucide-react";
-import CustomCursor from "@/components/layout/Cursor";
-import Footer from "@/components/layout/Footer";
+import CustomCursor from "@/components/layout/cursor";
+import Footer from "@/components/layout/footer";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

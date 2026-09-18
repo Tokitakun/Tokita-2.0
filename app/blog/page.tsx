@@ -3,23 +3,23 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { 
-  ArrowLeft, 
-  Calendar, 
-  Clock, 
-  BookOpen, 
-  Search, 
-  Volume2, 
-  VolumeX, 
-  Eye, 
-  Sparkles, 
-  AlertCircle, 
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  BookOpen,
+  Search,
+  Volume2,
+  VolumeX,
+  Eye,
+  Sparkles,
+  AlertCircle,
   RefreshCw,
   Feather
 } from "lucide-react";
-import CustomCursor from "@/components/layout/Cursor";
-import NavbarBlog from "@/components/blog/NavbarBlog";
-import Footer from "@/components/layout/Footer";
+import CustomCursor from "@/components/layout/cursor";
+import NavbarBlog from "@/components/blog/navbar-blog";
+import Footer from "@/components/layout/footer";
 
 interface Cerpen {
   id: number;
@@ -38,7 +38,7 @@ export default function BlogPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
   const [error, setError] = useState<string | null>(null);
-  
+
   // Hint State
   const [showHint, setShowHint] = useState(false);
   const [typedHint, setTypedHint] = useState("");
@@ -68,9 +68,9 @@ export default function BlogPage() {
   const handleHintHover = useCallback(() => {
     setShowHint(true);
     const msg = mysteriousMessages[Math.floor(Math.random() * mysteriousMessages.length)];
-    
+
     if (hintTimeoutRef.current) clearTimeout(hintTimeoutRef.current);
-    
+
     setTypedHint(msg);
     hintTimeoutRef.current = setTimeout(() => {
       setTypedHint("");
@@ -131,7 +131,7 @@ export default function BlogPage() {
 
   const filteredCerpen = cerpen.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      item.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "Semua" || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -177,15 +177,15 @@ export default function BlogPage() {
     <div className="relative min-h-screen bg-slate-950 overflow-x-hidden selection:bg-sky-500/30 selection:text-sky-200">
       <CustomCursor />
       <NavbarBlog />
-      
+
       {/* Background Ambience - More Soft & Atmospheric */}
       <div className="fixed inset-0 pointer-events-none">
         {/* Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
-        
+
         {/* Radial Glow at Top */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-sky-500/5 rounded-full blur-[100px]" />
-        
+
         {/* Noise Texture */}
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.02] mix-blend-overlay" />
       </div>
@@ -207,12 +207,12 @@ export default function BlogPage() {
       </div>
 
       <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-20 min-h-screen">
-        
+
         {/* Header Section */}
         <header className="mb-12 md:mb-16">
           <div className="flex items-center justify-between mb-8">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               onClick={(e) => {
                 e.preventDefault();
                 sessionStorage.setItem('returnFromBlog', 'true');
@@ -225,7 +225,7 @@ export default function BlogPage() {
               </div>
               <span>Kembali ke Portfolio</span>
             </Link>
-            
+
             <div className="flex items-center gap-3">
               {/* Mystery Eye Button */}
               <div className="relative">
@@ -236,7 +236,7 @@ export default function BlogPage() {
                 >
                   <Eye className="w-4 h-4 text-slate-500 group-hover:text-sky-400 transition-colors" />
                 </button>
-                
+
                 {/* Floating Hint Tooltip */}
                 {showHint && typedHint && (
                   <div className="absolute top-full right-0 mt-3 px-3 py-1.5 bg-slate-900 border border-sky-500/30 rounded-md text-[10px] text-sky-300 font-mono whitespace-nowrap shadow-xl shadow-sky-900/20 animate-in fade-in slide-in-from-top-2 duration-200 z-50">
@@ -249,18 +249,17 @@ export default function BlogPage() {
               {/* Audio Toggle */}
               <button
                 onClick={toggleAudio}
-                className={`p-2.5 rounded-full border transition-all duration-300 ${
-                  audioEnabled 
-                    ? 'bg-sky-500/10 border-sky-500/30 text-sky-400' 
-                    : 'bg-slate-900/50 border-slate-800 text-slate-500 hover:text-slate-300'
-                }`}
+                className={`p-2.5 rounded-full border transition-all duration-300 ${audioEnabled
+                  ? 'bg-sky-500/10 border-sky-500/30 text-sky-400'
+                  : 'bg-slate-900/50 border-slate-800 text-slate-500 hover:text-slate-300'
+                  }`}
                 aria-label={audioEnabled ? "Matikan Musik" : "Nyalakan Musik"}
               >
                 {audioEnabled ? <Volume2 className="w-4 h-4 animate-pulse" /> : <VolumeX className="w-4 h-4" />}
               </button>
             </div>
           </div>
-          
+
           <div className="relative pl-6 border-l-2 border-sky-500/30">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
               Cerita <span className="text-sky-400 inline-block animate-pulse">??</span>
@@ -292,11 +291,10 @@ export default function BlogPage() {
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all whitespace-nowrap border ${
-                    selectedCategory === category
-                      ? 'bg-sky-500 text-slate-950 border-sky-500 font-bold'
-                      : 'bg-transparent border-slate-800 text-slate-500 hover:border-slate-600 hover:text-slate-300'
-                  }`}
+                  className={`px-4 py-1.5 rounded-full text-xs font-mono transition-all whitespace-nowrap border ${selectedCategory === category
+                    ? 'bg-sky-500 text-slate-950 border-sky-500 font-bold'
+                    : 'bg-transparent border-slate-800 text-slate-500 hover:border-slate-600 hover:text-slate-300'
+                    }`}
                 >
                   {category}
                 </button>
@@ -324,16 +322,16 @@ export default function BlogPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCerpen.map((cerita) => (
-                <Link 
-                  key={cerita.id} 
-                  href={`/blog/${cerita.id}`} 
+                <Link
+                  key={cerita.id}
+                  href={`/blog/${cerita.id}`}
                   className="group relative block h-full"
                 >
                   <article className="h-full bg-slate-900/40 border border-slate-800 rounded-xl p-6 transition-all duration-500 hover:bg-slate-900 hover:border-sky-500/30 hover:shadow-[0_0_30px_-10px_rgba(56,189,248,0.1)] overflow-hidden flex flex-col">
-                    
+
                     {/* Hover Glow Effect */}
                     <div className="absolute -right-10 -top-10 w-32 h-32 bg-sky-500/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
+
                     <div className="relative z-10 flex flex-col h-full">
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-[10px] font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">
@@ -347,7 +345,7 @@ export default function BlogPage() {
                       <h2 className="text-xl font-bold text-slate-200 mb-3 group-hover:text-sky-300 transition-colors line-clamp-2 leading-snug">
                         {cerita.title}
                       </h2>
-                      
+
                       <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-6 flex-grow">
                         {cerita.excerpt}
                       </p>
@@ -372,7 +370,7 @@ export default function BlogPage() {
         {/* Footer Quote / Maria's Note */}
         <div className="mt-24 text-center relative py-10">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent via-slate-800 to-transparent" />
-          
+
           <div className="inline-block max-w-md mx-auto px-6 py-4 bg-slate-900/30 border border-slate-800/50 rounded-2xl backdrop-blur-sm">
             <Sparkles className="w-4 h-4 text-sky-500/50 mx-auto mb-3" />
             <p className="text-slate-400 text-sm italic leading-relaxed">
@@ -387,7 +385,7 @@ export default function BlogPage() {
         </div>
 
       </main>
-      
+
       <Footer />
 
       <style jsx global>{`
