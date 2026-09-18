@@ -10,7 +10,7 @@ import Hero from "@/components/sections/hero";
 import Skills from "@/components/sections/skills";
 import EducationTimeline from "@/components/sections/timeline";
 import About from "@/components/about";
-import Projects from "@/components/sections/Projects";
+import Projects from "@/components/sections/projects";
 import ContactSection from "@/app/contact/page";
 
 gsap.registerPlugin(ScrollTrigger);
