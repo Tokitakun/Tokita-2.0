@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from 'react';
-import { 
-  Mail, 
-  Github, 
-  Instagram, 
-  Linkedin, 
-  Copy, 
-  Check, 
-  ArrowUpRight, 
+import {
+  Mail,
+  Github,
+  Instagram,
+  Linkedin,
+  Copy,
+  Check,
+  ArrowUpRight,
   MessageCircle,
   QrCode,
   ExternalLink
@@ -16,7 +16,7 @@ import {
 
 const ContactSection = () => {
   const [copied, setCopied] = useState(false);
-  
+
   // Link Tree yang mengarah ke GitHub
   const embedUrl = "https://tree.icqr.com/s/MDNodHRwczovL2dpdGh1Yi5jb20vVG9raXRha3Vu";
 
@@ -35,7 +35,7 @@ const ContactSection = () => {
     <section id="contact" className="bg-[#2A2A2A] py-16 md:py-24">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
-          
+
           {/* Bagian Kiri: Kontak & Info */}
           <div className="space-y-6 md:space-y-8 order-2 md:order-1">
             <div>
@@ -49,9 +49,9 @@ const ContactSection = () => {
                   Conversation
                 </span>
               </h2>
-              
+
               <p className="text-base md:text-lg text-gray-400 leading-relaxed mb-6 md:mb-8">
-                Terbuka untuk kolaborasi proyek, freelance, atau sekadar diskusi teknologi. Jangan ragu untuk menghubungi saya melalui kanal di bawah ini.
+                Terbuka untuk kolaborasi proyek, freelance, atau sekadar diskusi teknologi. Jangan ragu untuk menghubungi saya di bawah ini.
               </p>
 
               {/* Email Box */}
@@ -111,7 +111,7 @@ const ContactSection = () => {
             <div className="absolute -inset-4 bg-gradient-to-r from-[#6B9FBF] to-emerald-500 rounded-2xl opacity-20 blur-2xl -z-10"></div>
 
             <div className="relative bg-[#1a1a1a] rounded-2xl p-2 shadow-2xl ring-1 ring-white/10 overflow-hidden">
-              
+
               {/* Browser Header Mini */}
               <div className="bg-[#252525] px-4 py-2.5 flex items-center justify-between rounded-t-xl border-b border-white/5">
                 <div className="flex gap-2">
@@ -128,15 +128,15 @@ const ContactSection = () => {
 
               {/* Iframe Area with Scaling */}
               <div className="relative w-full h-[400px] lg:h-[500px] bg-[#2A2A2A] rounded-b-xl overflow-hidden flex items-start justify-center">
-                <div 
+                <div
                   className="origin-top transition-transform duration-300"
-                  style={{ 
-                    width: '1280px', 
-                    height: '800px', 
-                    transform: 'scale(0.6)' 
+                  style={{
+                    width: '1280px',
+                    height: '800px',
+                    transform: 'scale(0.6)'
                   }}
                 >
-                  <iframe 
+                  <iframe
                     src={embedUrl}
                     title="Nafis Digital Tree Desktop"
                     className="w-full h-full border-0"
@@ -149,24 +149,24 @@ const ContactSection = () => {
 
           {/* Mobile Alternative: Simple Card with Link */}
           <div className="block md:hidden order-1">
-             <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-4">
-                <div className="w-12 h-12 bg-[#6B9FBF]/20 rounded-full flex items-center justify-center mx-auto text-[#6B9FBF]">
-                  <QrCode size={24} />
-                </div>
-                <h3 className="text-white font-bold">Digital Portfolio</h3>
-                <p className="text-sm text-gray-400">
-                  Lihat portofolio lengkap dan koneksi GitHub saya melalui tautan di bawah ini.
-                </p>
-                <a 
-                  href={embedUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors"
-                >
-                  Open Portfolio Tree
-                  <ExternalLink size={16} />
-                </a>
-             </div>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center space-y-4">
+              <div className="w-12 h-12 bg-[#6B9FBF]/20 rounded-full flex items-center justify-center mx-auto text-[#6B9FBF]">
+                <QrCode size={24} />
+              </div>
+              <h3 className="text-white font-bold">Digital Portfolio</h3>
+              <p className="text-sm text-gray-400">
+                Lihat portofolio lengkap dan koneksi GitHub saya melalui tautan di bawah ini.
+              </p>
+              <a
+                href={embedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors"
+              >
+                Open Portfolio Tree
+                <ExternalLink size={16} />
+              </a>
+            </div>
           </div>
 
         </div>
