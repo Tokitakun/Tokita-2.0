@@ -170,35 +170,8 @@ export default function Hero() {
     <section ref={heroRef} className="relative overflow-hidden min-h-screen bg-[#2A2A2A] flex items-center justify-center">
       
       {/* --- BACKGROUND LAYERS --- */}
+      {/* Clean background with organic wave accents below */}
       
-      {/* 1. Radial Gradients */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,_rgba(107,159,191,0.15),_transparent_50%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,_rgba(176,108,108,0.1),_transparent_40%)]" />
-      
-      {/* 2. Noise Texture */}
-      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none" />
-
-      {/* 3. ANIMATED WAVES (NEW!) */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-0 pointer-events-none">
-        <svg className="relative block w-[calc(100%+1.3px)] h-[120px] md:h-[180px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            {/* Wave 1 - Slowest & Furthest Back */}
-            <path 
-                d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
-                className="fill-[#6B9FBF]/10 animate-wave-1"
-            ></path>
-            {/* Wave 2 - Medium Speed */}
-            <path 
-                d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" 
-                className="fill-[#B06C6C]/10 animate-wave-2"
-            ></path>
-             {/* Wave 3 - Fastest & Front */}
-             <path 
-                d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" 
-                className="fill-[#2A2A2A] opacity-50 animate-wave-3"
-            ></path>
-        </svg>
-      </div>
-
       {/* --- CONTENT --- */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-12 pt-20 pb-10 flex flex-col-reverse md:flex-row items-center justify-between gap-12 md:gap-20">
         
@@ -208,7 +181,7 @@ export default function Hero() {
 
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight tracking-tight">
             Hello, I'm <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6B9FBF] to-[#8FC5F0]">Nafis.</span>
+            <span className="text-[#6B9FBF]">Nafis.</span>
           </h1>
 
           <div className="h-8 md:h-10">
@@ -235,7 +208,7 @@ export default function Hero() {
           </div>
 
           <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-6">
-            <Link href="/serti" className="group relative px-6 py-3 bg-white text-[#2A2A2A] font-semibold rounded-xl overflow-hidden transition-all hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            <Link href="/serti" className="group relative px-6 py-3 bg-white text-[#2A2A2A] font-semibold rounded-xl overflow-hidden transition-all hover:bg-gray-100 hover:shadow-lg">
               <span className="relative z-10 flex items-center gap-2"><Award size={18} /> Certificates</span>
             </Link>
             <a href="#" className="px-6 py-3 bg-transparent border border-white/20 text-white font-semibold rounded-xl hover:bg-white/5 hover:border-white/40 transition-all flex items-center gap-2">
@@ -247,8 +220,6 @@ export default function Hero() {
         {/* RIGHT VISUAL */}
         <div className="relative w-full max-w-md md:max-w-lg aspect-square flex items-center justify-center">
           <div ref={imageRef} className="relative z-20 w-64 h-80 md:w-80 md:h-96">
-             <div className="absolute inset-0 bg-[#6B9FBF] rounded-2xl rotate-6 opacity-20 blur-lg" />
-             <div className="absolute inset-0 bg-[#B06C6C] rounded-2xl -rotate-6 opacity-20 blur-lg" />
              <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#2D2D2D]">
                <Image src={law} alt="Nafis Profile" fill className="object-cover hover:scale-105 transition-transform duration-700" priority />
                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

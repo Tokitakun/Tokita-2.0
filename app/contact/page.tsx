@@ -39,13 +39,13 @@ const ContactSection = () => {
           {/* Bagian Kiri: Kontak & Info */}
           <div className="space-y-6 md:space-y-8 order-2 md:order-1">
             <div>
-              <span className="inline-flex items-center gap-2 py-1 px-3 rounded-full bg-[#6B9FBF]/10 text-[#6B9FBF] text-xs font-bold uppercase tracking-wider mb-4 border border-[#6B9FBF]/20">
-                <Mail size={12} />
+              <div className="flex items-center gap-2 text-[#6B9FBF] text-xs font-bold uppercase tracking-wider mb-3">
+                <Mail size={14} />
                 Get in Touch
-              </span>
+              </div>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4 md:mb-6">
                 Let's Start a <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6B9FBF] to-emerald-400">
+                <span className="text-[#6B9FBF]">
                   Conversation
                 </span>
               </h2>

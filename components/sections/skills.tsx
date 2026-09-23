@@ -97,12 +97,6 @@ const TechNode = ({ item, delay }: { item: any, delay: number }) => {
       className="group relative flex items-center gap-2 px-3 py-2 bg-[#222] border border-white/5 rounded-lg hover:border-white/20 transition-all duration-300 cursor-default overflow-hidden"
       style={{ animationDelay: `${delay}ms` }}
     >
-      {/* Glow Effect on Hover */}
-      <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-        style={{ backgroundColor: item.color }}
-      />
-      
       <item.icon size={16} className="text-gray-400 group-hover:text-white transition-colors relative z-10" style={{ color: item.color }} />
       
       <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors relative z-10">
@@ -188,17 +182,6 @@ const Skills = () => {
       ref={sectionRef}
       className="relative py-24 px-4 md:px-8 bg-[#1a1a1a] overflow-hidden"
     >
-      {/* Background Grid Pattern (Like Reference) */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
-          backgroundSize: "24px 24px"
-        }}
-      />
-      
-      {/* Subtle Gradient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[#6B9FBF]/5 blur-[100px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
         

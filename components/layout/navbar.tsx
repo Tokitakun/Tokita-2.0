@@ -100,17 +100,17 @@ const Navbar: React.FC = () => {
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none`}
     >
       {/* Container dengan pointer-events-auto agar bisa diklik */}
-      <div className="mx-auto flex h-12 max-w-fit items-center justify-center gap-2 px-4 sm:px-6 mt-3 rounded-full shadow-md border border-gray-200 bg-white/90 backdrop-blur-md pointer-events-auto">
+      <div className="mx-auto flex h-12 max-w-fit items-center justify-center gap-2 px-4 sm:px-6 mt-3 rounded-full shadow-md border border-[#3A3A3A] bg-[#232323]/90 backdrop-blur-md pointer-events-auto">
         
         {/* Logo */}
         <ScrollLink
           to="hero"
           smooth
           duration={500}
-          className="flex items-center gap-1 text-lg text-gray-700 cursor-pointer shrink-0 hover:text-sky-500 transition-colors px-2"
+          className="flex items-center gap-1 text-lg text-gray-200 cursor-pointer shrink-0 hover:text-sky-400 transition-colors px-2"
         >
           <svg
-            className="size-5 text-sky-500"
+            className="size-5 text-sky-400"
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="20"
@@ -126,11 +126,11 @@ const Navbar: React.FC = () => {
             <path d="M13 15l3 0" />
             <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
           </svg>
-          <span className="font-semibold">Nafeez</span>
+          <span className="font-semibold text-white">Nafeez</span>
         </ScrollLink>
 
         {/* Separator */}
-        <div className="w-px h-5 bg-gray-300 mx-1"></div>
+        <div className="w-px h-5 bg-[#3A3A3A] mx-1"></div>
 
         {/* Desktop Menu */}
         <div className="hidden md:block">
@@ -144,17 +144,17 @@ const Navbar: React.FC = () => {
                       className={`
                         flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300 font-medium
                         ${item.isHighlight 
-                          ? "bg-sky-50 text-sky-600 border border-sky-200 hover:bg-sky-100 hover:border-sky-300 hover:shadow-sm" 
-                          : "text-gray-600 hover:text-sky-500 hover:bg-gray-50"
+                          ? "bg-[#4A6B7F]/20 text-[#8FC5F0] border border-[#4A6B7F]/40 hover:bg-[#4A6B7F]/30" 
+                          : "text-gray-300 hover:text-sky-400 hover:bg-white/5"
                         }
                       `}
                     >
                       {item.isHighlight ? (
-                        <FolderLock size={14} className="text-sky-500" />
+                        <FolderLock size={14} className="text-sky-400" />
                       ) : item.name === "Connect" ? (
-                        <Users size={14} className="text-sky-500" />
+                        <Users size={14} className="text-sky-400" />
                       ) : (
-                        item.name === "ARCHIVES" && <BookOpen size={14} className="text-sky-500" />
+                        item.name === "ARCHIVES" && <BookOpen size={14} className="text-sky-400" />
                       )}
                       {item.name}
                     </Link>
@@ -167,8 +167,8 @@ const Navbar: React.FC = () => {
                       duration={500}
                       spy
                       offset={-80}
-                      activeClass="text-sky-500 font-medium"
-                      className="cursor-pointer px-2 py-1.5 text-gray-600 transition hover:text-sky-500 rounded-lg hover:bg-gray-50"
+                      activeClass="text-sky-400 font-medium"
+                      className="cursor-pointer px-2.5 py-1.5 text-gray-300 transition hover:text-sky-400 rounded-lg hover:bg-white/5"
                     >
                       {item.name}
                     </ScrollLink>
@@ -180,12 +180,12 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Separator */}
-        <div className="hidden md:block w-px h-5 bg-gray-300 mx-1"></div>
+        <div className="hidden md:block w-px h-5 bg-[#3A3A3A] mx-1"></div>
 
         {/* Avatar / Profile Trigger */}
         <div className="hidden md:flex items-center gap-3">
           <div className="shrink-0 cursor-pointer group">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-sky-400 to-sky-600 flex items-center justify-center text-white font-semibold text-sm shadow-sm group-hover:shadow-sky-200 transition-all">
+            <div className="h-8 w-8 rounded-full bg-[#4A6B7F] flex items-center justify-center text-white font-semibold text-sm shadow-sm transition-all">
               N
             </div>
           </div>
@@ -194,7 +194,7 @@ const Navbar: React.FC = () => {
         {/* Mobile Toggle Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="block md:hidden rounded-full bg-gray-100 p-1.5 text-gray-600 transition hover:bg-gray-200"
+          className="block md:hidden rounded-full bg-white/5 p-1.5 text-gray-300 transition hover:bg-white/10"
         >
           <span className="sr-only">Toggle menu</span>
           {isOpen ? <X size={18} /> : <Menu size={18} />}
@@ -205,7 +205,7 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div
           ref={mobileMenuRef}
-          className="md:hidden absolute top-16 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-xl z-40 overflow-hidden"
+          className="md:hidden absolute top-16 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm bg-[#232323]/95 backdrop-blur-xl rounded-2xl border border-[#3A3A3A] shadow-xl z-40 overflow-hidden"
         >
           <div className="flex flex-col space-y-1 px-4 py-4">
             {menuItems.map((item) =>
@@ -217,17 +217,17 @@ const Navbar: React.FC = () => {
                   className={`
                     flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-medium
                     ${item.isHighlight
-                      ? "bg-sky-50 text-sky-600 border border-sky-100"
-                      : "text-gray-700 hover:text-sky-500 hover:bg-gray-50"
+                      ? "bg-[#4A6B7F]/20 text-[#8FC5F0] border border-[#4A6B7F]/40"
+                      : "text-gray-200 hover:text-sky-400 hover:bg-white/5"
                     }
                   `}
                 >
                   {item.isHighlight ? (
-                    <FolderLock size={18} className="text-sky-500" />
+                    <FolderLock size={18} className="text-sky-400" />
                   ) : item.name === "Connect" ? (
-                    <Users size={18} className="text-sky-500" />
+                    <Users size={18} className="text-sky-400" />
                   ) : (
-                    item.name === "ARCHIVES" && <BookOpen size={18} className="text-sky-500" />
+                    item.name === "ARCHIVES" && <BookOpen size={18} className="text-sky-400" />
                   )}
                   {item.name}
                 </Link>
@@ -240,9 +240,9 @@ const Navbar: React.FC = () => {
                   spy
                   offset={-80}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 text-gray-700 hover:text-sky-500 hover:bg-gray-50 rounded-xl transition cursor-pointer"
+                  className="flex items-center gap-3 px-3 py-2.5 text-gray-200 hover:text-sky-400 hover:bg-white/5 rounded-xl transition cursor-pointer"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-500" />
                   {item.name}
                 </ScrollLink>
               )
