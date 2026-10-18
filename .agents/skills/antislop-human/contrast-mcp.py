@@ -8,7 +8,11 @@ import sys
 
 PROTOCOL_VERSION = "2024-11-05"
 SERVER_NAME = "antislop-contrast"
+<<<<<<< HEAD
 SERVER_VERSION = "3.2.21"
+=======
+SERVER_VERSION = "3.2.13"
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
 
 TOOLS = [
     {
@@ -40,6 +44,7 @@ def relative_luminance(hex_color):
 
 
 def contrast_ratio(fg, bg):
+<<<<<<< HEAD
     """The unrounded WCAG ratio. Callers decide what to print, never what to compare."""
     l1, l2 = relative_luminance(fg), relative_luminance(bg)
     lighter, darker = max(l1, l2), min(l1, l2)
@@ -49,11 +54,23 @@ def contrast_ratio(fg, bg):
 def check_contrast(fg, bg):
     # The threshold is read from the raw ratio: 4.498:1 fails 4.5:1 even though it
     # displays as 4.50 once rounded, and a rounded verdict would report the opposite.
+=======
+    l1, l2 = relative_luminance(fg), relative_luminance(bg)
+    lighter, darker = max(l1, l2), min(l1, l2)
+    return round((lighter + 0.05) / (darker + 0.05), 2)
+
+
+def check_contrast(fg, bg):
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
     ratio = contrast_ratio(fg, bg)
     return {
         "foreground": fg,
         "background": bg,
+<<<<<<< HEAD
         "ratio": round(ratio, 2),
+=======
+        "ratio": ratio,
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
         "normal_text": {"threshold": 4.5, "pass": ratio >= 4.5},
         "large_text": {"threshold": 3.0, "pass": ratio >= 3.0},
     }

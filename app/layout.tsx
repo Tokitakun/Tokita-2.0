@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+<<<<<<< HEAD
 import CustomCursor from "@/Components/cursor";
 import { CrtOverlay } from "@/Components/glitch";
+=======
+import CustomCursor from "@/components/layout/cursor";
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
 
 const inter = Inter({
   subsets: ["latin"],

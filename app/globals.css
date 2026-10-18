@@ -69,9 +69,65 @@
   --accent-foreground: #FFFFFF;
   --destructive: #F54DAD;
   --destructive-foreground: #FFFFFF;
+<<<<<<< HEAD
   --border: #F0C8DF;
   --input: #F0C8DF;
   --ring: #F54DAD;
+=======
+  --border: #3A3A3A;
+  --input: #3A3A3A;
+  --ring: #4A6B7F;
+  --chart-1: #4A6B7F;
+  --chart-2: #2A3F4F;
+  --chart-3: #5C3A3A;
+  --chart-4: #8B4C4C;
+  --chart-5: #4A6B7F;
+  --sidebar: #232323;
+  --sidebar-foreground: #F0F0F0; /* Dari #E0E0E0 jadi #F0F0F0 */
+  --sidebar-primary: #4A6B7F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #2C2C2C;
+  --sidebar-accent-foreground: #F0F0F0; /* Dari #C0C0C0 jadi #F0F0F0 */
+  --sidebar-border: #3A3A3A;
+  --sidebar-ring: #4A6B7F;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  background-color: var(--pure-black);
+}
+
+/* Update heading fonts juga */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+  color: var(--text-heading);
+}
+
+/* ✅ ADDED: Custom Cursor Styles */
+@media (pointer: fine) {
+  /* Hide default cursor on desktop */
+  body {
+    cursor: none;
+  }
+  
+  /* But show text cursor on inputs */
+  input, textarea, [contenteditable="true"] {
+    cursor: text !important;
+  }
+}
+
+/* Show default cursor on mobile/touch */
+@media (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
 }
 
 @theme inline {
@@ -164,6 +220,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #F54DAD;
 }
 
+<<<<<<< HEAD
 /* Text Selection - Vibrant Kawaii */
 ::selection {
   background-color: #FF75B9;
@@ -454,4 +511,14 @@ h1, h2, h3, h4, h5, h6 {
   .glitch-rgb::after {
     opacity: 0;
   }
+=======
+/* Utility classes untuk text terang */
+.text-glow {
+  color: var(--white);
+}
+
+.text-glow-strong {
+  color: var(--white);
+  font-weight: 600;
+>>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9
 }
