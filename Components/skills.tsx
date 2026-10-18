@@ -7,10 +7,10 @@ import {
   Code2, 
   Server, 
   TerminalSquare, 
-  Cpu,
   Layers,
   Globe,
-  Zap
+  Cpu,
+  Sparkles,
 } from "lucide-react";
 import {
   FaReact,
@@ -31,6 +31,7 @@ import {
   SiVercel,
   SiUbuntu,
 } from "react-icons/si";
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,40 +43,44 @@ const TECH_STACK = [
   {
     category: "Frontend Core",
     icon: Code2,
+    code: "FE_CORE.EXE",
     items: [
-      { name: "React.js", icon: FaReact, color: "#61DAFB" },
-      { name: "Next.js", icon: SiNextdotjs, color: "#FFFFFF" },
+      { name: "React.js", icon: FaReact, color: "#00B8D9" },
+      { name: "Next.js", icon: SiNextdotjs, color: "#302432" },
       { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
-      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38B2AC" },
-      { name: "Vite", icon: SiVite, color: "#646CFF" },
+      { name: "JavaScript", icon: SiJavascript, color: "#D97706" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "Vite", icon: SiVite, color: "#7C3AED" },
     ]
   },
   {
     category: "Backend & Database",
     icon: Server,
+    code: "BACKEND_DB.EXE",
     items: [
-      { name: "Node.js", icon: FaNodeJs, color: "#339933" },
-      { name: "Express", icon: SiExpress, color: "#FFFFFF" },
-      { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+      { name: "Node.js", icon: FaNodeJs, color: "#16A34A" },
+      { name: "Express", icon: SiExpress, color: "#302432" },
+      { name: "MySQL", icon: SiMysql, color: "#0284C7" },
     ]
   },
   {
     category: "DevOps & Tools",
     icon: TerminalSquare,
+    code: "DEVOPS_TOOL.EXE",
     items: [
-      { name: "Git", icon: FaGithub, color: "#FFFFFF" },
-      { name: "Docker", icon: SiDocker, color: "#2496ED" },
-      { name: "Ubuntu", icon: SiUbuntu, color: "#E95420" },
-      { name: "Vercel", icon: SiVercel, color: "#FFFFFF" },
+      { name: "Git", icon: FaGithub, color: "#EA580C" },
+      { name: "Docker", icon: SiDocker, color: "#0284C7" },
+      { name: "Ubuntu", icon: SiUbuntu, color: "#E11D48" },
+      { name: "Vercel", icon: SiVercel, color: "#302432" },
     ]
   },
   {
     category: "Mobile & Design",
     icon: Layers,
+    code: "MOBILE_UI.EXE",
     items: [
-      { name: "Flutter", icon: SiFlutter, color: "#02569B" },
-      { name: "Figma", icon: FaFigma, color: "#F24E1E" },
+      { name: "Flutter", icon: SiFlutter, color: "#0284C7" },
+      { name: "Figma", icon: FaFigma, color: "#F54DAD" },
     ]
   }
 ];
@@ -87,25 +92,13 @@ const LANGUAGES = [
   { name: "Arabic", level: 25, label: "Elementary" },
 ];
 
-// ============================================================================
-// COMPONENTS
-// ============================================================================
-
-const TechNode = ({ item, delay }: { item: any, delay: number }) => {
+const TechNode = ({ item }: { item: any }) => {
   return (
     <div 
-      className="group relative flex items-center gap-2 px-3 py-2 bg-[#222] border border-white/5 rounded-lg hover:border-white/20 transition-all duration-300 cursor-default overflow-hidden"
-      style={{ animationDelay: `${delay}ms` }}
+      className="group relative flex items-center gap-2 px-3 py-1.5 bg-[#FFF8FC] border border-[#F0C8DF] rounded-xl hover:border-[#FF75B9] hover:bg-[#FFE3F1] transition-all duration-150 cursor-default shadow-[1px_1px_0px_#FFE3F1]"
     >
-      {/* Glow Effect on Hover */}
-      <div 
-        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
-        style={{ backgroundColor: item.color }}
-      />
-      
-      <item.icon size={16} className="text-gray-400 group-hover:text-white transition-colors relative z-10" style={{ color: item.color }} />
-      
-      <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors relative z-10">
+      <item.icon size={15} style={{ color: item.color }} className="group-hover:scale-110 transition-transform" />
+      <span className="text-xs text-[#302432] font-mono font-semibold group-hover:text-[#F54DAD] transition-colors">
         {item.name}
       </span>
     </div>
@@ -116,18 +109,19 @@ const Skills = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const prefersReduced = useReducedMotion();
 
   useEffect(() => {
+    if (prefersReduced) return;
+
     const ctx = gsap.context(() => {
-      
-      // 1. Header Animation
       gsap.fromTo(
         headerRef.current,
-        { opacity: 0, y: 30 },
+        { opacity: 0, y: 20 },
         { 
           opacity: 1, 
           y: 0, 
-          duration: 0.8, 
+          duration: 0.7, 
           ease: "power3.out", 
           scrollTrigger: { 
             trigger: sectionRef.current, 
@@ -137,19 +131,17 @@ const Skills = () => {
         }
       );
 
-      // 2. Staggered Grid Items
       if (gridRef.current) {
         const cards = gsap.utils.toArray(".skill-card") as HTMLElement[];
         gsap.fromTo(
           cards,
-          { opacity: 0, y: 40, scale: 0.98 },
+          { opacity: 0, y: 25 },
           { 
             opacity: 1, 
             y: 0, 
-            scale: 1,
-            duration: 0.7, 
-            stagger: 0.1, 
-            ease: "power3.out",
+            duration: 0.6, 
+            stagger: 0.08, 
+            ease: "power3.out", 
             scrollTrigger: { 
               trigger: gridRef.current, 
               start: "top 85%",
@@ -159,119 +151,117 @@ const Skills = () => {
         );
       }
 
-      // 3. Language Bars Animation
       const bars = gsap.utils.toArray(".lang-fill") as HTMLElement[];
       gsap.fromTo(
         bars,
         { width: "0%" },
         { 
           width: (i) => `${LANGUAGES[i].level}%`, 
-          duration: 1.5, 
-          ease: "power4.out",
-          stagger: 0.15,
+          duration: 1.1, 
+          ease: "power3.out", 
+          stagger: 0.1,
           scrollTrigger: { 
             trigger: ".lang-container", 
-            start: "top 90%",
+            start: "top 88%",
             toggleActions: "play none none reverse"
           }
         }
       );
-
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReduced]);
 
   return (
     <section
       id="skills"
       ref={sectionRef}
-      className="relative py-24 px-4 md:px-8 bg-[#1a1a1a] overflow-hidden"
+      className="relative py-20 md:py-28 px-4 md:px-8 bg-[#FFF4FA] overflow-hidden border-t-2 border-[#F0C8DF]"
     >
-      {/* Background Grid Pattern (Like Reference) */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(#ffffff 1px, transparent 1px)",
-          backgroundSize: "24px 24px"
-        }}
-      />
-      
-      {/* Subtle Gradient Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-[#6B9FBF]/5 blur-[100px] rounded-full pointer-events-none" />
-
       <div className="relative z-10 max-w-6xl mx-auto">
         
-        {/* ========== HEADER ========== */}
-        <div ref={headerRef} className="mb-16 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 mb-4 px-3 py-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
-            <Zap size={14} className="text-[#6B9FBF]" />
-            <span className="text-[10px] font-mono text-[#6B9FBF] tracking-widest uppercase">Technical Stack</span>
+        {/* HEADER */}
+        <div ref={headerRef} className="mb-14 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 mb-3 px-3.5 py-1.5 rounded-full bg-white border-2 border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD] shadow-[2px_2px_0px_#FFE3F1]">
+            <Cpu size={14} className="text-[#FF75B9]" />
+            <span className="tracking-widest uppercase">TECH_EQUIPMENT.EXE ♡</span>
+            <span className="text-[#79E7E5]">★</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight mb-6">
-            Tools & <span className="text-[#6B9FBF]">Technologies</span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#302432] tracking-tight leading-tight mb-3 font-sora">
+            Tools & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">Arsenal</span>
           </h2>
-          <p className="text-sm text-gray-400 max-w-2xl leading-relaxed">
-            Ekosistem teknologi modern untuk membangun aplikasi yang cepat, responsif, dan skalabel.
+          <p className="text-sm md:text-base text-[#806D7D] max-w-xl leading-relaxed font-inter">
+            Technologies and tools I use to create expressive, resilient, and responsive digital products.
           </p>
         </div>
 
-        {/* ========== TECH STACK GRID ========== */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-24">
+        {/* TECH STACK GRID */}
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {TECH_STACK.map((group, idx) => (
             <div 
               key={idx} 
-              className="skill-card group relative bg-[#222]/80 backdrop-blur-sm border border-white/5 rounded-2xl p-6 hover:bg-[#252525] hover:border-[#6B9FBF]/20 transition-all duration-300 flex flex-col h-full"
+              className="skill-card bg-white border-2 border-[#F0C8DF] rounded-2xl overflow-hidden hover:border-[#FF75B9] transition-all duration-200 flex flex-col shadow-[4px_4px_0px_#F0C8DF] hover:shadow-[6px_6px_0px_#FF75B9] hover:-translate-y-1"
             >
-              {/* Header Group with Icon */}
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
-                <div className="p-2 bg-white/5 rounded-lg text-gray-400 group-hover:text-[#6B9FBF] group-hover:bg-[#6B9FBF]/10 transition-colors">
-                  <group.icon size={20} />
+              {/* Desktop Window Mini Header */}
+              <div className="window-header px-3.5 py-2 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
+                <span className="text-[10px] font-mono font-bold text-[#F54DAD]">{group.code}</span>
+                <div className="flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
+                  <span className="w-2 h-2 rounded-full bg-[#79E7E5]" />
                 </div>
-                <h3 className="text-sm font-semibold text-white tracking-wide">
-                  {group.category}
-                </h3>
               </div>
 
-              {/* Tech Items - Node Style */}
-              <div className="flex flex-wrap gap-2 content-start">
-                {group.items.map((tech, i) => (
-                  <TechNode key={i} item={tech} delay={i * 50} />
-                ))}
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="flex items-center gap-2.5 mb-4">
+                  <div className="p-2 bg-[#FFE3F1] rounded-xl text-[#F54DAD] border border-[#F0C8DF]">
+                    <group.icon size={18} />
+                  </div>
+                  <h3 className="text-sm font-bold text-[#302432] font-sora">
+                    {group.category}
+                  </h3>
+                </div>
+
+                <div className="flex flex-wrap gap-2 content-start mt-auto">
+                  {group.items.map((tech, i) => (
+                    <TechNode key={i} item={tech} />
+                  ))}
+                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* ========== LANGUAGES (System Monitor Style) ========== */}
-        <div className="lang-container max-w-4xl mx-auto bg-[#222]/50 border border-white/5 rounded-2xl p-8 backdrop-blur-sm relative overflow-hidden">
-          {/* Decorative Line */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#6B9FBF]/30 to-transparent" />
-
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <Globe size={18} className="text-[#6B9FBF]" />
-              <h3 className="text-base font-semibold text-white">Language Proficiency</h3>
+        {/* LANGUAGES SYSTEM MONITOR */}
+        <div className="lang-container max-w-4xl mx-auto bg-white border-2 border-[#FF75B9] rounded-2xl overflow-hidden shadow-[6px_6px_0px_#F0C8DF]">
+          {/* Header */}
+          <div className="window-header px-4 py-2.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Globe size={14} className="text-[#F54DAD]" />
+              <span className="text-xs font-mono font-bold text-[#302432]">LINGUISTIC_DIAGNOSTICS.EXE</span>
             </div>
-            <span className="text-[10px] font-mono text-gray-500 bg-black/30 px-2 py-1 rounded border border-white/5">STATUS: ONLINE</span>
+            <span className="text-[10px] font-mono font-bold text-[#F54DAD] bg-white px-2 py-0.5 rounded-md border border-[#F0C8DF]">
+              STATUS: MONITORED ♡
+            </span>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
-            {LANGUAGES.map((lang, idx) => (
-              <div key={idx} className="group">
-                <div className="flex justify-between items-end mb-2">
-                  <span className="text-sm font-medium text-gray-300 group-hover:text-white transition-colors">{lang.name}</span>
-                  <span className="text-xs font-mono text-[#6B9FBF]">{lang.level}%</span>
+          <div className="p-6 md:p-8 bg-[#FFF8FC]">
+            <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
+              {LANGUAGES.map((lang, idx) => (
+                <div key={idx} className="group">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-sm font-bold text-[#302432] font-sora">{lang.name}</span>
+                    <span className="text-xs font-mono font-bold text-[#F54DAD]">{lang.level}%</span>
+                  </div>
+                  <div className="h-2.5 w-full bg-white rounded-full overflow-hidden border border-[#F0C8DF] relative">
+                    <div 
+                      className="lang-fill h-full bg-gradient-to-r from-[#FF75B9] to-[#F54DAD] rounded-full relative z-10"
+                      style={{ width: prefersReduced ? `${lang.level}%` : '0%' }} 
+                    />
+                  </div>
+                  <p className="text-[10px] text-[#806D7D] mt-1.5 font-mono font-bold uppercase tracking-wider">{lang.label}</p>
                 </div>
-                <div className="h-1.5 w-full bg-[#1A1A1A] rounded-full overflow-hidden border border-white/5 relative">
-                  <div 
-                    className="lang-fill h-full bg-[#6B9FBF] rounded-full relative z-10 shadow-[0_0_10px_rgba(107,159,191,0.3)]"
-                    style={{ width: '0%' }} 
-                  />
-                </div>
-                <p className="text-[10px] text-gray-500 mt-1.5 font-mono uppercase tracking-wider">{lang.label}</p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 

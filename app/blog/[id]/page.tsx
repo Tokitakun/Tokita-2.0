@@ -5,11 +5,11 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   ArrowLeft, Calendar, Clock, Volume2, VolumeX, 
-  AlertTriangle, Quote, Sun, Moon, Share2, Hash, 
-  ShieldAlert, Lock
+  Quote, Sun, Moon, Share2, Hash, 
+  ShieldAlert, Terminal, Heart, Sparkles
 } from "lucide-react";
+import Footer from "@/Components/footer";
 
-// Update Interface untuk menampung warnings
 interface Cerpen {
   id: number;
   title: string;
@@ -18,7 +18,7 @@ interface Cerpen {
   date: string;
   readTime: string;
   category: string;
-  warnings?: string[]; // Opsional dari JSON
+  warnings?: string[];
 }
 
 export default function CerpenDetail() {
@@ -29,11 +29,11 @@ export default function CerpenDetail() {
   const [loading, setLoading] = useState(true);
   const [relatedCerpen, setRelatedCerpen] = useState<Cerpen[]>([]);
   
-  // Settings
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Reading mode settings: Default to false (kawaii light reading canvas)
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [audioEnabled, setAudioEnabled] = useState(false);
   
-  // GATEKEEPER STATE
+  // Gatekeeper state for sensitive content
   const [hasAcknowledged, setHasAcknowledged] = useState(false);
   
   const bgmAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -42,12 +42,11 @@ export default function CerpenDetail() {
   
   useEffect(() => {
     const handleScroll = () => {
-      if (!contentRef.current) return;
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.scrollY / totalHeight) * 100;
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
       setReadingProgress(progress);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -55,23 +54,32 @@ export default function CerpenDetail() {
     if (!bgmAudioRef.current) {
       bgmAudioRef.current = new Audio('/audio/blog.mp3');
       bgmAudioRef.current.loop = true;
-      bgmAudioRef.current.volume = 0.1;
+      bgmAudioRef.current.volume = 0.12;
     }
     if (audioEnabled) {
       bgmAudioRef.current.pause();
       setAudioEnabled(false);
     } else {
-      bgmAudioRef.current.play().catch(e => console.log("Audio blocked"));
+      bgmAudioRef.current.play().catch(e => console.log("Audio blocked:", e));
       setAudioEnabled(true);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (bgmAudioRef.current) {
+        bgmAudioRef.current.pause();
+        bgmAudioRef.current.src = "";
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const fetchCerpen = async () => {
       try {
         const res = await fetch('/data/cerpen.json?t=' + Date.now());
         const data = await res.json();
-        const found = data.cerpen.find((c: Cerpen) => c.id === Number(params.id));
+        const found = data.cerpen?.find((c: Cerpen) => c.id === Number(params.id));
         
         if (found) {
           setCerpen(found);
@@ -83,7 +91,7 @@ export default function CerpenDetail() {
           router.push('/blog');
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error loading cerita:", error);
       } finally {
         setLoading(false);
       }
@@ -95,10 +103,10 @@ export default function CerpenDetail() {
     return text.split('\n').map((line, i) => {
       if (line.match(/["'].*?["']/)) {
         return (
-          <p key={i} className="mb-6 leading-loose text-lg">
+          <p key={i} className="mb-6 leading-relaxed text-base md:text-lg">
             {line.split(/(["'].*?["'])/g).map((part, j) => 
               part.match(/["'].*?["']/) ? (
-                <span key={j} className={`font-medium italic ${isDarkMode ? "text-sky-300" : "text-amber-700"}`}>
+                <span key={j} className="font-semibold italic text-[#F54DAD]">
                   {part}
                 </span>
               ) : (
@@ -109,16 +117,16 @@ export default function CerpenDetail() {
         );
       }
       if (!line.trim()) return <br key={i} />;
-      return <p key={i} className="mb-6 leading-loose text-lg opacity-90">{line}</p>;
+      return <p key={i} className="mb-6 leading-relaxed text-base md:text-lg opacity-90">{line}</p>;
     });
   };
 
   if (loading) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${isDarkMode ? "bg-neutral-950" : "bg-[#fbf7f0]"}`}>
-        <div className="flex flex-col items-center gap-4">
-          <div className="w-8 h-8 border-2 border-current border-t-transparent rounded-full animate-spin opacity-50" />
-          <p className="text-xs font-mono opacity-50">ACCESSING ARCHIVE...</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#FFF4FA]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-[#FF75B9] border-t-transparent rounded-full animate-spin" />
+          <p className="text-xs font-mono font-bold text-[#F54DAD]">ACCESSING_LOG_ENTRY... ♡</p>
         </div>
       </div>
     );
@@ -126,196 +134,203 @@ export default function CerpenDetail() {
 
   if (!cerpen) return null;
 
-  // LOGIKA WARNING OTOMATIS
-  // Cek apakah ada field warnings di JSON ATAU kategorinya mengandung kata kunci sensitif
-  const sensitiveKeywords = ["Suicide", "Bunuh", "Metode", "NSFW", "Peringatan"];
+  const sensitiveKeywords = ["Suicide", "Bunuh", "Metode", "NSFW", "Peringatan", "Trauma"];
   const hasSensitiveKeyword = sensitiveKeywords.some(keyword => cerpen.category.toLowerCase().includes(keyword.toLowerCase()));
-  
   const needsWarning = (cerpen.warnings && cerpen.warnings.length > 0) || hasSensitiveKeyword;
   const isLocked = needsWarning && !hasAcknowledged;
-
-  // Generate warning tags jika tidak ada di JSON tapi terdeteksi keyword
-  const displayWarnings = cerpen.warnings || (hasSensitiveKeyword ? ["Sensitive Content", "Mental Health"] : []);
+  const displayWarnings = cerpen.warnings || (hasSensitiveKeyword ? ["Sensitive Content", "Atmospheric Fiction"] : []);
 
   const theme = isDarkMode ? {
-    bg: "bg-neutral-950",
-    paper: "bg-neutral-900/50 border-neutral-800",
-    text: "text-neutral-300",
+    bg: "bg-[#252525]",
+    paper: "bg-[#2D2D2D] border-[#FF75B9] text-[#FFF4FA]",
+    text: "text-[#FFF4FA]",
     heading: "text-white",
-    meta: "text-neutral-500",
-    accent: "text-sky-400",
-    button: "bg-neutral-800 hover:bg-neutral-700 text-neutral-300",
-    warning: "bg-red-500/10 border-red-500/20 text-red-400"
+    meta: "text-[#806D7D]",
+    accent: "text-[#FF75B9]",
+    button: "bg-[#252525] hover:bg-[#333333] text-white border-white/10",
   } : {
-    bg: "bg-[#fbf7f0]",
-    paper: "bg-white border-amber-200 shadow-sm",
-    text: "text-neutral-700",
-    heading: "text-neutral-900",
-    meta: "text-amber-600/70",
-    accent: "text-amber-600",
-    button: "bg-amber-100 hover:bg-amber-200 text-amber-800",
-    warning: "bg-red-50 border-red-200 text-red-600"
+    bg: "bg-[#FFF4FA]",
+    paper: "bg-white border-2 border-[#FF75B9] text-[#302432] shadow-[6px_6px_0px_#F0C8DF]",
+    text: "text-[#302432]",
+    heading: "text-[#302432]",
+    meta: "text-[#806D7D]",
+    accent: "text-[#F54DAD]",
+    button: "bg-white hover:bg-[#FFE3F1] text-[#302432] border-2 border-[#F0C8DF]",
   };
 
   return (
-    <div className={`relative min-h-screen transition-colors duration-500 ${theme.bg} selection:bg-sky-500/30`}>
-      {/* Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-1 z-50 bg-transparent">
+    <div className={`relative min-h-screen transition-colors duration-300 ${theme.bg}`}>
+      {/* Reading Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-1.5 z-50 bg-[#FFE3F1]">
         <div 
-          className={`h-full transition-all duration-100 ${isDarkMode ? "bg-sky-500" : "bg-amber-500"}`}
+          className="h-full bg-gradient-to-r from-[#FF75B9] via-[#F54DAD] to-[#79E7E5] transition-all duration-100"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
 
-      <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-24 pb-20">
+      <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-20 pb-20">
         
-        {/* Top Controls */}
-        <div className="flex items-center justify-between mb-8 sticky top-20 z-40 py-2 backdrop-blur-md rounded-xl transition-all">
-          <Link href="/blog" className={`inline-flex items-center gap-2 text-sm font-mono transition-colors ${theme.meta} hover:${theme.accent}`}>
-            <ArrowLeft className="w-4 h-4" /> 
-            <span>Back to Archive</span>
+        {/* Top Controls Bar */}
+        <div className="flex items-center justify-between mb-8 sticky top-14 z-40 py-2.5 px-4 bg-white/95 backdrop-blur-md rounded-2xl border-2 border-[#F0C8DF] shadow-[3px_3px_0px_#FFE3F1]">
+          <Link 
+            href="/blog" 
+            className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#302432] hover:text-[#F54DAD] transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" /> 
+            <span>Kembali ke Arsip</span>
           </Link>
           
           <div className="flex items-center gap-2">
-            <button onClick={() => setIsDarkMode(!isDarkMode)} className={`p-2 rounded-lg transition-all ${theme.button}`}>
-              {isDarkMode ? <Sun size={16} /> : <Moon size={16} />}
+            <button 
+              type="button"
+              onClick={() => setIsDarkMode(!isDarkMode)} 
+              className={`p-2 rounded-xl text-xs font-mono flex items-center gap-1.5 ${theme.button}`}
+              aria-label={isDarkMode ? "Ganti ke mode terang" : "Ganti ke mode gelap"}
+            >
+              {isDarkMode ? <Sun size={14} className="text-[#FF75B9]" /> : <Moon size={14} />}
             </button>
-            <button onClick={toggleAudio} className={`p-2 rounded-lg transition-all ${theme.button}`}>
-              {audioEnabled ? <Volume2 size={16} className="animate-pulse" /> : <VolumeX size={16} />}
+            <button 
+              type="button"
+              onClick={toggleAudio} 
+              className={`p-2 rounded-xl ${theme.button}`}
+              aria-label={audioEnabled ? "Matikan musik" : "Nyalakan musik"}
+            >
+              {audioEnabled ? <Volume2 size={14} className="text-[#F54DAD] animate-pulse" /> : <VolumeX size={14} />}
             </button>
           </div>
         </div>
 
-        {/* ========================================= */}
-        {/* CONTENT GATEKEEPER / WARNING MODAL        */}
-        {/* ========================================= */}
+        {/* Sensitive Content Gatekeeper Modal */}
         {isLocked && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="max-w-md w-full bg-[#111] border border-red-500/30 rounded-2xl p-8 shadow-2xl shadow-red-900/20 relative overflow-hidden">
-              {/* Decorative Glow */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50" />
-              
-              <div className="flex flex-col items-center text-center space-y-6">
-                <div className="w-16 h-16 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20">
-                  <ShieldAlert className="w-8 h-8 text-red-500" />
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#302432]/80 backdrop-blur-md">
+            <div className="max-w-md w-full bg-white border-2 border-[#FF75B9] rounded-2xl p-6 md:p-8 shadow-[8px_8px_0px_#F0C8DF] relative overflow-hidden">
+              <div className="flex flex-col items-center text-center space-y-5">
+                <div className="w-14 h-14 rounded-2xl bg-[#FFE3F1] flex items-center justify-center border-2 border-[#FF75B9]">
+                  <ShieldAlert className="w-7 h-7 text-[#F54DAD]" />
                 </div>
                 
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-2 tracking-tight">Sensitive Content Warning</h2>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    This archive entry contains themes that may be disturbing, including explicit descriptions of self-harm or suicide methods.
+                  <h2 className="text-xl font-bold text-[#302432] mb-2 tracking-tight font-sora">Catatan Peringatan Konten</h2>
+                  <p className="text-[#806D7D] text-xs md:text-sm leading-relaxed font-inter">
+                    Bab cerita ini memuat tema psikologis yang mendalam dan berpotensi memicu ketidaknyamanan emosional.
                   </p>
                 </div>
 
-                {/* Warning Tags */}
                 <div className="flex flex-wrap justify-center gap-2">
                   {displayWarnings.map((warn, i) => (
-                    <span key={i} className="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono uppercase tracking-wide">
+                    <span key={i} className="px-3 py-1 rounded-full bg-[#FFE3F1] border border-[#FF75B9] text-[#F54DAD] text-[10px] font-mono font-bold uppercase tracking-wide">
                       {warn}
                     </span>
                   ))}
                 </div>
 
-                <div className="w-full pt-4 border-t border-white/5 flex flex-col gap-3">
+                <div className="w-full pt-4 border-t border-[#F0C8DF] flex flex-col gap-2.5">
                   <button 
+                    type="button"
                     onClick={() => setHasAcknowledged(true)}
-                    className="w-full py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-lg transition-all active:scale-95"
+                    className="w-full py-3 bg-[#FF75B9] hover:bg-[#F54DAD] text-white text-xs font-bold rounded-xl transition-all shadow-md active:scale-95"
                   >
-                    I Understand, Proceed Anyway
+                    Saya Mengerti, Lanjutkan Membaca
                   </button>
                   <Link 
                     href="/blog" 
-                    className="w-full py-3 bg-white/5 hover:bg-white/10 text-gray-300 text-sm font-medium rounded-lg transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3 bg-white hover:bg-[#FFE3F1] text-[#302432] border-2 border-[#F0C8DF] text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2"
                   >
-                    <ArrowLeft size={14} /> Return to Safety
+                    <ArrowLeft size={14} /> Kembali ke Lembaran Aman
                   </Link>
                 </div>
-                
-                <p className="text-[10px] text-gray-600 font-mono mt-2">
-                  If you are in crisis, please contact professional help immediately.
-                </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* Main Article Card (Blurred if locked) */}
-        <article className={`rounded-2xl p-6 md:p-10 border transition-all duration-500 ${theme.paper} ${isLocked ? 'blur-xl select-none pointer-events-none opacity-50' : ''}`}>
+        {/* Main Article Container */}
+        <article className={`rounded-2xl p-6 md:p-10 border transition-all duration-300 ${theme.paper} ${isLocked ? 'blur-lg select-none pointer-events-none opacity-40' : ''}`}>
           
-          {/* Header with NEW ID STYLE */}
+          {/* Window Header */}
+          <div className="window-header -mx-6 md:-mx-10 -mt-6 md:-mt-10 mb-8 rounded-t-2xl px-4 py-2.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
+            <span className="text-[10px] font-mono font-bold text-[#F54DAD]">★ ENTRY_ARCHIVE_VIEWER.EXE</span>
+            <div className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF75B9]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#79E7E5]" />
+            </div>
+          </div>
+
           <header className="mb-8">
-            <div className="flex items-center gap-3 mb-6">
-              <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider border ${
-                isDarkMode 
-                  ? "border-sky-500/30 text-sky-400 bg-sky-500/10" 
-                  : "border-amber-500/30 text-amber-700 bg-amber-500/10"
-              }`}>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="px-2.5 py-1 rounded-md text-[10px] font-mono font-bold uppercase tracking-wider bg-[#FFE3F1] text-[#F54DAD] border border-[#FF75B9]">
                 {cerpen.category}
               </span>
 
-              <div className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-mono border ${
-                isDarkMode 
-                  ? "border-white/10 text-gray-400 bg-white/5" 
-                  : "border-black/5 text-gray-500 bg-black/5"
-              }`}>
-                <Hash size={10} className="opacity-50" />
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-mono font-bold text-[#806D7D] bg-white border border-[#F0C8DF]">
+                <Hash size={10} className="text-[#FF75B9]" />
                 <span>{String(cerpen.id).padStart(3, '0')}</span>
               </div>
             </div>
             
-            <h1 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${theme.heading}`}>
+            <h1 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 leading-tight tracking-tight font-sora ${theme.heading}`}>
               {cerpen.title}
             </h1>
             
-            <div className={`flex items-center gap-4 text-xs font-mono ${theme.meta}`}>
-              <span className="flex items-center gap-1.5"><Calendar className="w-3 h-3" /> {cerpen.date}</span>
-              <span className="w-1 h-1 rounded-full bg-current opacity-50" />
-              <span className="flex items-center gap-1.5"><Clock className="w-3 h-3" /> {cerpen.readTime}</span>
+            <div className={`flex items-center gap-4 text-xs font-mono font-bold ${theme.meta}`}>
+              <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5 text-[#79E7E5]" /> {cerpen.date}</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#FF75B9]" />
+              <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#F54DAD]" /> {cerpen.readTime}</span>
             </div>
           </header>
 
           {/* Excerpt Quote */}
-          <div className={`mb-10 pl-4 border-l-2 italic opacity-80 ${isDarkMode ? "border-sky-500/50 text-neutral-400" : "border-amber-500/50 text-neutral-600"}`}>
-            <Quote className="w-4 h-4 mb-2 opacity-50" />
-            <p className="text-sm leading-relaxed">"{cerpen.excerpt}"</p>
+          <div className="mb-8 pl-4 border-l-4 border-[#FF75B9] italic opacity-90 bg-[#FFF8FC] p-3 rounded-r-xl border border-l-0 border-[#F0C8DF]">
+            <Quote className="w-4 h-4 mb-1 text-[#F54DAD]" />
+            <p className="text-sm leading-relaxed text-[#302432] font-inter">{cerpen.excerpt}</p>
           </div>
 
           {/* Content Body */}
           <div 
             ref={contentRef}
-            className={`prose prose-lg max-w-none ${theme.text} font-serif`}
+            className={`prose prose-lg max-w-none font-inter ${theme.text}`}
           >
             {renderContent(cerpen.content)}
           </div>
 
-          {/* Footer of Article */}
-          <div className={`mt-12 pt-6 border-t flex justify-between items-center ${isDarkMode ? "border-neutral-800" : "border-amber-100"}`}>
-            <p className={`text-xs font-mono opacity-50 ${theme.text}`}>~ END OF FILE ~</p>
-            <button className={`p-2 rounded-full transition-colors ${theme.button}`}>
-              <Share2 size={16} />
+          {/* End of File Bar */}
+          <div className="mt-12 pt-6 border-t-2 border-[#F0C8DF] flex justify-between items-center text-xs font-mono font-bold text-[#806D7D]">
+            <span>~ END_OF_TRANSMISSION ♡ ~</span>
+            <button 
+              type="button"
+              onClick={() => {
+                if (navigator.share) {
+                  navigator.share({ title: cerpen.title, url: window.location.href });
+                }
+              }}
+              className="p-2 rounded-xl bg-[#FFE3F1] hover:bg-[#FF75B9] hover:text-white border border-[#F0C8DF] transition-colors"
+              aria-label="Bagikan Cerita"
+            >
+              <Share2 size={15} />
             </button>
           </div>
         </article>
 
-        {/* Related Stories */}
+        {/* Related Entries */}
         {!isLocked && relatedCerpen.length > 0 && (
-          <div className="mt-16">
-            <h3 className={`text-sm font-bold uppercase tracking-widest mb-6 ${theme.meta}`}>Related Entries</h3>
+          <div className="mt-14">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#302432] mb-4 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
+              Catatan Terkait dalam Kategori Sama ♡
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedCerpen.map((item) => (
                 <Link key={item.id} href={`/blog/${item.id}`} className="group block">
-                  <div className={`p-4 rounded-xl border transition-all hover:-translate-y-1 ${theme.paper} hover:border-opacity-100`}>
-                    <div className="flex items-center gap-2 mb-2">
-                       <span className="text-[9px] font-mono opacity-50">#{String(item.id).padStart(3, '0')}</span>
-                       {/* Show warning icon if related post is sensitive */}
-                       {(item.warnings?.length || sensitiveKeywords.some(k => item.category.includes(k))) && (
-                         <ShieldAlert size={10} className="text-red-500" />
-                       )}
+                  <div className="p-4 rounded-2xl bg-white border-2 border-[#F0C8DF] hover:border-[#FF75B9] transition-all hover:-translate-y-1 shadow-[3px_3px_0px_#F0C8DF]">
+                    <div className="flex items-center gap-2 mb-1.5 text-[10px] font-mono font-bold text-[#806D7D]">
+                      <span>#{String(item.id).padStart(3, '0')}</span>
+                      <span>•</span>
+                      <span>{item.readTime}</span>
                     </div>
-                    <h4 className={`font-bold mb-2 line-clamp-2 group-hover:${theme.accent} transition-colors ${theme.heading}`}>
+                    <h4 className="font-bold text-sm text-[#302432] group-hover:text-[#F54DAD] transition-colors line-clamp-1 mb-1 font-sora">
                       {item.title}
                     </h4>
-                    <p className={`text-xs line-clamp-2 opacity-70 ${theme.text}`}>{item.excerpt}</p>
+                    <p className="text-xs text-[#806D7D] line-clamp-2 leading-relaxed font-inter">{item.excerpt}</p>
                   </div>
                 </Link>
               ))}
@@ -324,6 +339,8 @@ export default function CerpenDetail() {
         )}
 
       </main>
+      
+      <Footer />
     </div>
   );
 }

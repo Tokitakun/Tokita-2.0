@@ -79,7 +79,7 @@
   },{
     "id": 7,
     "title": "FishPedia 1.0",
-    "shortDesc": "Modern password generator with customizable options",
+    "shortDesc": "Ensiklopedia digital interaktif biota air tawar dan aquascape",
     "longDesc": "Fishpedia adalah ensiklopedia ikan digital interaktif yang awalnya hanya untuk tugas sekolah,namun melihat potensi dari project ini saya berpikir akan mengembangkannya.",
     "tags": ["React 18/19", "Tailwind CSS", "Vite", "JavaScript (ES6+)"],
     "status": "live",

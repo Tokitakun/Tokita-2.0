@@ -11,45 +11,44 @@ export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // ✅ Only activate on desktop (fine pointer)
-    if (window.matchMedia("(pointer: fine)").matches) {
+    // Only activate on desktop (fine pointer) without reduced motion preference
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (window.matchMedia("(pointer: fine)").matches && !prefersReducedMotion) {
       setIsVisible(true);
+      document.body.classList.add("custom-cursor-active");
     }
 
     const onMouseMove = (e: MouseEvent) => {
-      // Main cursor: instant follow
       gsap.to(cursorRef.current, {
         x: e.clientX,
         y: e.clientY,
         duration: 0,
       });
 
-      // Follower cursor: smooth delay follow
       gsap.to(followerRef.current, {
         x: e.clientX,
         y: e.clientY,
-        duration: 0.15,
+        duration: 0.14,
         ease: "power2.out",
       });
     };
 
-    // ✅ Hover effect: scale + color change
     const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (
         target.closest("a") ||
         target.closest("button") ||
         target.closest("[data-cursor='hover']") ||
+        target.closest("[role='button']") ||
         target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA"
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT"
       ) {
         setIsHovering(true);
       }
     };
 
     const onMouseOut = () => setIsHovering(false);
-
-    // ✅ Click effect: shrink
     const onMouseDown = () => setIsDragging(true);
     const onMouseUp = () => setIsDragging(false);
 
@@ -60,6 +59,7 @@ export default function CustomCursor() {
     window.addEventListener("mouseup", onMouseUp);
 
     return () => {
+      document.body.classList.remove("custom-cursor-active");
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseover", onMouseOver);
       window.removeEventListener("mouseout", onMouseOut);
@@ -68,27 +68,48 @@ export default function CustomCursor() {
     };
   }, []);
 
-  // ✅ Animate cursor states
   useEffect(() => {
     if (!cursorRef.current || !followerRef.current) return;
 
-    // Hover state
-    gsap.to([cursorRef.current, followerRef.current], {
-      scale: isHovering ? 1.5 : 1,
-      backgroundColor: isHovering ? "var(--sky-blue-dark)" : "var(--sky-blue)",
-      duration: 0.2,
-      ease: "power2.out",
-    });
+    if (isHovering) {
+      gsap.to(cursorRef.current, {
+        scale: 1.5,
+        backgroundColor: "#F54DAD",
+        duration: 0.15,
+        ease: "power2.out",
+      });
+      gsap.to(followerRef.current, {
+        scale: 1.7,
+        borderColor: "#F54DAD",
+        backgroundColor: "rgba(255, 117, 185, 0.15)",
+        duration: 0.15,
+        ease: "power2.out",
+      });
+    } else {
+      gsap.to(cursorRef.current, {
+        scale: 1,
+        backgroundColor: "#FF75B9",
+        duration: 0.15,
+        ease: "power2.out",
+      });
+      gsap.to(followerRef.current, {
+        scale: 1,
+        borderColor: "#FF75B9",
+        backgroundColor: "transparent",
+        duration: 0.15,
+        ease: "power2.out",
+      });
+    }
 
-    // Click state
-    gsap.to([cursorRef.current, followerRef.current], {
-      scale: isDragging ? 0.8 : isHovering ? 1.5 : 1,
-      duration: 0.1,
-      ease: "power2.out",
-    });
+    if (isDragging) {
+      gsap.to([cursorRef.current, followerRef.current], {
+        scale: 0.85,
+        duration: 0.1,
+        ease: "power2.out",
+      });
+    }
   }, [isHovering, isDragging]);
 
-  // ✅ Don't render on mobile/touch
   if (!isVisible) return null;
 
   return (
@@ -96,17 +117,19 @@ export default function CustomCursor() {
       {/* Main cursor dot */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-3 h-3 rounded-full 
-          bg-[var(--sky-blue)] pointer-events-none z-[9999] 
-          translate-x-[-50%] translate-y-[-50%]"
+        aria-hidden="true"
+        className="fixed top-0 left-0 w-2.5 h-2.5 rounded-full 
+          bg-[#FF75B9] pointer-events-none z-[9999] 
+          -translate-x-1/2 -translate-y-1/2 shadow-[0_0_8px_rgba(255,117,185,0.7)]"
       />
 
       {/* Follower circle */}
       <div
         ref={followerRef}
-        className="fixed top-0 left-0 w-8 h-8 rounded-full border-2 
-          border-[var(--sky-blue)] pointer-events-none z-[9998] 
-          translate-x-[-50%] translate-y-[-50%] opacity-70"
+        aria-hidden="true"
+        className="fixed top-0 left-0 w-7 h-7 rounded-full border-2 border-[#FF75B9]/70 
+          pointer-events-none z-[9998] 
+          -translate-x-1/2 -translate-y-1/2 transition-colors duration-150"
       />
     </>
   );

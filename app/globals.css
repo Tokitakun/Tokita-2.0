@@ -5,107 +5,73 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* OMORI Theme - Depressed/Dark Edition dengan TEXT TERANG */
-  --pure-black: #1A1A1A;
-  --dark-gray: #2C2C2C;
-  --darker-gray: #232323;
-  --black: #000000;
+  /* NAFIS.EXE Design System Tokens (NEEDY STREAMER OVERLOAD / Kawaii Cyber Desktop) */
+  --color-bg: #FFF4FA;
+  --color-surface: #FFFFFF;
+  --color-surface-pink: #FFE3F1;
+  --color-surface-soft: #FFF8FC;
+  --color-surface-elevated: #FFFFFF;
+  --color-primary-pink: #FF75B9;
+  --color-accent-pink: #F54DAD;
+  --color-deep-text: #302432;
+  --color-secondary-text: #806D7D;
+  --color-border: #F0C8DF;
+  --color-border-strong: #FF75B9;
+  --color-cyber-cyan: #79E7E5;
+  --color-pixel-purple: #A993FF;
+  --color-success: #63CBA8;
+  --color-warning: #FFB347;
+
+  /* Aliases for semantic mapping */
+  --color-text: var(--color-deep-text);
+  --color-muted: var(--color-secondary-text);
+  --color-accent: var(--color-primary-pink);
+  --color-accent-bright: var(--color-accent-pink);
+  --color-rose: var(--color-primary-pink);
+  --color-rose-deep: var(--color-accent-pink);
+
+  /* Legacy & compatibility aliases */
+  --pure-black: #302432;
+  --dark-gray: #FFE3F1;
+  --darker-gray: #F0C8DF;
   --white: #FFFFFF;
-  --off-white: #F5F5F5;
-  --pale-gray: #3A3A3A;
-  --muted-blue: #4A6B7F;
-  --light-blue: #8FC5F0;  /* Biru lebih terang untuk text */
-  --dark-blue: #2A3F4F;
-  --shadow-blue: #1E2C36;
-  --pale-red: #8B4C4C;
-  --light-red: #F08B8B;   /* Merah lebih terang untuk text */
-  --dark-red: #5C3A3A;
-  
-  /* TEXT COLORS - DIUBAH JAUH LEBIH TERANG */
-  --text: #F0F0F0;        /* Dari #C0C0C0 jadi #F0F0F0 (putih susu) */
-  --text-heading: #FFFFFF; /* Dari #E0E0E0 jadi #FFFFFF (putih murni) */
-  --text-dim: #C0C0C0;     /* Dari #8A8A8A jadi #C0C0C0 (abu terang) */
-  --text-glow: 0 0 8px rgba(255, 255, 255, 0.3); /* Efek glow untuk text */
-  
-  --shadow: rgba(0, 0, 0, 0.5);
-  --radius: 0.625rem;
-  
-  /* shadcn variables - Dark by default dengan text terang */
-  --background: #1A1A1A;
-  --foreground: #F0F0F0;        /* Dari #E0E0E0 jadi #F0F0F0 */
-  --card: #232323;
-  --card-foreground: #F0F0F0;   /* Dari #E0E0E0 jadi #F0F0F0 */
-  --popover: #232323;
-  --popover-foreground: #F0F0F0; /* Dari #E0E0E0 jadi #F0F0F0 */
-  --primary: #4A6B7F;
+  --off-white: #FFF4FA;
+  --pale-gray: #FFF8FC;
+  --muted-blue: #79E7E5;
+  --light-blue: #79E7E5;
+  --sky-blue: #79E7E5;
+  --sky-blue-dark: #A993FF;
+  --cream: #FFF4FA;
+
+  /* TEXT COLORS */
+  --text: #302432;
+  --text-heading: #302432;
+  --text-dim: #806D7D;
+  --text-glow: 0 0 10px rgba(245, 77, 173, 0.4);
+
+  --shadow: rgba(245, 77, 173, 0.15);
+  --radius: 0.75rem;
+
+  /* shadcn variables */
+  --background: #FFF4FA;
+  --foreground: #302432;
+  --card: #FFFFFF;
+  --card-foreground: #302432;
+  --popover: #FFFFFF;
+  --popover-foreground: #302432;
+  --primary: #FF75B9;
   --primary-foreground: #FFFFFF;
-  --secondary: #2C2C2C;
-  --secondary-foreground: #F0F0F0; /* Dari #C0C0C0 jadi #F0F0F0 */
-  --muted: #2C2C2C;
-  --muted-foreground: #C0C0C0;   /* Dari #8A8A8A jadi #C0C0C0 */
-  --accent: #4A6B7F;
+  --secondary: #FFE3F1;
+  --secondary-foreground: #302432;
+  --muted: #FFE3F1;
+  --muted-foreground: #806D7D;
+  --accent: #F54DAD;
   --accent-foreground: #FFFFFF;
-  --destructive: #8B4C4C;
+  --destructive: #F54DAD;
   --destructive-foreground: #FFFFFF;
-  --border: #3A3A3A;
-  --input: #3A3A3A;
-  --ring: #4A6B7F;
-  --chart-1: #4A6B7F;
-  --chart-2: #2A3F4F;
-  --chart-3: #5C3A3A;
-  --chart-4: #8B4C4C;
-  --chart-5: #4A6B7F;
-  --sidebar: #232323;
-  --sidebar-foreground: #F0F0F0; /* Dari #E0E0E0 jadi #F0F0F0 */
-  --sidebar-primary: #4A6B7F;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #2C2C2C;
-  --sidebar-accent-foreground: #F0F0F0; /* Dari #C0C0C0 jadi #F0F0F0 */
-  --sidebar-border: #3A3A3A;
-  --sidebar-ring: #4A6B7F;
-}
-
-* {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-  color: var(--text);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5), 0 0 5px rgba(255, 255, 255, 0.2);
-  background-attachment: fixed;
-  min-height: 100vh;
-  background-color: var(--pure-black);
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(74, 107, 127, 0.1) 0%, transparent 30%),
-    radial-gradient(circle at 90% 80%, rgba(139, 76, 76, 0.1) 0%, transparent 30%);
-}
-
-/* Update heading fonts juga */
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
-  color: var(--text-heading);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 255, 255, 0.3);
-}
-
-/* ✅ ADDED: Custom Cursor Styles */
-@media (pointer: fine) {
-  /* Hide default cursor on desktop */
-  body {
-    cursor: none;
-  }
-  
-  /* But show text cursor on inputs */
-  input, textarea, [contenteditable="true"] {
-    cursor: text !important;
-  }
-}
-
-/* Show default cursor on mobile/touch */
-@media (pointer: coarse) {
-  body {
-    cursor: auto;
-  }
+  --border: #F0C8DF;
+  --input: #F0C8DF;
+  --ring: #F54DAD;
 }
 
 @theme inline {
@@ -115,7 +81,20 @@ h1, h2, h3, h4, h5, h6 {
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+
+  --color-bg-base: var(--color-bg);
+  --color-surface-base: var(--color-surface);
+  --color-surface-pink: var(--color-surface-pink);
+  --color-surface-soft: var(--color-surface-soft);
+  --color-primary-pink: var(--color-primary-pink);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-deep-text: var(--color-deep-text);
+  --color-secondary-text: var(--color-secondary-text);
+  --color-border-base: var(--color-border);
+  --color-cyber-cyan: var(--color-cyber-cyan);
+  --color-pixel-purple: var(--color-pixel-purple);
+  --color-success: var(--color-success);
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -134,106 +113,173 @@ h1, h2, h3, h4, h5, h6 {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-display: var(--font-sora), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
 }
 
-.dark {
-  --background: #1A1A1A;
-  --foreground: #F0F0F0;
-  --card: #232323;
-  --card-foreground: #F0F0F0;
-  --popover: #232323;
-  --popover-foreground: #F0F0F0;
-  --primary: #4A6B7F;
-  --primary-foreground: #FFFFFF;
-  --secondary: #2C2C2C;
-  --secondary-foreground: #F0F0F0;
-  --muted: #2C2C2C;
-  --muted-foreground: #C0C0C0;
-  --accent: #4A6B7F;
-  --accent-foreground: #FFFFFF;
-  --destructive: #8B4C4C;
-  --destructive-foreground: #FFFFFF;
-  --border: #3A3A3A;
-  --input: #3A3A3A;
-  --ring: #4A6B7F;
-  --chart-1: #4A6B7F;
-  --chart-2: #2A3F4F;
-  --chart-3: #5C3A3A;
-  --chart-4: #8B4C4C;
-  --chart-5: #4A6B7F;
-  --sidebar: #232323;
-  --sidebar-foreground: #F0F0F0;
-  --sidebar-primary: #4A6B7F;
-  --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #2C2C2C;
-  --sidebar-accent-foreground: #F0F0F0;
-  --sidebar-border: #3A3A3A;
-  --sidebar-ring: #4A6B7F;
+* {
+  scroll-behavior: smooth;
+  box-sizing: border-box;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* OMORI Style Elements dengan text lebih terang */
-.bg-omori-pattern {
+body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  color: var(--color-deep-text);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-attachment: fixed;
   background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    repeating-linear-gradient(45deg, var(--dark-gray) 0px, var(--dark-gray) 2px, transparent 2px, transparent 6px);
+    linear-gradient(rgba(240, 200, 223, 0.25) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(240, 200, 223, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-.omori-text-shadow {
-  text-shadow: 3px 3px 0px var(--pure-black), 0 0 10px rgba(255, 255, 255, 0.2);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sora), system-ui, -apple-system, sans-serif;
+  color: var(--color-deep-text);
+  letter-spacing: -0.02em;
 }
 
-.omori-border {
-  border: 2px solid var(--muted-blue);
-  box-shadow: 4px 4px 0px var(--shadow-blue);
+/* Custom Scrollbar - Kawaii Pink */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
 }
 
-.omori-button {
-  background-color: var(--dark-gray);
-  border: 2px solid var(--muted-blue);
-  color: var(--white);
-  text-shadow: 2px 2px 0px var(--pure-black), 0 0 5px rgba(255, 255, 255, 0.2);
-  transition: all 0.2s ease;
+::-webkit-scrollbar-track {
+  background: #FFE3F1;
+  border-left: 1px solid #F0C8DF;
 }
 
-.omori-button:hover {
-  background-color: var(--muted-blue);
-  border-color: var(--dark-blue);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px var(--shadow);
+::-webkit-scrollbar-thumb {
+  background: #FF75B9;
+  border-radius: 4px;
+  border: 2px solid #FFE3F1;
 }
 
-.omori-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 4px var(--shadow);
+::-webkit-scrollbar-thumb:hover {
+  background: #F54DAD;
 }
 
-/* Utility classes untuk text terang */
-.text-glow {
-  text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+/* Text Selection - Vibrant Kawaii */
+::selection {
+  background-color: #FF75B9;
+  color: #FFFFFF;
 }
 
-.text-glow-strong {
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.5), 2px 2px 4px rgba(0, 0, 0, 0.7);
+/* Accessible Focus Ring */
+:focus-visible {
+  outline: 2px solid var(--color-accent-pink) !important;
+  outline-offset: 2px !important;
+}
+
+/* Custom Cursor Visibility - pointer-fine only */
+@media (pointer: fine) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* Kawaii Window System */
+.kawaii-window {
+  background: #FFFFFF;
+  border: 2px solid var(--color-border);
+  border-radius: 14px;
+  box-shadow: 4px 4px 0px var(--color-border), 0 12px 30px rgba(245, 77, 173, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.kawaii-window:hover {
+  box-shadow: 6px 6px 0px var(--color-primary-pink), 0 16px 36px rgba(245, 77, 173, 0.12);
+}
+
+.window-header {
+  background: #FFE3F1;
+  border-bottom: 2px solid var(--color-border);
+  padding: 0.6rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.window-dots {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.dot-rose {
+  background-color: #F54DAD;
+}
+
+.dot-gold {
+  background-color: #79E7E5;
+}
+
+.dot-accent {
+  background-color: #A993FF;
+}
+
+.omori-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FF75B9 20%, #79E7E5 50%, #FF75B9 80%, transparent);
+  opacity: 0.85;
+}
+
+/* Retro shadow */
+.retro-window-shadow {
+  box-shadow: 4px 4px 0px #F0C8DF;
+}
+
+/* Keyframe animations */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@keyframes float-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+@keyframes pulse-kawaii {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.85; }
+}
+
+.animate-kawaii-pulse {
+  animation: pulse-kawaii 2s ease-in-out infinite;
+}
+
+/* Reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee,
+  .animate-float,
+  .animate-kawaii-pulse {
+    animation: none !important;
+    transform: none !important;
+  }
 }

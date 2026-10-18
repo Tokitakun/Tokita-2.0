@@ -3,15 +3,15 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Hero from "./hero/page";
-import Navbar from "../Components/Navbar";
-import About from "../Components/abu";
+import Hero from "@/Components/Hero";
+import Navbar from "@/Components/Navbar";
+import About from "@/Components/abu";
 import Skills from "@/Components/skills";
-import Projects from "@/app/project/page";
+import { ProjectShowcase } from "@/app/project/page";
 import EducationTimeline from "@/Components/timeline";
-import ContactSection from "@/app/contact/page";
-import CustomCursor from "@/Components/cursor"
+import { ContactSection } from "@/app/contact/page";
 import Footer from "@/Components/footer";
+import { ScrollProgress, Marquee } from "@/Components/fx";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,20 +20,26 @@ export default function Home() {
 
   useEffect(() => {
     ScrollTrigger.refresh();
-    if (heroRef.current) {
-      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
-    }
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      <CustomCursor />
-      <Navbar />  {/* ← PINDAHKAN KE SINI, di atas hero */}
+    <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
+      <ScrollProgress />
+      <Navbar />
       <div id="hero" ref={heroRef}><Hero /></div>
-      <About/>
+      <Marquee items={[
+        "Front-End Developer", 
+        "UI/UX Enthusiast", 
+        "Next.js & React", 
+        "TypeScript", 
+        "Kawaii Cyber Aesthetics", 
+        "Needy Streamer Overload Inspired", 
+        "Tactile Digital Experiences"
+      ]} />
+      <div id="about"><About /></div>
       <div id="education"><EducationTimeline /></div>
       <div id="skills"><Skills /></div>
-      <div id="projects"><Projects /></div>
+      <div id="projects"><ProjectShowcase /></div>
       <div id="contact"><ContactSection /></div>
       <Footer />
     </div>
