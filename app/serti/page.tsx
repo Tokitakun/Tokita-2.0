@@ -17,11 +17,11 @@ import {
   X,
   FileText,
   Terminal,
-  Heart,
 } from "lucide-react";
 
 import certificatesData from "../../public/data/serti.json";
 import Footer from "@/Components/footer";
+import { GlitchText } from "@/Components/glitch";
 import Navbar from "@/Components/Navbar";
 import { ScrollProgress } from "@/Components/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -125,7 +125,7 @@ function CertificatesPage() {
         <div className="flex flex-col items-center gap-3">
           <div className="w-10 h-10 border-2 border-[#FF75B9]/30 border-t-[#F54DAD] rounded-full animate-spin" />
           <p className="text-[#F54DAD] text-xs font-mono font-bold tracking-widest uppercase">
-            LOADING_CREDENTIAL_DATABASE... ♡
+            LOADING_CREDENTIAL_DATABASE...
           </p>
         </div>
       </div>
@@ -160,10 +160,8 @@ function CertificatesPage() {
                 <span className="text-[#79E7E5]">★</span>
               </div>
               <h1 className="header-element text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#302432] tracking-tight leading-tight font-sora">
-                Certificates & <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">
-                  Achievements
-                </span>
+                Certificates &amp; <br />
+                <GlitchText as="span" className="text-[#F54DAD]">Achievements</GlitchText>
               </h1>
               <p className="header-element text-[#806D7D] text-sm md:text-base leading-relaxed font-inter">
                 Verified documentation of technical certifications, competition awards, and credentials.
@@ -206,7 +204,7 @@ function CertificatesPage() {
           </div>
           
           <div className="text-xs text-[#806D7D] font-mono font-bold">
-            Kategori: {activeTab === "kompetensi" ? "Sertifikasi Teknis ♡" : "Penghargaan Kompetisi ★"}
+            Kategori: {activeTab === "kompetensi" ? "Sertifikasi Teknis" : "Penghargaan Kompetisi ★"}
           </div>
         </div>
 

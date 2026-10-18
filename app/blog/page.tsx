@@ -18,7 +18,6 @@ import {
   Feather,
   Terminal,
   ArrowRight,
-  Heart,
 } from "lucide-react";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
@@ -51,12 +50,12 @@ export default function BlogPage() {
   const bgmAudioRef = useRef<HTMLAudioElement | null>(null);
 
   const mysteriousMessages = [
-    "...ada yang mengawasi? ♡",
+    "...ada yang mengawasi?",
     "Mari kita baca bersama...",
     "Setiap kata menyimpan rahasia ★",
     "Jangan terlalu dalam menyelam...",
     "Ingatan itu rapuh...",
-    "??? ♡"
+    "???"
   ];
 
   useEffect(() => {
@@ -141,7 +140,7 @@ export default function BlogPage() {
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-2 border-[#FF75B9]/30 border-t-[#F54DAD] rounded-full animate-spin" />
           <p className="text-[#F54DAD] font-mono text-xs font-bold tracking-widest uppercase animate-pulse">
-            Membuka lembaran arsip cerita... ♡
+            Membuka lembaran arsip cerita...
           </p>
         </div>
       </div>
@@ -225,7 +224,7 @@ export default function BlogPage() {
           <div className="relative pl-6 border-l-4 border-[#FF75B9]">
             <div className="inline-flex items-center gap-2 mb-2 px-3.5 py-1 rounded-full bg-white border-2 border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD] shadow-[2px_2px_0px_#FFE3F1]">
               <Feather size={12} className="text-[#FF75B9]" />
-              <span>MARIA_ARCHIVES.LOG ♡</span>
+              <span>MARIA_ARCHIVES.LOG</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-extrabold text-[#302432] mb-3 tracking-tight font-sora">
               Cerita Maria <span className="text-[#F54DAD] inline-block">★</span>
@@ -352,7 +351,7 @@ export default function BlogPage() {
             </p>
             <div className="mt-2.5 flex items-center justify-center gap-2 text-[10px] text-[#806D7D] font-mono font-bold uppercase tracking-widest">
               <span className="w-6 h-0.5 bg-[#F0C8DF]" />
-              Maria ♡
+              Maria
               <span className="w-6 h-0.5 bg-[#F0C8DF]" />
             </div>
           </div>

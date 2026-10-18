@@ -6,7 +6,7 @@ import Link from "next/link";
 import { 
   ArrowLeft, Calendar, Clock, Volume2, VolumeX, 
   Quote, Sun, Moon, Share2, Hash, 
-  ShieldAlert, Terminal, Heart, Sparkles
+  ShieldAlert, Terminal, Sparkles
 } from "lucide-react";
 import Footer from "@/Components/footer";
 
@@ -126,7 +126,7 @@ export default function CerpenDetail() {
       <div className="min-h-screen flex items-center justify-center bg-[#FFF4FA]">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-[#FF75B9] border-t-transparent rounded-full animate-spin" />
-          <p className="text-xs font-mono font-bold text-[#F54DAD]">ACCESSING_LOG_ENTRY... ♡</p>
+          <p className="text-xs font-mono font-bold text-[#F54DAD]">ACCESSING_LOG_ENTRY...</p>
         </div>
       </div>
     );
@@ -295,7 +295,7 @@ export default function CerpenDetail() {
 
           {/* End of File Bar */}
           <div className="mt-12 pt-6 border-t-2 border-[#F0C8DF] flex justify-between items-center text-xs font-mono font-bold text-[#806D7D]">
-            <span>~ END_OF_TRANSMISSION ♡ ~</span>
+            <span>~ END_OF_TRANSMISSION ~</span>
             <button 
               type="button"
               onClick={() => {
@@ -316,7 +316,7 @@ export default function CerpenDetail() {
           <div className="mt-14">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#302432] mb-4 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
-              Catatan Terkait dalam Kategori Sama ♡
+              Catatan Terkait dalam Kategori Sama
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedCerpen.map((item) => (

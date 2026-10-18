@@ -11,6 +11,7 @@ import { ScrollProgress } from "@/Components/fx";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
 import Skills from "@/Components/skills";
+import { GlitchText } from "@/Components/glitch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 interface Project {
@@ -500,8 +501,8 @@ export function UnifiedWorkspace({ defaultFolder = "projects" }: UnifiedWorkspac
             <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#302432]">
               <span className="text-[#F54DAD]">C:\NAFIS\ARCHIVES</span>
               <span className="text-[#806D7D]">//</span>
-              <span className="px-2 py-0.5 rounded bg-white border border-[#F0C8DF] text-[#F54DAD]">
-                {activeFolder === "projects" ? "PROJECTS.DIR" : "SKILLS.DIR"}
+              <span className="px-1.5 py-0.5 rounded bg-white border border-[#F0C8DF] text-[#F54DAD]">
+                {activeFolder === "projects" ? <GlitchText as="span">PROJECTS.DIR</GlitchText> : <GlitchText as="span">SKILLS.DIR</GlitchText>}
               </span>
             </div>
 

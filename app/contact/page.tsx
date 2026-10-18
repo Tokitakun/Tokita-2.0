@@ -14,13 +14,13 @@ import {
   ExternalLink, 
   Terminal, 
   Sparkles,
-  Heart,
 } from 'lucide-react';
 import OrbitPlanet from "@/Components/OrbitPlanet";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
 import { ScrollProgress } from "@/Components/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { GlitchText, CorruptStatus } from "@/Components/glitch";
 
 export const ContactSection = () => {
   const [copied, setCopied] = useState(false);
@@ -47,15 +47,13 @@ export const ContactSection = () => {
             <div>
               <span className="inline-flex items-center gap-2 py-1.5 px-3.5 rounded-full bg-white text-[#F54DAD] text-xs font-mono font-bold uppercase tracking-wider mb-4 border-2 border-[#F0C8DF] shadow-[2px_2px_0px_#FFE3F1]">
                 <Terminal size={12} className="text-[#FF75B9]" />
-                COMMUNICATION_RELAY.EXE ♡
+                COMMUNICATION_RELAY.EXE
                 <span className="text-[#79E7E5]">★</span>
               </span>
               
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#302432] leading-tight tracking-tight mb-4 font-sora">
                 Let us build something <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">
-                  expressive together.
-                </span>
+                <GlitchText as="span" className="text-[#F54DAD]">expressive together.</GlitchText>
               </h2>
               
               <p className="text-sm md:text-base text-[#806D7D] leading-relaxed mb-6 font-inter">
@@ -118,6 +116,8 @@ export const ContactSection = () => {
 
           {/* Bagian Kanan: Iframe Window Desktop Game UI */}
           <div className="relative order-1 md:order-2 hidden md:block">
+            {/* Rotating planet orbit behind the tree window */}
+            <OrbitPlanet className="inset-[-14px] z-0" />
             <div className="relative z-[1] bg-white rounded-2xl border-2 border-[#FF75B9] shadow-[6px_6px_0px_#F0C8DF] overflow-hidden">
               
               {/* Window Header */}
@@ -131,7 +131,9 @@ export const ContactSection = () => {
                   <QrCode size={11} className="text-[#F54DAD]" />
                   <span>tree.icqr.com/Tokitakun</span>
                 </div>
-                <div className="text-[11px] font-mono text-[#F54DAD] font-bold">LIVE ♡</div>
+                <div className="text-[11px] font-mono text-[#F54DAD] font-bold">
+                  <CorruptStatus label="" okText="LIVE" />
+                </div>
               </div>
 
               {/* Iframe Frame */}
@@ -156,7 +158,7 @@ export const ContactSection = () => {
 
               {/* Footer status bar */}
               <div className="px-4 py-2 border-t-2 border-[#F0C8DF] bg-[#FFE3F1] flex justify-between items-center text-[10px] font-mono font-bold text-[#806D7D]">
-                <span>CONNECTOR: ONLINE ♡</span>
+                <span>CONNECTOR: ONLINE</span>
                 <span className="text-[#F54DAD]">CLICK TO NAVIGATE</span>
               </div>
             </div>

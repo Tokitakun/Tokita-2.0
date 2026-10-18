@@ -67,7 +67,7 @@ const ExperienceTimeline = () => {
             <div className="inline-flex items-center gap-2 bg-white border-2 border-[#F0C8DF] rounded-full px-3.5 py-1.5 mb-3 shadow-[2px_2px_0px_#FFE3F1]">
               <span className="w-2 h-2 rounded-full bg-[#79E7E5] border border-[#FF75B9]" />
               <span className="text-[11px] font-mono font-bold text-[#F54DAD] tracking-wider uppercase">
-                CAREER & EDUCATION LOGS ♡
+                CAREER & EDUCATION LOGS
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#302432] tracking-tight font-sora">

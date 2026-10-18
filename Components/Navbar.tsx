@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { gsap } from "gsap";
+import { CorruptStatus } from "@/Components/glitch";
 
 interface NavEntry {
   name: string;
@@ -25,6 +26,7 @@ function NavbarContent() {
 
   const navEntries: NavEntry[] = [
     { name: "About", tag: "USR", href: "/about" },
+    { name: "Timeline", tag: "TL", href: "/timeline" },
     { name: "Projects", tag: "DIR", href: "/project?folder=projects", matchPrefix: "/project", folderQuery: "projects" },
     { name: "Skills", tag: "SYS", href: "/project?folder=skills", matchPrefix: "/skills", folderQuery: "skills" },
     { name: "Certs", tag: "CRT", href: "/serti" },
@@ -175,7 +177,7 @@ function NavbarContent() {
         <div className="flex flex-col gap-1.5 pt-2 border-t border-[#F0C8DF]">
           <div className="flex items-center justify-center lg:justify-between px-1.5 py-1 bg-[#FFF4FA] rounded-lg border border-[#F0C8DF] text-[10px] font-mono">
             <span className="hidden lg:inline text-[#806D7D] font-bold">STATUS</span>
-            <span className="text-[#F54DAD] font-extrabold tracking-wider">OK</span>
+            <CorruptStatus okText="OK" className="font-extrabold tracking-wider" />
           </div>
 
           <div className="flex items-center justify-center px-1.5 py-1 bg-white rounded-lg border border-[#F0C8DF] text-[10px] font-mono font-bold text-[#302432] shadow-sm">

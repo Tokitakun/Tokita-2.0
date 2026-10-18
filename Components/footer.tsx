@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Instagram, Linkedin, Mail, Heart, Sparkles } from "lucide-react";
+import { Github, Instagram, Linkedin, Mail, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -58,13 +58,16 @@ export default function Footer() {
         {/* Bottom Sub-bar */}
         <div className="mt-8 pt-6 border-t border-[#F0C8DF] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#806D7D] font-mono">
           <p>
-            © {currentYear} NAFIS.EXE. Made with <span className="text-[#F54DAD]">♡</span> by Nafis.
+            © {currentYear} NAFIS.EXE. Built by Nafis.
           </p>
 
           <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#F0C8DF] text-[11px] text-[#302432] shadow-[1px_1px_0px_#F0C8DF]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#F0C8DF] text-[11px] text-[#302432] shadow-[1px_1px_0px_#F0C8DF] font-mono">
               <span className="w-2 h-2 rounded-full bg-[#63CBA8]" />
               STATUS: OPERATIONAL
+            </span>
+            <span aria-hidden="true" className="hidden sm:inline-flex items-center px-2 py-1 rounded bg-transparent border border-dashed border-[#F0C8DF] text-[10px] font-mono text-[#806D7D] opacity-70 select-none">
+              MEM: 64K OK // ERR_0X0F SILENCED
             </span>
             <Link href="/blog" className="text-[#F54DAD] hover:underline font-semibold flex items-center gap-1">
               <span>Read Story Logs</span>

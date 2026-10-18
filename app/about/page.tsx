@@ -12,7 +12,6 @@ import {
   ArrowRight,
   Compass,
   Terminal,
-  Heart,
   Layers,
   Flame,
   User,
@@ -20,6 +19,7 @@ import {
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
 import { ScrollProgress, TiltCard } from "@/Components/fx";
+import { GlitchText } from "@/Components/glitch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function AboutPage() {
@@ -85,7 +85,7 @@ export default function AboutPage() {
           </div>
           <div className="flex items-center gap-2 bg-white border border-[#F0C8DF] px-3.5 py-1.5 rounded-full shadow-[2px_2px_0px_#FFE3F1]">
             <span className="w-2 h-2 rounded-full bg-[#63CBA8] animate-pulse" />
-            <span className="text-[#302432]">SYSTEM LOG: 2026 ACTIVE ♡</span>
+            <span className="text-[#302432]">SYSTEM LOG: 2026 ACTIVE</span>
           </div>
         </div>
 
@@ -103,7 +103,7 @@ export default function AboutPage() {
             </div>
             <div className="text-[11px] font-mono text-[#806D7D] font-bold flex items-center gap-1">
               <Terminal size={12} className="text-[#F54DAD]" />
-              <span>READ_ONLY_ACCESS ♡</span>
+              <span>READ_ONLY_ACCESS</span>
             </div>
           </div>
 
@@ -136,7 +136,7 @@ export default function AboutPage() {
                   Creative Coder
                 </span>
                 <span className="px-3.5 py-1 text-xs font-mono font-bold rounded-full bg-white text-[#302432] border border-[#F0C8DF] flex items-center gap-1.5 shadow-[1px_1px_0px_#FFE3F1]">
-                  <Heart size={12} className="text-[#FF75B9]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#A993FF]" />
                   INFJ-T Mindset
                 </span>
               </div>
@@ -149,7 +149,8 @@ export default function AboutPage() {
                   // BIOGRAPHICAL DOSSIER
                 </span>
                 <h1 className="text-3xl md:text-5xl font-extrabold font-sora text-[#302432] tracking-tight">
-                  Muhammad Dzurunnafis Khairuddin
+                  Muhammad Dzurunnafis{" "}
+                  <GlitchText as="span" className="text-[#F54DAD]">Khairuddin</GlitchText>
                 </h1>
                 <p className="text-[#FF75B9] font-mono font-bold text-sm mt-1">
                   Known online as Tokita (Tokitakun)
@@ -191,7 +192,7 @@ export default function AboutPage() {
         <div className="mb-14">
           <div className="text-center mb-8">
             <span className="text-xs font-mono font-bold text-[#F54DAD] tracking-wider uppercase">
-              // PILLARS & PURSUITS ♡
+              // PILLARS & PURSUITS
             </span>
             <h2 className="text-2xl md:text-3xl font-extrabold font-sora text-[#302432] mt-1">
               What I Think About & Build
@@ -233,7 +234,7 @@ export default function AboutPage() {
           <div className="relative z-10 space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#F54DAD]">
               <Flame size={14} />
-              <span>PERSONAL MANIFESTO ♡</span>
+              <span>PERSONAL MANIFESTO</span>
             </div>
             <h3 className="text-xl md:text-2xl font-extrabold font-sora text-[#302432]">
               Designing for Human Calm in a Hyper-Stimulated Web

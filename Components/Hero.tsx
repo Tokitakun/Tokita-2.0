@@ -18,7 +18,6 @@ import {
   ListMusic,
   Compass,
   ArrowRight,
-  Heart,
   Sparkles,
   User,
 } from "lucide-react";
@@ -26,6 +25,7 @@ import { FaReact } from "react-icons/fa6";
 import { SiNextdotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
 import law from "@/img/ce.webp";
 import { Magnetic, TiltCard } from "@/Components/fx";
+import { GlitchText, BootGlitch } from "@/Components/glitch";
 
 // ============================================================================
 // PRO AUDIO PLAYER (WITH PLAYLIST DRAWER) — KAWAII CYBER DESKTOP VIBES
@@ -106,7 +106,7 @@ const ProAudioPlayer = () => {
         }`}
       >
         <div className="window-header -mx-2 -mt-2 mb-2 px-3 py-1.5 rounded-t-xl bg-[#FFE3F1] border-b-2 border-[#F0C8DF]">
-          <span className="text-[10px] font-mono font-bold text-[#F54DAD]">PLAYLIST.EXE ♡</span>
+          <span className="text-[10px] font-mono font-bold text-[#F54DAD]">PLAYLIST.EXE</span>
           <div className="flex items-center gap-1">
             <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
             <span className="w-2 h-2 rounded-full bg-[#79E7E5]" />
@@ -144,7 +144,7 @@ const ProAudioPlayer = () => {
         
         <div className="flex-1 min-w-0">
           <p className="text-[9px] text-[#F54DAD] font-mono font-bold uppercase tracking-wider">
-            {isPlaying ? "SOUNDTRACK PLAYING ♡" : "AUDIO READY"}
+            {isPlaying ? "SOUNDTRACK PLAYING" : "AUDIO READY"}
           </p>
           <p className="text-xs text-[#302432] font-semibold truncate">{tracks[currentIndex]?.title}</p>
         </div>
@@ -228,6 +228,7 @@ export default function Hero() {
 
   return (
     <section ref={heroRef} className="relative overflow-hidden min-h-[92vh] md:min-h-screen bg-[#FFF4FA] flex items-center justify-center">
+      <BootGlitch>
       {/* Background Decorative Blobs */}
       <div className="absolute top-1/4 left-1/10 w-72 h-72 rounded-full bg-[#FFE3F1] blur-3xl pointer-events-none opacity-80" />
       <div className="absolute bottom-1/4 right-1/10 w-80 h-80 rounded-full bg-[#79E7E5]/20 blur-3xl pointer-events-none" />
@@ -242,15 +243,13 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border-2 border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD] shadow-[2px_2px_0px_#FFE3F1]">
             <span className="w-2 h-2 rounded-full bg-[#79E7E5] border border-[#FF75B9] animate-pulse" />
             <span>WELCOME TO MY LITTLE CORNER OF THE INTERNET</span>
-            <span className="text-[#FF75B9]">♡</span>
+            <span className="text-[#79E7E5]">★</span>
           </div>
 
           {/* Heading */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-[#302432] leading-[1.08] tracking-tight font-sora">
             Hi, I{"'"}m{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] via-[#F54DAD] to-[#A993FF]">
-              Nafis!
-            </span>
+            <GlitchText as="span" className="text-[#F54DAD]">Nafis!</GlitchText>
           </h1>
 
           {/* Role Dynamic Typing */}
@@ -295,7 +294,7 @@ export default function Hero() {
           <div className="border-2 border-[#F0C8DF] rounded-2xl bg-white overflow-hidden max-w-lg mx-auto md:mx-0 shadow-[3px_3px_0px_#FFE3F1]">
             <div className="window-header px-3.5 py-1.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
               <span className="text-[10px] font-mono font-bold text-[#F54DAD] uppercase tracking-wider flex items-center gap-1">
-                <span>♡</span> CORE_TOOLBOX.SYS
+                <span>★</span> CORE_TOOLBOX.SYS
               </span>
               <div className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
@@ -377,7 +376,7 @@ export default function Hero() {
                       <span className="text-[11px] font-mono font-bold text-[#302432]">NAFIS // TOKITA</span>
                     </div>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-[#FFE3F1] text-[#F54DAD] font-bold">
-                      READY ♡
+                      READY
                     </span>
                   </div>
                 </div>
@@ -390,6 +389,8 @@ export default function Hero() {
         </div>
 
       </div>
+
+      </BootGlitch>
 
       {/* Bottom Kawaii Divider */}
       <div className="omori-divider absolute bottom-0 left-0" />

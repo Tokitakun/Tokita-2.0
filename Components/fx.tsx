@@ -135,7 +135,7 @@ export function Marquee({
             <span className={i % 2 === 0 ? "text-[#F54DAD]" : "text-[#302432]"}>
               {item}
             </span>
-            <span className="ml-8 text-[#FF75B9]">♡</span>
+            <span className="ml-8 text-[#79E7E5]">★</span>
           </span>
         ))}
       </div>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/Components/cursor";
+import { CrtOverlay } from "@/Components/glitch";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,6 +52,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-[#FFF4FA] text-[#302432] selection:bg-[#FF75B9] selection:text-[#FFFFFF] min-h-screen pl-0 md:pl-20 lg:pl-48 pb-20 md:pb-0 transition-all duration-200">
         <CustomCursor />
+        <CrtOverlay />
         {children}
       </body>
     </html>

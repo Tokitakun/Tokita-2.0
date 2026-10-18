@@ -268,6 +268,30 @@ h1, h2, h3, h4, h5, h6 {
   animation: pulse-kawaii 2s ease-in-out infinite;
 }
 
+/* Sora is loaded via <link> in layout.tsx; map the utility class */
+.font-sora {
+  font-family: 'Sora', system-ui, -apple-system, sans-serif;
+}
+.font-inter {
+  font-family: var(--font-body);
+}
+
+/* Blinking caret used by typing effect */
+@keyframes blink-kf {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-blink {
+  animation: blink-kf 1s steps(1) infinite;
+}
+@keyframes spin-slow-kf {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow-kf 3.5s linear infinite;
+}
+
 /* Reduced motion compliance */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
@@ -281,5 +305,153 @@ h1, h2, h3, h4, h5, h6 {
   .animate-kawaii-pulse {
     animation: none !important;
     transform: none !important;
+  }
+}
+
+/* ============================================================================
+   NAFIS.EXE GLITCH LAYER — NEEDY STREAMER OVERLOAD × DISTURBING GLITCH
+   Art-directed instability. All effects rare, short, and reduced-motion safe.
+   ============================================================================ */
+
+/* --- Sharp retro panels: kawaii windows get a square sibling --- */
+.kawaii-sharp {
+  border-radius: 4px;
+  box-shadow: 3px 3px 0px var(--color-border), 0 10px 26px rgba(245, 77, 173, 0.1);
+}
+.kawaii-window.kawaii-sharp,
+.kawaii-sharp {
+  border-radius: 4px;
+}
+
+/* --- GLITCH 1: Chromatic aberration (RGB channel separation) -------------- */
+.glitch-rgb {
+  position: relative;
+  display: inline-block;
+}
+.glitch-rgb::before,
+.glitch-rgb::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.08s ease;
+}
+.glitch-rgb::before {
+  color: #F54DAD;
+  transform: translate(-1.5px, 0);
+  mix-blend-mode: screen;
+}
+.glitch-rgb::after {
+  color: #79E7E5;
+  transform: translate(1.5px, 0);
+  mix-blend-mode: screen;
+}
+.glitch-rgb:hover::before,
+.glitch-rgb:hover::after,
+.glitch-rgb:focus-visible::before,
+.glitch-rgb:focus-visible::after {
+  opacity: 0.55;
+}
+
+/* --- GLITCH 2: CRT interference -----------------------------------------
+   Scanlines + grain sit on .crt-overlay (fixed, z below cursor).           */
+.crt-overlay {
+  /* scanlines */
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(48, 36, 50, 0.028) 0px,
+    rgba(48, 36, 50, 0.028) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  /* grain via layered radial dots */
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+.crt-tear {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 14px;
+  background: rgba(121, 231, 229, 0.16);
+  box-shadow: 0 0 24px rgba(169, 147, 255, 0.25);
+  animation: crt-tear-sweep 0.12s linear 1;
+}
+@keyframes crt-tear-sweep {
+  from { top: -2%; transform: scaleY(1); }
+  50%  { top: 46%; }
+  to   { top: 102%; }
+}
+.crt-tear {
+  animation: crt-tear-sweep 0.12s linear forwards;
+}
+
+/* glitch flicker for corrupted status text */
+@keyframes glitch-flicker-kf {
+  0%, 100% { opacity: 1; }
+  20% { opacity: 0.55; }
+  35% { opacity: 0.9; }
+  50% { opacity: 0.6; }
+  60% { opacity: 1; }
+  75% { opacity: 0.75; }
+}
+.glitch-flicker {
+  animation: glitch-flicker-kf 0.45s steps(2) 1;
+}
+
+/* whisper text: rises from nowhere, dissolves */
+@keyframes whisper-in {
+  0%   { opacity: 0; transform: translateY(3px); filter: blur(1px); }
+  15%  { opacity: 0.85; filter: blur(0); }
+  85%  { opacity: 0.75; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+.glitch-whisper {
+  position: fixed;
+  z-index: 9991;
+  bottom: 5.5rem;
+  right: 1.25rem;
+  max-width: 60vw;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #F54DAD;
+  text-shadow: 1px 0 0 rgba(121, 231, 229, 0.8), -1px 0 0 rgba(169, 147, 255, 0.8);
+  pointer-events: none;
+  animation: whisper-in 1.4s ease both;
+}
+
+/* --- GLITCH 4: boot distortion (one-shot, 380ms) ------------------------ */
+@keyframes boot-glitch-shift {
+  0%   { transform: translateX(0); filter: none; opacity: 1; }
+  12%  { transform: translateX(-3px); opacity: 0.85; }
+  18%  { transform: translateX(2px); }
+  24%  { transform: translateX(0); filter: hue-rotate(12deg); }
+  100% { transform: none; filter: none; }
+}
+.boot-glitch > * {
+  animation: boot-glitch-shift 0.38s steps(3) 1;
+}
+
+/* --- reduced motion: kill all glitch layer animations -------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .glitch-flicker,
+  .glitch-whisper,
+  .boot-glitch > *,
+  .crt-tear {
+    animation: none !important;
+  }
+  .crt-overlay {
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(240, 200, 223, 0.12) 0 1px,
+      transparent 1px 4px
+  );
+    mix-blend-mode: normal;
+    opacity: 0.5;
+  }
+  .glitch-rgb::before,
+  .glitch-rgb::after {
+    opacity: 0;
   }
 }

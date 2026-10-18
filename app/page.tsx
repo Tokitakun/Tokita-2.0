@@ -5,6 +5,7 @@ import Hero from "@/Components/Hero";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
 import { ScrollProgress } from "@/Components/fx";
+import { CrtOverlay, Whisper } from "@/Components/glitch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Footer />
+      <Whisper />
     </div>
   );
 }
