@@ -114,9 +114,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --font-display: var(--font-sora), system-ui, sans-serif;
-  --font-body: var(--font-inter), system-ui, sans-serif;
-  --font-mono: var(--font-mono), monospace;
+  --font-display: 'Sora', system-ui, -apple-system, sans-serif;
+  --font-body: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 * {
@@ -125,7 +125,7 @@
 }
 
 body {
-  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-body);
   color: var(--color-deep-text);
   background-color: var(--color-bg);
   min-height: 100vh;
@@ -138,7 +138,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sora), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-display);
   color: var(--color-deep-text);
   letter-spacing: -0.02em;
 }

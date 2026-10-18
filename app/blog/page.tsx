@@ -20,7 +20,7 @@ import {
   ArrowRight,
   Heart,
 } from "lucide-react";
-import NavbarBlog from "@/Components/NavbarBlog";
+import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/footer";
 
 interface Cerpen {
@@ -169,7 +169,7 @@ export default function BlogPage() {
 
   return (
     <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden pt-12">
-      <NavbarBlog />
+      <Navbar />
 
       <main className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-20 min-h-screen">
         

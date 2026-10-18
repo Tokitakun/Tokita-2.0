@@ -1,27 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/Components/cursor";
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-sora",
-  display: "swap",
-  weight: ["400", "600", "700", "800"],
-});
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
   weight: ["400", "500", "600"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  display: "swap",
-  weight: ["400", "500"],
 });
 
 export const viewport: Viewport = {
@@ -54,8 +40,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${sora.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
-      <body className="antialiased bg-[#FFF4FA] text-[#302432] selection:bg-[#FF75B9] selection:text-[#FFFFFF] min-h-screen">
+    <html lang="id" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Sora:wght@400;600;700;800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="antialiased bg-[#FFF4FA] text-[#302432] selection:bg-[#FF75B9] selection:text-[#FFFFFF] min-h-screen pl-0 md:pl-20 lg:pl-48 pb-20 md:pb-0 transition-all duration-200">
         <CustomCursor />
         {children}
       </body>

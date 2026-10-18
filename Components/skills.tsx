@@ -184,8 +184,8 @@ const Skills = () => {
         <div ref={headerRef} className="mb-14 text-center md:text-left">
           <div className="inline-flex items-center gap-2 mb-3 px-3.5 py-1.5 rounded-full bg-white border-2 border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD] shadow-[2px_2px_0px_#FFE3F1]">
             <Cpu size={14} className="text-[#FF75B9]" />
-            <span className="tracking-widest uppercase">TECH_EQUIPMENT.EXE ♡</span>
-            <span className="text-[#79E7E5]">★</span>
+            <span className="tracking-widest uppercase">TECH_EQUIPMENT.EXE</span>
+            <span className="text-[#79E7E5] font-mono">[SYS]</span>
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#302432] tracking-tight leading-tight mb-3 font-sora">
             Tools & <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">Arsenal</span>
@@ -240,7 +240,7 @@ const Skills = () => {
               <span className="text-xs font-mono font-bold text-[#302432]">LINGUISTIC_DIAGNOSTICS.EXE</span>
             </div>
             <span className="text-[10px] font-mono font-bold text-[#F54DAD] bg-white px-2 py-0.5 rounded-md border border-[#F0C8DF]">
-              STATUS: MONITORED ♡
+              STATUS: MONITORED
             </span>
           </div>
 

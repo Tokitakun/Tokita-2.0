@@ -3,15 +3,15 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { 
-  Code2, 
-  Palette, 
-  Gamepad2, 
-  BookOpen, 
-  Sparkles, 
-  ArrowRight, 
-  Compass, 
-  Terminal, 
+import {
+  Code2,
+  Palette,
+  Gamepad2,
+  BookOpen,
+  Sparkles,
+  ArrowRight,
+  Compass,
+  Terminal,
   Heart,
   Layers,
   Flame,
@@ -149,10 +149,10 @@ export default function AboutPage() {
                   // BIOGRAPHICAL DOSSIER
                 </span>
                 <h1 className="text-3xl md:text-5xl font-extrabold font-sora text-[#302432] tracking-tight">
-                  Muhammad Nafis
+                  Muhammad Dzurunnafis Khairuddin
                 </h1>
                 <p className="text-[#FF75B9] font-mono font-bold text-sm mt-1">
-                  Known online as Tokita (Tokitakun) ♡
+                  Known online as Tokita (Tokitakun)
                 </p>
               </div>
 
@@ -171,7 +171,7 @@ export default function AboutPage() {
               {/* Badges Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                 {dossierBadges.map((badge, idx) => (
-                  <div 
+                  <div
                     key={idx}
                     className={`px-3.5 py-2.5 rounded-xl border-2 font-mono text-xs flex flex-col gap-0.5 shadow-[2px_2px_0px_#F0C8DF] ${badge.color}`}
                   >
@@ -278,7 +278,7 @@ export default function AboutPage() {
               <BookOpen size={14} />
             </Link>
             <Link
-              href="/#contact"
+              href="/contact"
               className="px-5 py-2.5 rounded-xl bg-white border-2 border-[#F0C8DF] text-[#302432] font-bold text-sm hover:border-[#FF75B9] hover:bg-[#FFE3F1] transition-colors flex items-center gap-2 shadow-[3px_3px_0px_#FFE3F1]"
             >
               <span>Contact Nafis</span>

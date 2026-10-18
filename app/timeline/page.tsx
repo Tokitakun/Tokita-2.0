@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import Timeline from "@/Components/timeline";
 import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/footer";
 import { ScrollProgress } from "@/Components/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -15,10 +16,13 @@ export default function TimelinePage() {
   }, [prefersReducedMotion]);
 
   return (
-    <div ref={containerRef} className="relative min-h-screen bg-[#1A1A1A] text-[#F0EEE9] overflow-x-hidden">
+    <div ref={containerRef} className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
       <Navbar />
-      <Timeline />
+      <div className="pt-16">
+        <Timeline />
+      </div>
+      <Footer />
     </div>
   );
 }

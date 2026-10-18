@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useRef, useState, useMemo, useCallback, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowLeft, FaArrowRight, FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import { Code2, Layers, Calendar, Sparkles, X, Terminal, Heart } from "lucide-react";
+import { Code2, Layers, Calendar, X, Terminal, Cpu, Globe } from "lucide-react";
 import Image from "next/image";
+import { useSearchParams, useRouter } from "next/navigation";
 import projectsData from "../../public/data/project.json";
 import { ScrollProgress } from "@/Components/fx";
 import Navbar from "@/Components/Navbar";
@@ -149,10 +150,10 @@ const ProjectShowcase = () => {
       const gap = calculateGap(containerWidth) * 1.7;
       return {
         zIndex: 10,
-        opacity: 0.45,
-        transform: `translateX(${gap}px) translateY(24px) scale(0.74)`,
-        filter: "brightness(0.8) grayscale(0.6)",
-        transition: "all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        opacity: 0.5,
+        transform: `translateX(${gap}px) translateY(24px) scale(0.76)`,
+        filter: "brightness(0.7) grayscale(0.5)",
+        transition: "all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)",
       };
     }
 
@@ -160,211 +161,261 @@ const ProjectShowcase = () => {
       const gap = calculateGap(containerWidth) * 1.7;
       return {
         zIndex: 10,
-        opacity: 0.45,
-        transform: `translateX(-${gap}px) translateY(24px) scale(0.74)`,
-        filter: "brightness(0.8) grayscale(0.6)",
-        transition: "all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)",
+        opacity: 0.5,
+        transform: `translateX(-${gap}px) translateY(24px) scale(0.76)`,
+        filter: "brightness(0.7) grayscale(0.5)",
+        transition: "all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)",
       };
     }
 
     return {
-      zIndex: 1,
+      zIndex: 0,
       opacity: 0,
-      pointerEvents: "none" as const,
-      transform: "translateX(0px) translateY(50px) scale(0.65)",
-      transition: "all 0.6s ease",
+      transform: "translateX(0px) scale(0.5)",
+      transition: "all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)",
     };
   }
 
   if (loading) {
     return (
-      <div className="h-96 flex items-center justify-center text-[#F54DAD] font-mono text-sm">
-        INITIALIZING_PROJECT_MODULE... ♡
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-3 text-[#302432] font-mono">
+        <div className="w-6 h-6 border-2 border-[#FF75B9] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs">LOADING_CARTRIDGES.EXE...</span>
       </div>
     );
   }
 
-  if (!projects.length || !activeProject) return null;
-
   return (
-    <section id="projects" className="relative py-20 md:py-28 bg-[#FFF4FA] overflow-hidden border-t-2 border-[#F0C8DF]">
-      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10">
-        
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 border-b-2 border-[#F0C8DF] pb-4 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 mb-2 px-3.5 py-1.5 rounded-full bg-white border-2 border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD] shadow-[2px_2px_0px_#FFE3F1]">
-              <Layers size={13} className="text-[#FF75B9]" />
-              <span className="tracking-widest uppercase">CARTRIDGE_COLLECTION.EXE</span>
-              <span className="text-[#79E7E5]">★</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#302432] tracking-tight font-sora">
-              Selected <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">Projects</span>
-            </h2>
+    <div className="py-6 md:py-10">
+      {/* Sub-Header & Controls */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 border-b-2 border-[#F0C8DF] pb-4 gap-4">
+        <div>
+          <div className="inline-flex items-center gap-2 mb-2 px-3 py-1 rounded-full bg-white border border-[#F0C8DF] text-xs font-mono font-bold text-[#F54DAD]">
+            <Layers size={13} className="text-[#FF75B9]" />
+            <span className="tracking-widest uppercase">CARTRIDGE_COLLECTION.DIR</span>
+            <span className="text-[#79E7E5] font-mono">[8]</span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono font-bold text-[#806D7D] mr-2">
-              {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
-            </span>
-            <button
-              onClick={handlePrev}
-              aria-label="Previous Project"
-              className="p-3 rounded-xl bg-white border-2 border-[#F0C8DF] hover:border-[#FF75B9] hover:bg-[#FFE3F1] text-[#302432] transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
-            >
-              <FaArrowLeft size={14} />
-            </button>
-            <button
-              onClick={handleNext}
-              aria-label="Next Project"
-              className="p-3 rounded-xl bg-white border-2 border-[#F0C8DF] hover:border-[#FF75B9] hover:bg-[#FFE3F1] text-[#302432] transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
-            >
-              <FaArrowRight size={14} />
-            </button>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#302432] tracking-tight font-sora">
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF75B9] to-[#F54DAD]">Creations</span>
+          </h3>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-mono font-bold text-[#806D7D] mr-2">
+            {String(activeIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
+          </span>
+          <button
+            onClick={handlePrev}
+            aria-label="Previous Project"
+            className="p-2.5 rounded-xl bg-white border-2 border-[#F0C8DF] hover:border-[#FF75B9] hover:bg-[#FFE3F1] text-[#302432] transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
+          >
+            <FaArrowLeft size={13} />
+          </button>
+          <button
+            onClick={handleNext}
+            aria-label="Next Project"
+            className="p-2.5 rounded-xl bg-white border-2 border-[#F0C8DF] hover:border-[#FF75B9] hover:bg-[#FFE3F1] text-[#302432] transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
+          >
+            <FaArrowRight size={13} />
+          </button>
+        </div>
+      </div>
+
+      {/* Main Grid: Carousel on Left, Details on Right */}
+      <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-12 items-center min-h-[460px]">
+        {/* Carousel */}
+        <div className="relative h-[320px] sm:h-[380px] md:h-[420px] w-full flex items-center justify-center">
+          <div
+            ref={imageContainerRef}
+            className="relative w-full h-full flex items-center justify-center"
+          >
+            {projects.map((project, index) => (
+              <div
+                key={project.id}
+                className="
+                  absolute
+                  w-[280px]
+                  sm:w-[360px]
+                  md:w-[440px]
+                  lg:w-[480px]
+                  aspect-video
+                  rounded-2xl
+                  overflow-hidden
+                  shadow-[4px_4px_0px_#F0C8DF]
+                  border-2
+                  border-[#FF75B9]
+                  bg-white
+                  cursor-pointer
+                  group
+                "
+                style={getImageStyle(index)}
+                onClick={() => { setActiveIndex(index); setSelectedProject(project); }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Open details for ${project.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setActiveIndex(index);
+                    setSelectedProject(project);
+                  }
+                }}
+              >
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 500px"
+                />
+                
+                {/* Overlay hover prompt */}
+                <div className="absolute inset-0 bg-[#302432]/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[2px]">
+                  <span className="px-3 py-1.5 bg-white text-[#F54DAD] text-xs font-mono font-bold rounded-lg border border-[#FF75B9] shadow-md">
+                    VIEW_FILE.EXE [CLICK]
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Main Grid: Carousel on Left, Details on Right */}
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 lg:gap-14 items-center min-h-[500px]">
-          
-          {/* LEFT: 3D Visual Carousel */}
-          <div className="relative h-[340px] sm:h-[400px] md:h-[460px] w-full flex items-center justify-center">
-            <div
-              ref={imageContainerRef}
-              className="relative w-full h-full flex items-center justify-center"
-            >
-              {projects.map((project, index) => (
-                <div
-                  key={project.id}
-                  className="
-                    absolute
-                    w-[290px]
-                    sm:w-[380px]
-                    md:w-[460px]
-                    lg:w-[500px]
-                    aspect-video
-                    rounded-2xl
-                    overflow-hidden
-                    shadow-[6px_6px_0px_#F0C8DF]
-                    border-2
-                    border-[#FF75B9]
-                    bg-white
-                    cursor-pointer
-                    group
-                  "
-                  style={getImageStyle(index)}
-                  onClick={() => { setActiveIndex(index); setSelectedProject(project); }}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Open details for ${project.title}`}
-                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setActiveIndex(index); setSelectedProject(project); } }}
-                >
-                  {/* Window Bar atop card */}
-                  <div className="window-header px-3 py-1.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] text-[10px] font-mono font-bold text-[#F54DAD] flex items-center justify-between">
-                    <span className="truncate">★ {project.title.toUpperCase().replace(/\s+/g, '_')}.APP</span>
-                    <div className="flex items-center gap-1">
-                      <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
-                      <span className="w-2 h-2 rounded-full bg-[#79E7E5]" />
-                    </div>
-                  </div>
+        {/* Details Card */}
+        {activeProject && (
+          <div className="relative bg-white border-2 border-[#FF75B9] rounded-2xl p-6 sm:p-7 shadow-[4px_4px_0px_#F0C8DF]">
+            {/* Window title bar */}
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#F0C8DF]">
+              <span className="text-xs font-mono font-bold text-[#F54DAD]">
+                FILE_INFO: #{String(activeProject.id).padStart(2, '0')}.DAT
+              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
+                <span className="w-2 h-2 rounded-full bg-[#79E7E5]" />
+              </div>
+            </div>
 
-                  <div className="relative w-full h-[calc(100%-28px)] bg-[#FFF8FC]">
-                    <Image 
-                      src={project.image} 
-                      alt={project.title} 
-                      fill 
-                      className="object-contain transition-transform duration-500 group-hover:scale-[1.03]"
-                      priority={index === activeIndex}
-                    />
-                  </div>
-                </div>
+            <h4 className="text-xl sm:text-2xl font-extrabold text-[#302432] font-sora mb-2">
+              {activeProject.title}
+            </h4>
+
+            <p className="text-sm text-[#806D7D] font-inter leading-relaxed mb-5">
+              {activeProject.shortDesc}
+            </p>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {activeProject.tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="px-2.5 py-1 bg-[#FFF4FA] border border-[#F0C8DF] rounded-lg text-xs font-mono text-[#302432]"
+                >
+                  {tag}
+                </span>
               ))}
             </div>
-            
-            {/* Mobile Touch Controls */}
-            <div className="absolute -bottom-4 left-0 w-full flex justify-center gap-3 md:hidden">
+
+            {/* Actions */}
+            <div className="flex items-center gap-3">
               <button
-                onClick={handlePrev}
-                className="p-3 rounded-xl bg-white border-2 border-[#F0C8DF] text-[#302432] min-w-[44px] min-h-[44px] flex items-center justify-center shadow-[2px_2px_0px_#F0C8DF]"
-                aria-label="Previous Project"
+                type="button"
+                onClick={() => setSelectedProject(activeProject)}
+                className="flex-1 py-2.5 px-4 bg-[#FF75B9] hover:bg-[#F54DAD] text-white text-xs font-bold font-mono rounded-xl transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95 text-center"
               >
-                <FaArrowLeft size={14} />
+                OPEN_DETAILS.EXE
               </button>
-              <button
-                onClick={handleNext}
-                className="p-3 rounded-xl bg-white border-2 border-[#F0C8DF] text-[#302432] min-w-[44px] min-h-[44px] flex items-center justify-center shadow-[2px_2px_0px_#F0C8DF]"
-                aria-label="Next Project"
-              >
-                <FaArrowRight size={14} />
-              </button>
+              {activeProject.demo && (
+                <a
+                  href={activeProject.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 bg-white hover:bg-[#FFE3F1] border-2 border-[#F0C8DF] rounded-xl text-[#302432] hover:text-[#F54DAD] transition-all"
+                  aria-label="Live Demo"
+                >
+                  <FaExternalLinkAlt size={14} />
+                </a>
+              )}
+              {activeProject.github && (
+                <a
+                  href={activeProject.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 bg-white hover:bg-[#FFE3F1] border-2 border-[#F0C8DF] rounded-xl text-[#302432] hover:text-[#F54DAD] transition-all"
+                  aria-label="GitHub Repository"
+                >
+                  <FaGithub size={15} />
+                </a>
+              )}
             </div>
           </div>
+        )}
+      </div>
 
-          {/* RIGHT: Content Details with word reveal */}
-          <div className="flex flex-col justify-center h-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                {/* Meta Badge */}
-                <div className="flex items-center gap-3 text-xs font-mono font-bold text-[#806D7D]">
-                  <span className="flex items-center gap-1.5 px-3 py-1 bg-white rounded-lg border border-[#F0C8DF] shadow-[1px_1px_0px_#FFE3F1]">
-                    <Calendar size={12} className="text-[#F54DAD]" />
-                    {activeProject.year}
-                  </span>
+      {/* Project Details Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-[#302432]/60 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 15 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-white border-2 border-[#FF75B9] rounded-2xl shadow-[6px_6px_0px_#F0C8DF] overflow-hidden max-h-[90vh] flex flex-col"
+            >
+              {/* Modal Window Header */}
+              <div className="flex items-center justify-between px-4 py-2.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] shrink-0">
+                <span className="text-xs font-mono font-bold text-[#F54DAD]">
+                  WINDOW://{selectedProject.title.toUpperCase().replace(/\s+/g, "_")}.EXE
+                </span>
+                <button
+                  ref={closeBtnRef}
+                  type="button"
+                  onClick={() => setSelectedProject(null)}
+                  className="w-5 h-5 rounded bg-[#F54DAD] text-white flex items-center justify-center text-xs font-bold font-mono"
+                  aria-label="Close dialog"
+                >
+                  ×
+                </button>
+              </div>
 
-                  <span
-                    className={`px-3 py-1 rounded-lg border text-xs font-mono font-bold uppercase ${
-                      activeProject.status === 'live'
-                        ? 'border-[#FF75B9] text-[#F54DAD] bg-[#FFE3F1]'
-                        : 'border-[#F0C8DF] text-[#806D7D] bg-white'
-                    }`}
-                  >
-                    STATUS: {activeProject.status} ♡
-                  </span>
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto space-y-5 bg-[#FFF8FC]">
+                <div className="relative aspect-video w-full rounded-xl overflow-hidden border-2 border-[#F0C8DF]">
+                  <Image
+                    src={selectedProject.image}
+                    alt={selectedProject.title}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
 
-                {/* Title */}
-                <h3 className="text-3xl sm:text-4xl font-extrabold text-[#302432] tracking-tight font-sora">
-                  {activeProject.title}
-                </h3>
-
-                {/* Word-by-word reveal description */}
-                <div className="text-[#806D7D] leading-relaxed text-sm md:text-base min-h-[80px] font-inter">
-                  <motion.p>
-                    {(activeProject.longDesc || activeProject.shortDesc)
-                      .split(" ")
-                      .map((word, i) => (
-                        <motion.span
-                          key={i}
-                          initial={{ filter: "blur(4px)", opacity: 0 }}
-                          animate={{ filter: "blur(0px)", opacity: 1 }}
-                          transition={{ duration: 0.15, delay: 0.015 * i }}
-                          className="inline-block mr-1.5"
-                        >
-                          {word}
-                        </motion.span>
-                      ))}
-                  </motion.p>
-                </div>
-
-                {/* Tech Stack Tags */}
                 <div>
-                  <h4 className="text-[10px] font-mono font-bold text-[#F54DAD] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                    <Code2 size={12} />
-                    Built With
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {activeProject.tags.map((tag, i) => (
+                  <h3 className="text-xl font-bold font-sora text-[#302432] mb-1">
+                    {selectedProject.title}
+                  </h3>
+                  <p className="text-xs font-mono text-[#806D7D] mb-3">
+                    YEAR: {selectedProject.year} | STATUS: {selectedProject.status.toUpperCase()}
+                  </p>
+                  <p className="text-sm font-inter text-[#806D7D] leading-relaxed">
+                    {selectedProject.longDesc || selectedProject.shortDesc}
+                  </p>
+                </div>
+
+                <div>
+                  <span className="text-xs font-mono font-bold text-[#302432] block mb-2">
+                    TECHNOLOGIES USED:
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {selectedProject.tags.map((tag, i) => (
                       <span
                         key={i}
-                        className="px-2.5 py-1 bg-white border border-[#F0C8DF] rounded-lg text-xs text-[#302432] font-mono font-semibold shadow-[1px_1px_0px_#FFE3F1]"
+                        className="px-2.5 py-1 bg-white border border-[#F0C8DF] rounded-lg text-xs font-mono text-[#302432]"
                       >
                         {tag}
                       </span>
@@ -372,191 +423,175 @@ const ProjectShowcase = () => {
                   </div>
                 </div>
 
-                {/* Action Buttons: High contrast & tactile */}
-                <div className="flex gap-4 pt-2">
-                  <a 
-                    href={activeProject.demo} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#FF75B9] hover:bg-[#F54DAD] text-white text-xs md:text-sm font-bold rounded-xl transition-all shadow-[3px_3px_0px_#F0C8DF] active:scale-95"
-                  >
-                    <FaExternalLinkAlt size={13} />
-                    Live Demo
-                  </a>
-
-                  <a 
-                    href={activeProject.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 py-3 bg-white hover:bg-[#FFE3F1] border-2 border-[#F0C8DF] hover:border-[#FF75B9] text-[#302432] hover:text-[#F54DAD] text-xs md:text-sm font-bold rounded-xl transition-all shadow-[3px_3px_0px_#F0C8DF] active:scale-95"
-                  >
-                    <FaGithub size={15} />
-                    Source Code
-                  </a>
-                </div>
-
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-        </div>
-      </div>
-      
-      {/* Project Detail Window Modal */}
-      <AnimatePresence>
-        {selectedProject && (
-          <motion.div
-            key="project-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#302432]/60 backdrop-blur-sm"
-            onClick={() => setSelectedProject(null)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={`Detail project ${selectedProject.title}`}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="relative bg-white border-2 border-[#FF75B9] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-[8px_8px_0px_#F0C8DF] flex flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Window Header */}
-              <div className="window-header px-4 py-2.5 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Terminal size={14} className="text-[#F54DAD]" />
-                  <span className="text-xs font-mono font-bold text-[#302432] truncate max-w-[240px] sm:max-w-sm">
-                    {selectedProject.title.toUpperCase().replace(/\s+/g, "_")}.APP
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-1.5 hidden sm:flex">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#FF75B9]" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#79E7E5]" />
-                  </div>
-                  <button
-                    ref={closeBtnRef}
-                    type="button"
-                    onClick={() => setSelectedProject(null)}
-                    className="w-5 h-5 rounded-md bg-[#F54DAD] text-white flex items-center justify-center text-xs font-bold hover:bg-[#FF75B9] transition-colors"
-                    aria-label="Close project modal"
-                  >
-                    ×
-                  </button>
-                </div>
-              </div>
-
-              {/* Scrollable body */}
-              <div className="overflow-y-auto flex-1">
-                {selectedProject.image && (
-                  <div className="relative w-full h-48 sm:h-64 bg-[#FFF8FC] border-b border-[#F0C8DF]">
-                    <Image
-                      src={selectedProject.image}
-                      alt={selectedProject.title}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 768px) 100vw, 672px"
-                    />
-                  </div>
-                )}
-
-                <div className="p-5 sm:p-6 space-y-5">
-                  <div className="flex items-center gap-2.5 flex-wrap text-xs font-mono font-bold text-[#806D7D]">
-                    <span className="flex items-center gap-1.5 px-3 py-1 bg-[#FFE3F1] rounded-lg border border-[#F0C8DF]">
-                      <Calendar size={12} className="text-[#F54DAD]" />
-                      {selectedProject.year}
-                    </span>
-                    <span
-                      className={`px-3 py-1 rounded-lg border uppercase ${
-                        selectedProject.status === 'live'
-                          ? 'border-[#FF75B9] text-[#F54DAD] bg-[#FFE3F1]'
-                          : 'border-[#F0C8DF] text-[#806D7D] bg-white'
-                      }`}
-                    >
-                      STATUS: {selectedProject.status} ♡
-                    </span>
-                  </div>
-
-                  <div>
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-[#302432] tracking-tight mb-2 font-sora">
-                      {selectedProject.title}
-                    </h3>
-                    <p className="text-[#806D7D] leading-relaxed text-sm md:text-base font-inter">
-                      {selectedProject.longDesc || selectedProject.shortDesc}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="text-[10px] font-mono font-bold text-[#F54DAD] uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
-                      <Code2 size={12} />
-                      Built With
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedProject.tags.map((tag, i) => (
-                        <span
-                          key={i}
-                          className="px-2.5 py-1 bg-[#FFF4FA] border border-[#F0C8DF] rounded-lg text-xs text-[#302432] font-mono font-semibold"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 pt-2">
+                <div className="flex gap-3 pt-2">
+                  {selectedProject.demo && (
                     <a
                       href={selectedProject.demo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#FF75B9] hover:bg-[#F54DAD] text-white text-xs md:text-sm font-bold rounded-xl transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#FF75B9] hover:bg-[#F54DAD] text-white text-xs font-bold font-mono rounded-xl transition-all shadow-[2px_2px_0px_#F0C8DF]"
                     >
-                      <FaExternalLinkAlt size={13} />
-                      Live Demo
+                      <FaExternalLinkAlt size={12} />
+                      RUN_DEMO.EXE
                     </a>
+                  )}
+                  {selectedProject.github && (
                     <a
                       href={selectedProject.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-white hover:bg-[#FFE3F1] border-2 border-[#F0C8DF] text-[#302432] hover:text-[#F54DAD] text-xs md:text-sm font-bold rounded-xl transition-all shadow-[2px_2px_0px_#F0C8DF] active:scale-95"
+                      className="flex-1 flex items-center justify-center gap-2 py-3 bg-white hover:bg-[#FFE3F1] border-2 border-[#F0C8DF] text-[#302432] hover:text-[#F54DAD] text-xs font-bold font-mono rounded-xl transition-all shadow-[2px_2px_0px_#F0C8DF]"
                     >
-                      <FaGithub size={15} />
-                      Source Code
+                      <FaGithub size={14} />
+                      SOURCE_CODE
                     </a>
-                  </div>
+                  )}
                 </div>
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <div className="omori-divider absolute bottom-0 left-0" />
-    </section>
+    </div>
   );
 };
 
 export { ProjectShowcase };
 
-export default function ProjectsPage() {
+interface UnifiedWorkspaceProps {
+  defaultFolder?: "projects" | "skills";
+}
+
+export function UnifiedWorkspace({ defaultFolder = "projects" }: UnifiedWorkspaceProps) {
+  const searchParams = useSearchParams();
+  const folderParam = searchParams.get("folder");
+  const [activeFolder, setActiveFolder] = useState<"projects" | "skills">(
+    folderParam === "skills" || defaultFolder === "skills" ? "skills" : "projects"
+  );
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();
 
+  // Sync folder state when query param changes
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
-  }, [prefersReducedMotion]);
+    if (folderParam === "skills") {
+      setActiveFolder("skills");
+    } else if (folderParam === "projects") {
+      setActiveFolder("projects");
+    }
+  }, [folderParam]);
+
+  const switchFolder = (folder: "projects" | "skills") => {
+    setActiveFolder(folder);
+    const url = new URL(window.location.href);
+    url.searchParams.set("folder", folder);
+    window.history.replaceState({}, "", url.toString());
+  };
 
   return (
     <div ref={containerRef} className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
       <Navbar />
-      <div className="pt-16">
-        <Skills />
-        <ProjectShowcase />
-      </div>
+
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 pt-8 md:pt-12 pb-20">
+        {/* Main Desktop Folder Window */}
+        <div className="bg-white border-2 border-[#FF75B9] rounded-2xl shadow-[6px_6px_0px_#F0C8DF] overflow-hidden">
+          {/* Top Window Titlebar */}
+          <div className="px-4 py-3 bg-[#FFE3F1] border-b-2 border-[#F0C8DF] flex items-center justify-between">
+            <div className="flex items-center gap-2 font-mono text-xs font-bold text-[#302432]">
+              <span className="text-[#F54DAD]">C:\NAFIS\ARCHIVES</span>
+              <span className="text-[#806D7D]">//</span>
+              <span className="px-2 py-0.5 rounded bg-white border border-[#F0C8DF] text-[#F54DAD]">
+                {activeFolder === "projects" ? "PROJECTS.DIR" : "SKILLS.DIR"}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-[#806D7D] hidden sm:inline">
+                EXPLORER_v2.6
+              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#FF75B9]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#79E7E5]" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#F0C8DF]" />
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Folder Navigation Tabs */}
+          <div className="flex items-center px-4 pt-3 border-b-2 border-[#F0C8DF] bg-[#FFF8FC] gap-2 overflow-x-auto">
+            {/* PROJECTS FOLDER TAB */}
+            <button
+              type="button"
+              onClick={() => switchFolder("projects")}
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-t-xl font-mono text-xs font-bold transition-all border-t-2 border-x-2 -mb-[2px] ${
+                activeFolder === "projects"
+                  ? "bg-white text-[#F54DAD] border-[#FF75B9] border-b-2 border-b-white z-10 shadow-[0_-2px_6px_rgba(245,77,173,0.1)]"
+                  : "bg-[#FFE3F1]/70 text-[#806D7D] border-[#F0C8DF] hover:bg-[#FFE3F1] hover:text-[#302432]"
+              }`}
+            >
+              <span className="px-1.5 py-0.5 rounded bg-[#FFF4FA] border border-[#F0C8DF] text-[10px]">
+                DIR
+              </span>
+              <span>PROJECTS</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#FFE3F1] text-[#F54DAD] border border-[#F0C8DF]">
+                8
+              </span>
+            </button>
+
+            {/* SKILLS FOLDER TAB */}
+            <button
+              type="button"
+              onClick={() => switchFolder("skills")}
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-t-xl font-mono text-xs font-bold transition-all border-t-2 border-x-2 -mb-[2px] ${
+                activeFolder === "skills"
+                  ? "bg-white text-[#F54DAD] border-[#FF75B9] border-b-2 border-b-white z-10 shadow-[0_-2px_6px_rgba(245,77,173,0.1)]"
+                  : "bg-[#FFE3F1]/70 text-[#806D7D] border-[#F0C8DF] hover:bg-[#FFE3F1] hover:text-[#302432]"
+              }`}
+            >
+              <span className="px-1.5 py-0.5 rounded bg-[#FFF4FA] border border-[#F0C8DF] text-[10px]">
+                DIR
+              </span>
+              <span>SKILLS</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#FFE3F1] text-[#F54DAD] border border-[#F0C8DF]">
+                24
+              </span>
+            </button>
+          </div>
+
+          {/* Folder Content Area */}
+          <div className="p-4 sm:p-6 md:p-8 bg-white min-h-[500px]">
+            {activeFolder === "projects" ? (
+              <ProjectShowcase />
+            ) : (
+              <div className="-mt-8">
+                <Skills />
+              </div>
+            )}
+          </div>
+
+          {/* Window Status Bar */}
+          <div className="px-4 py-2 bg-[#FFE3F1] border-t-2 border-[#F0C8DF] flex items-center justify-between font-mono text-[10px] text-[#806D7D]">
+            <span>DIRECTORY: C:\NAFIS\{activeFolder.toUpperCase()}</span>
+            <span>STATUS: ACTIVE_FOLDER_MOUNTED</span>
+          </div>
+        </div>
+      </main>
+
       <Footer />
     </div>
+  );
+}
+
+export default function ProjectsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FFF4FA] flex items-center justify-center font-mono text-xs text-[#302432]">
+          MOUNTING_DESKTOP_WORKSPACE.EXE...
+        </div>
+      }
+    >
+      <UnifiedWorkspace defaultFolder="projects" />
+    </Suspense>
   );
 }

@@ -270,15 +270,15 @@ export default function Hero() {
           {/* Action CTAs */}
           <div className="flex flex-wrap gap-4 justify-center md:justify-start pt-2">
             <Magnetic strength={0.25}>
-              <a 
-                href="#projects" 
+              <Link 
+                href="/project" 
                 className="px-6 py-3.5 bg-[#FF75B9] hover:bg-[#F54DAD] text-white font-bold rounded-xl transition-all shadow-[4px_4px_0px_#F0C8DF] hover:shadow-[2px_2px_0px_#F0C8DF] hover:translate-x-[2px] hover:translate-y-[2px] flex items-center gap-2 active:scale-95 text-sm md:text-base"
                 data-cursor="hover"
               >
                 <Compass size={18} />
                 <span>Explore My Projects</span>
                 <ArrowRight size={16} />
-              </a>
+              </Link>
             </Magnetic>
 
             <Link 
