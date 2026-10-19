@@ -457,97 +457,46 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ============================================================================
-   CORRUPTION MODE — easter egg palette shift (triggered after 30s/session)
-   Theme applied via .corrupt-active on <html>. Token overrides + a light
-   crimson overlay; hard-coded hex literals in components are intentionally
-   left untouched (they sit above the overlay on pink surfaces).
+   CORRUPTION MODE — ACCENT-ONLY overrides. These NEVER change the page theme.
+   The normal pink design (background, surfaces, text) stays identical.
+   Crimson/maroon appear only on glitched elements and status indicators.
    ============================================================================ */
 
-/* Dark pink / crimson / maroon token set applied at root level. */
-.corrupt-active {
-  --color-bg: #2A0F1C;
-  --color-surface: #3B1A29;
-  --color-surface-pink: #4A2035;
-  --color-surface-soft: #341527;
-  --color-primary-pink: #B0395B;
-  --color-accent-pink: #C81E4A;
-  --color-deep-text: #F5DCE7;
-  --color-secondary-text: #D9A8BE;
-  --color-border: #5C2C40;
-  --color-border-strong: #B0395B;
-  --color-cyber-cyan: #55606B;
-  --color-pixel-purple: #7A6B8F;
-  --color-success: #4E9A7D;
-  --color-warning: #C28B45;
-
-  --background: #2A0F1C;
-  --foreground: #F5DCE7;
-  --card: #3B1A29;
-  --card-foreground: #F5DCE7;
-  --popover: #3B1A29;
-  --popover-foreground: #F5DCE7;
-  --primary: #B0395B;
-  --primary-foreground: #FFFFFF;
-  --secondary: #4A2035;
-  --secondary-foreground: #F5DCE7;
-  --muted: #4A2035;
-  --muted-foreground: #D9A8BE;
-  --accent: #C81E4A;
-  --accent-foreground: #FFFFFF;
-  --destructive: #C81E4A;
-  --border: #5C2C40;
-  --input: #5C2C40;
-  --ring: #C81E4A;
-
-  --pure-black: #F5DCE7;
-  --white: #3B1A29;
-  --off-white: #2A0F1C;
-  --pale-gray: #341527;
-  --text: #F5DCE7;
-  --text-heading: #F5DCE7;
-  --text-dim: #D9A8BE;
+/* Glitched status text and decorative small labels use crimson accents. */
+.glitch-armed text-glitch-red,
+.corrupt-active .text-glitch-red,
+.glitch-impulse-status,
+.glitch-impulse-label {
+  color: #C81E4A;
 }
 
-/* Body + headings follow tokens. */
-.corrupt-active body {
-  color: var(--color-deep-text);
-  background-color: var(--color-bg);
+/* --- system status indicator: swap normal for corruption message ---------- */
+.corrupt-active .corrupt-hide,
+.glitch-armed.glitch-impulse-status .corrupt-hide {
+  display: none !important;
 }
-.corrupt-active h1,
-.corrupt-active h2,
-.corrupt-active h3,
-.corrupt-active h4,
-.corrupt-active h5,
-.corrupt-active h6 {
-  color: var(--color-deep-text);
+.corrupt-active .corrupt-indicator,
+.corrupt-active .corrupt-indicator-mobile,
+.glitch-armed.glitch-impulse-status .corrupt-indicator,
+.glitch-armed.glitch-impulse-status .corrupt-indicator-mobile {
+  display: inline-flex !important;
+  color: #C81E4A;
+  letter-spacing: 0.08em;
+  text-shadow: 1px 0 0 rgba(121, 231, 229, 0.5), -1px 0 0 rgba(200, 30, 74, 0.5);
 }
-
-/* Maps all token-driven text to the crimson paper palette. */
-.corrupt-active ::selection {
-  background: #C81E4A;
-  color: #FFF;
+.corrupt-active .corrupt-status-tray,
+.glitch-armed.glitch-impulse-status .corrupt-status-tray {
+  justify-content: center;
+  border-color: #C81E4A;
 }
-
-/* Scrollbar picks up the dark palette. */
-.corrupt-active ::-webkit-scrollbar-track {
-  background: #4A2035;
-  border-color: #5C2C40;
-}
-.corrupt-active ::-webkit-scrollbar-thumb {
-  background: #B0395B;
-  border-color: #4A2035;
+.corrupt-active .corrupt-indicator-mobile {
+  flex: 1;
+  color: #C81E4A !important;
 }
 
-/* --- static scanline in corrupted mode ---------------------------------- */
-.corrupt-active .crt-overlay {
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 120, 160, 0.06) 0 1px,
-    transparent 1px 3px
-  );
-}
+/* Static scanline stays part of the NORMAL design (never a dark theme). */
 
-/* --- corruption burst transition ------------------------------------------ */
+/* Corruption burst displacement keyframes (shared by impulse classes). */
 @keyframes corrupt-burst-shift {
   0%   { transform: translateX(-2px); }
   15%  { transform: translateX(3px); filter: hue-rotate(40deg); }
@@ -556,75 +505,17 @@ h1, h2, h3, h4, h5, h6 {
   60%  { transform: translateX(-1px); filter: none; }
   100% { transform: translateX(0); }
 }
-.corrupt-glitching main,
-.corrupt-glitching section {
-  animation: corrupt-burst-shift 1.6s steps(5) 1;
-}
-
-/* Full-viewport single-pass overlay during the transition. Removed by the
-   effect after ~1.6s, so it never lingers on the page. */
-.corrupt-burst {
-  position: fixed;
-  inset: 0;
-  z-index: 9995;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      rgba(200, 30, 74, 0.16) 0 2px,
-      rgba(0, 0, 0, 0) 2px 28px
-    ),
-    linear-gradient(90deg, rgba(200, 30, 74, 0.12), rgba(80, 20, 50, 0.16));
-  mix-blend-mode: multiply;
-  animation: corrupt-burst-shift 1.6s steps(6) 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .corrupt-burst,
-  .corrupt-glitching main,
-  .corrupt-glitching section {
-    animation: none !important;
-  }
-}
-
-/* Hard-coded hex surfaces inside cards/panels: darken them via a brightness
-   pass so the crimson theme reads consistently without editing components. */
-.corrupt-active :where(.bg-white, .bg-\[#FFF8FC\], .bg-\[#FFFFFF\], .bg-\[#FFE3F1\], .bg-\[#FFF4FA\], .bg-\[#F0C8DF\]) {
-  filter: saturate(1.25) hue-rotate(-12deg) brightness(0.82);
-}
-/* Pink text stays legible over the darkened pink paper. */
-.corrupt-active :where(.text-\[#302432\], .text-\[#806D7D\]) {
-  color: #F0E0EA;
-}
-
-/* --- system status indicator: swap normal for corruption message ---------- */
-.corrupt-active .corrupt-hide {
-  display: none !important;
-}
-.corrupt-active .corrupt-indicator,
-.corrupt-active .corrupt-indicator-mobile {
-  display: inline-flex !important;
-  color: #FF5C8A;
-  letter-spacing: 0.08em;
-}
-.corrupt-active .corrupt-status-tray {
-  justify-content: center;
-}
-.corrupt-active .corrupt-indicator-mobile {
-  flex: 1;
-  color: #FF5C8A !important;
-}
 
 /* ============================================================================
    PROGRESSIVE GLITCH — impulse classes driven by the global controller
    (components/glitch-controller.tsx). Each class is added transiently to
    <html> and removed after its duration; effects are short, bounded, and
-   all gated behind .glitch-armed (first 30s are always clean).
+   all gated behind .glitch-armed (first 15s are always clean).
    ============================================================================ */
 
 /* --- GLITCH GATE ------------------------------------------------------------
    Without .glitch-armed on <html>, no impulse animation or visible anomaly may
-   occur. This is the hard enforcement of the 30s clean window. */
+   occur. This is the hard enforcement of the 15s clean window. */
 html:not(.glitch-armed) .glitch-rgb::before,
 html:not(.glitch-armed) .glitch-rgb::after {
   opacity: 0 !important;
@@ -724,13 +615,118 @@ html.glitch-armed.glitch-phase-corrupted .glitch-rgb::after {
   opacity: 0.3;
 }
 
+/* --- stripe: vertical dark NSO band sweeping left -> right -------------------- */
+html.glitch-armed.glitch-impulse-stripe::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: -20%;
+  width: 18%;
+  z-index: 9993;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(200, 30, 74, 0.20), rgba(42, 15, 28, 0.10), rgba(200, 30, 74, 0.20));
+  mix-blend-mode: multiply;
+  animation: stripe-sweep 0.8s steps(6) 1;
+}
+@keyframes stripe-sweep {
+  from { left: -20%; }
+  to   { left: 110%; }
+}
+
+/* --- corrupted veil: slight darkening wash over the page (alpha only) ----------
+   Arrives >55s, pointer-events none, never makes content unreadable. */
+html.glitch-armed.glitch-phase-corrupted::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9991;
+  pointer-events: none;
+  background: radial-gradient(
+    130% 100% at 50% 0%,
+    rgba(42, 15, 28, 0.05) 0%,
+    rgba(42, 15, 28, 0.12) 55%,
+    rgba(42, 15, 28, 0.18) 100%
+  );
+}
+/* veil grows slowly with time via an additive transition on opacity only */
+html.glitch-armed.glitch-phase-corrupted::after {
+  transition: opacity 1s ease;
+  animation: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  html.glitch-armed .crt-tear-layer,
+/* ─── Project Explorer + Floating Window corruption stages ────────────────── */
+
+.explorer-initial { filter: saturate(0.85) brightness(0.97); }
+.explorer-corrupt { filter: saturate(0.75) brightness(0.88); }
+.explorer-deep {
+  filter: saturate(0.6) brightness(0.75) sepia(0.15);
+  background: rgba(48, 36, 50, 0.05);
+}
+.explorer-severe {
+  filter: saturate(0.4) brightness(0.6) sepia(0.25);
+  background: rgba(48, 36, 50, 0.12);
+}
+.explorer-max {
+  filter: saturate(0.2) brightness(0.45) sepia(0.35);
+  background: rgba(20, 10, 15, 0.2);
+}
+
+/* Project floating windows corruption */
+.proj-win-initial .bg-\[\#FFE3F1\] { background: #e8d4e4; }
+.proj-win-initial .border-\[\#FF75B9\] { border-color: #c84080; }
+.proj-win-initial .text-\[\#F54DAD\] { color: #a01860; }
+
+.proj-win-corrupt .bg-\[\#FFE3F1\],
+.proj-win-corrupt .bg-\[\#FFF8FC\] { background: #1e1025; }
+.proj-win-corrupt .bg-white { background: #12081a; }
+.proj-win-corrupt { border-color: #8b0030 !important; }
+.proj-win-corrupt .text-\[\#30\] { color: #ddb8d8; }
+.proj-win-corrupt .text-\[\#80\] { color: #8b4060; }
+
+.proj-win-deep {
+  border-color: #5c0020 !important;
+  box-shadow: 4px 4px 0px #3d0018, 0 0 12px rgba(139, 0, 48, 0.4) !important;
+}
+.proj-win-deep .bg-\[\#FFE3F1\],
+.proj-win-deep .bg-\[\#FFF8FC\] { background: #11081a; }
+.proj-win-deep .bg-white { background: #0a0510; color: #cc88c0; }
+
+.proj-win-severe { border-color: #3d0018 !important; }
+.proj-win-severe .bg-\[\#FFE3F1\],
+.proj-win-severe .bg-\[\#FFF8FC\] { background: #0a0310; }
+.proj-win-severe .bg-white { background: #050208; color: #aa66aa; }
+.proj-win-severe .text-\[\#30\] { color: #cc88c0; }
+.proj-win-severe .text-\[\#79\] { color: #ff00aa; }
+
+.proj-win-max { border-color: #1a0008 !important; }
+.proj-win-max .bg-\[\#FFE3F1\],
+.proj-win-max .bg-\[\#FFF8FC\],
+.proj-win-max .bg-white { background: #030106; }
+.proj-win-max .text-\[\#30\] { color: #ff88cc; }
+.proj-win-max .text-\[\#F54DAD\] { color: #ff00aa; }
+
+/* Scanline overlay for corrupted explorer */
+.explorer-deep::after,
+.explorer-severe::after,
+.explorer-max::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: repeating-linear-gradient(
+    0deg, transparent 0px, transparent 2px,
+    rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px
+  );
+}
+.explorer-max::after { background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.18) 1px, rgba(0,0,0,0.18) 3px); }
+
+html.glitch-armed .crt-tear-layer,
   html.glitch-armed.glitch-impulse-band::before,
   html.glitch-armed.glitch-impulse-text .glitch-rgb::before,
   html.glitch-armed.glitch-impulse-text .glitch-rgb::after,
   html.glitch-armed.glitch-impulse-first main,
-  html.glitch-armed.glitch-impulse-first h1::after {
+  html.glitch-armed.glitch-impulse-first h1::after,
+  html.glitch-armed.glitch-impulse-stripe::before {
     animation: none !important;
   }
   html:not(.glitch-armed) .glitch-rgb::before,

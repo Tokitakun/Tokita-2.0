@@ -114,7 +114,7 @@ export default function AboutPage() {
                 <div className="relative rounded-2xl overflow-hidden border-2 border-[#FF75B9] bg-[#FFF8FC] p-2 shadow-[4px_4px_0px_#F0C8DF]">
                   <div className="relative aspect-[4/5] rounded-xl overflow-hidden bg-white">
                     <Image
-                      src="/profil.jpg"
+                      src="/nafis.webp"
                       alt="Muhammad Dzurunnafis Khairuddin"
                       fill
                       className="object-cover transition-transform duration-500 hover:scale-105"

@@ -5,26 +5,29 @@ import { useEffect } from "react";
 // ============================================================================
 // PROGRESSIVE GLITCH CONTROLLER — single elapsed-time authority for the whole
 // portfolio. Every glitch-capable component reads phase/armed state from here
-// (via the <html> classes it sets), never from its own 30s timer.
+// (via the <html> classes it sets), never from its own timer.
 //
 // Timeline per browser tab (sessionStorage `nafis_exe_session_start`):
-//   0-30s        NORMAL       fully clean, no glitch-capable effect fires
-//   ~30s         FIRST_ANOMALY one short, subtle incident (< 2s)
-//   >45s         UNSTABLE     intermittent disturbances, randomized quiet gaps
-//   >90s         CORRUPTED    more frequent + slightly stronger, still bounded
+//   0-15s        NORMAL       fully clean, identical to the normal design
+//   15s          FIRST_ANOMALY one short glitch burst (1-2s), then calm
+//   >40s         UNSTABLE     intermittent disturbances, randomized quiet gaps
+//   >80s         CORRUPTED    more frequent + varied, still bounded
+//
+// Corruption NEVER changes the page theme. Normal pink palette stays; red
+// accents appear only on affected elements during impulses.
 //
 // Elapsed time is computed from a stored epoch timestamp, so refresh, route
-// change and background throttling are all honored: the 30s window does NOT
+// change and background throttling are all honored: the 15s window does NOT
 // restart and a backlog of missed effects is not replayed.
 // ============================================================================
 
 export const GLITCH = {
-  normalMs: 30_000, // clean phase length — verified: nothing glitchy before this
-  unstableMs: 45_000, // intermittent disturbances begin
-  corruptedMs: 90_000, // stronger bound disturbances begin
-  firstImpulseMs: 1_400, // first anomaly duration
-  minQuietMs: 14_000, // quiet gap floor between impulses (base range)
-  maxQuietMs: 38_000, // quiet gap ceiling (base range)
+  normalMs: 15_000, // clean phase: 0-15s, identical to current normal design
+  unstableMs: 28_000, // intermittent disturbances begin right after first anomaly
+  corruptedMs: 55_000, // stronger bound disturbances + dark NSO veil begin
+  firstImpulseMs: 1_500, // first anomaly duration (1.5s) at second 15
+  minQuietMs: 5_000, // quiet gap floor between impulses
+  maxQuietMs: 12_000, // quiet gap ceiling (low = visible, still gapped)
 } as const;
 
 export type GlitchPhase = "normal" | "first_anomaly" | "unstable" | "corrupted";
@@ -60,18 +63,18 @@ function phaseFor(elapsed: number): GlitchPhase {
 /**
  * Applies the authoritative state to <html> so CSS + components can react
  * without extra subscriptions:
- *   glitch-armed            elapsed >= 30s (all glitch-capable effects gate on this)
+ *   glitch-armed            elapsed >= 15s (all glitch-capable effects gate on this)
  *   glitch-phase-unstable   intermittent disturbances enabled
- *   glitch-phase-corrupted  stronger disturbances + corrupted palette (html.corrupt-active)
- * The burst overlay / impulse classes are added transiently by the scheduler.
+ *   glitch-phase-corrupted  more frequent, stronger disturbances
+ * IMPORTANT: corruption NEVER changes the global palette. The normal pink
+ * design stays intact; crimson/maroon accents appear only inside glitch
+ * effects and status indicators (see CSS), never on the page theme.
  */
 function applyState(phase: GlitchPhase, armed: boolean) {
   const root = document.documentElement;
   root.classList.toggle("glitch-armed", armed);
   root.classList.toggle("glitch-phase-unstable", phase === "unstable" || phase === "corrupted");
   root.classList.toggle("glitch-phase-corrupted", phase === "corrupted");
-  // Corruption Mode palette (existing feature) lights up only in CORRUPTED.
-  root.classList.toggle("corrupt-active", phase === "corrupted");
 }
 
 /**
@@ -82,7 +85,11 @@ function fireImpulse(kind: string, onComplete: () => void) {
   const root = document.documentElement;
   root.classList.add(`glitch-impulse-${kind}`);
   const dur =
-    kind === "first" ? GLITCH.firstImpulseMs : 420 + Math.random() * 700;
+    kind === "first"
+      ? GLITCH.firstImpulseMs
+      : kind === "stripe" || kind === "band" || kind === "tear"
+        ? 700 + Math.random() * 500 // 0.7-1.2s, clearly visible
+        : 420 + Math.random() * 700;
   window.setTimeout(() => {
     root.classList.remove(`glitch-impulse-${kind}`);
     onComplete();
@@ -129,26 +136,30 @@ export default function GlitchController() {
     const interval = window.setInterval(check, 1000);
 
     // ---- UNSTABLE / CORRUPTED scheduler: controlled impulses with quiet gaps ----
+    // Impulses fire from 15s onward (all armed phases), never just before.
     let loop = true;
     if (!reduced) {
-      const impulses = ["text", "band", "tear", "status", "label"];
-      const schedule = (minMs: number, maxMs: number) =>
-        minMs + Math.random() * (maxMs - minMs);
+      const impulses = ["text", "band", "tear", "status", "label", "stripe"];
+      const pick = () => {
+        // corrupted favours the stronger ones
+        const pool = phase === "corrupted"
+          ? ["text", "band", "tear", "tear", "stripe", "stripe", "label"]
+          : impulses;
+        return pool[Math.floor(Math.random() * pool.length)];
+      };
+      const gapFor = (p: GlitchPhase) => {
+        if (p === "corrupted") return 2_500 + Math.random() * 2_500; // 2.5-5s
+        if (p === "unstable") return 4_000 + Math.random() * 4_000; // 4-8s
+        return 6_000 + Math.random() * 5_000; // first_anomaly 6-11s
+      };
       const tick = () => {
         if (!loop) return;
-        if ((phase === "unstable" || phase === "corrupted") && armed) {
-          // intensity: corrupted allows slightly faster cadence
-          const baseGap =
-            phase === "corrupted" ? 8_000 : 14_000;
-          const kind = impulses[Math.floor(Math.random() * impulses.length)];
-          fireImpulse(kind, () => {
-            impulseTimer = window.setTimeout(
-              tick,
-              schedule(baseGap, baseGap + 12_000)
-            );
+        if (armed && phase !== "normal") {
+          fireImpulse(pick(), () => {
+            impulseTimer = window.setTimeout(tick, gapFor(phase));
           });
         } else {
-          impulseTimer = window.setTimeout(tick, schedule(2_000, 4_000));
+          impulseTimer = window.setTimeout(tick, 1_000);
         }
       };
       tick();

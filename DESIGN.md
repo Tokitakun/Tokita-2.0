@@ -88,10 +88,12 @@ Progressive instability is driven by ONE controller: `components/glitch-controll
 
 | Phase | Elapsed | Behaviour |
 |---|---|---|
-| `NORMAL` | 0–30s | Fully clean. No glitch, flicker, RGB split, scanline interference, corrupted text or message. Pink identity, crisp type. |
-| `FIRST_ANOMALY` | ~30s | One short subtle incident (RGB split on a heading + tiny offset), then calm. |
-| `UNSTABLE` | >45s | Intermittent disturbances with quiet gaps (chromatic aberration, bands, tear, status label flicker, whispers). |
-| `CORRUPTED` | >90s | More frequent but still bounded events; corrupted palette token set lights up (`html.corrupt-active`). |
+| `NORMAL` | 0–15s | Fully clean, identical to the normal design. No glitch, RGB split, corrupted text or message. Pink identity. |
+| `FIRST_ANOMALY` | 15s | One short glitch burst (~1.5s), then calm. |
+| `UNSTABLE` | >28s | Intermittent disturbances with quiet gaps (4–8s). |
+| `CORRUPTED` | >55s | More frequent (2.5–5s), stronger variants; a faint dark NSO veil fades in over the page (alpha only, never unreadable). |
+
+**Corruption NEVER darkens the page theme.** The normal pink design (background, surfaces, text, tokens) is preserved. Crimson/maroon and the veil appear only as alpha overlays inside glitch effects and status indicators.
 
 ### Per-tab session persistence
 - Session epoch stored in `sessionStorage` (`nafis_exe_session_start`).

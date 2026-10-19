@@ -92,6 +92,8 @@ const LANGUAGES = [
   { name: "Arabic", level: 25, label: "Elementary" },
 ];
 
+export const SKILLS_COUNT = TECH_STACK.reduce((sum, g) => sum + g.items.length, 0) + LANGUAGES.length;
+
 const TechNode = ({ item }: { item: any }) => {
   return (
     <div 
