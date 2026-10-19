@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Timeline from "@/Components/timeline";
-import Navbar from "@/Components/Navbar";
-import Footer from "@/Components/footer";
-import { ScrollProgress } from "@/Components/fx";
+import Timeline from "@/components/sections/timeline";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
+import { ScrollProgress } from "@/components/layout/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function TimelinePage() {

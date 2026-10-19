@@ -16,10 +16,10 @@ import {
   Flame,
   User,
 } from "lucide-react";
-import Navbar from "@/Components/Navbar";
-import Footer from "@/Components/footer";
-import { ScrollProgress, TiltCard } from "@/Components/fx";
-import { GlitchText } from "@/Components/glitch";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
+import { ScrollProgress, TiltCard } from "@/components/layout/fx";
+import { GlitchText } from "@/components/layout/glitch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function AboutPage() {

@@ -2,14 +2,10 @@
 
 import { useState, useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
-<<<<<<< HEAD:Components/Navbar.tsx
 import { usePathname, useSearchParams } from "next/navigation";
 import { Menu, X } from "lucide-react";
-=======
-import { Menu, X, BookOpen, FolderLock, Users } from "lucide-react"; // Tambah icon FolderLock & Users
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/layout/navbar.tsx
 import { gsap } from "gsap";
-import { CorruptStatus } from "@/Components/glitch";
+import { CorruptStatus } from "@/components/layout/glitch";
 
 interface NavEntry {
   name: string;
@@ -26,7 +22,6 @@ function NavbarContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-<<<<<<< HEAD:Components/Navbar.tsx
   const currentFolder = searchParams.get("folder") || (pathname === "/skills" ? "skills" : "projects");
 
   const navEntries: NavEntry[] = [
@@ -37,28 +32,6 @@ function NavbarContent() {
     { name: "Certs", tag: "CRT", href: "/serti" },
     { name: "Stories", tag: "LOG", href: "/blog" },
     { name: "Contact", tag: "MSG", href: "/contact" },
-=======
-  // Menu Items
-  const menuItems: MenuItem[] = [
-    { name: "Education", to: "education" },
-    { name: "Skills", to: "skills" },
-    { name: "Projects", to: "projects" },
-    { name: "Contact", to: "contact" },
-    { 
-      name: "Connect", 
-      to: "connect", 
-      isPage: true, 
-      href: "/connect", 
-    },
-    // Highlighted Item
-    { 
-      name: "ARCHIVES", 
-      to: "blog", 
-      isPage: true, 
-      href: "/blog", 
-      isHighlight: true 
-    },
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/layout/navbar.tsx
   ];
 
   // Live retro clock
@@ -114,7 +87,6 @@ function NavbarContent() {
   };
 
   return (
-<<<<<<< HEAD:Components/Navbar.tsx
     <>
       {/* DESKTOP LEFT TASKBAR (md and up) */}
       <aside
@@ -133,100 +105,6 @@ function NavbarContent() {
               <span className="w-2 h-2 rounded-full bg-[#FF75B9]" />
               <span className="w-2 h-2 rounded-full bg-[#79E7E5]" />
               <span className="w-2 h-2 rounded-full bg-[#F0C8DF]" />
-=======
-    <nav
-      ref={navRef}
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 pointer-events-none`}
-    >
-      {/* Container dengan pointer-events-auto agar bisa diklik */}
-      <div className="mx-auto flex h-12 max-w-fit items-center justify-center gap-2 px-4 sm:px-6 mt-3 rounded-full shadow-md border border-[#3A3A3A] bg-[#232323]/90 backdrop-blur-md pointer-events-auto">
-        
-        {/* Logo */}
-        <ScrollLink
-          to="hero"
-          smooth
-          duration={500}
-          className="flex items-center gap-1 text-lg text-gray-200 cursor-pointer shrink-0 hover:text-sky-400 transition-colors px-2"
-        >
-          <svg
-            className="size-5 text-sky-400"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M8 9l3 3l-3 3" />
-            <path d="M13 15l3 0" />
-            <path d="M3 6a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2l0 -12" />
-          </svg>
-          <span className="font-semibold text-white">Nafeez</span>
-        </ScrollLink>
-
-        {/* Separator */}
-        <div className="w-px h-5 bg-[#3A3A3A] mx-1"></div>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:block">
-          <nav aria-label="Global">
-            <ul className="flex items-center justify-center gap-1 text-sm">
-              {menuItems.map((item) =>
-                item.isPage ? (
-                  <li key={item.to}>
-                    <Link
-                      href={item.href || "#"}
-                      className={`
-                        flex items-center gap-1.5 px-3 py-1.5 rounded-full transition-all duration-300 font-medium
-                        ${item.isHighlight 
-                          ? "bg-[#4A6B7F]/20 text-[#8FC5F0] border border-[#4A6B7F]/40 hover:bg-[#4A6B7F]/30" 
-                          : "text-gray-300 hover:text-sky-400 hover:bg-white/5"
-                        }
-                      `}
-                    >
-                      {item.isHighlight ? (
-                        <FolderLock size={14} className="text-sky-400" />
-                      ) : item.name === "Connect" ? (
-                        <Users size={14} className="text-sky-400" />
-                      ) : (
-                        item.name === "ARCHIVES" && <BookOpen size={14} className="text-sky-400" />
-                      )}
-                      {item.name}
-                    </Link>
-                  </li>
-                ) : (
-                  <li key={item.to}>
-                    <ScrollLink
-                      to={item.to}
-                      smooth
-                      duration={500}
-                      spy
-                      offset={-80}
-                      activeClass="text-sky-400 font-medium"
-                      className="cursor-pointer px-2.5 py-1.5 text-gray-300 transition hover:text-sky-400 rounded-lg hover:bg-white/5"
-                    >
-                      {item.name}
-                    </ScrollLink>
-                  </li>
-                )
-              )}
-            </ul>
-          </nav>
-        </div>
-
-        {/* Separator */}
-        <div className="hidden md:block w-px h-5 bg-[#3A3A3A] mx-1"></div>
-
-        {/* Avatar / Profile Trigger */}
-        <div className="hidden md:flex items-center gap-3">
-          <div className="shrink-0 cursor-pointer group">
-            <div className="h-8 w-8 rounded-full bg-[#4A6B7F] flex items-center justify-center text-white font-semibold text-sm shadow-sm transition-all">
-              N
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/layout/navbar.tsx
             </div>
           </div>
 
@@ -252,7 +130,6 @@ function NavbarContent() {
           </Link>
         </div>
 
-<<<<<<< HEAD:Components/Navbar.tsx
         {/* Middle: Navigation Items Stack */}
         <nav aria-label="Desktop navigation list" className="my-auto py-2">
           <ul className="flex flex-col gap-1.5">
@@ -298,71 +175,14 @@ function NavbarContent() {
 
         {/* Bottom: Desktop System Tray */}
         <div className="flex flex-col gap-1.5 pt-2 border-t border-[#F0C8DF]">
-          <div className="flex items-center justify-center lg:justify-between px-1.5 py-1 bg-[#FFF4FA] rounded-lg border border-[#F0C8DF] text-[10px] font-mono">
-            <span className="hidden lg:inline text-[#806D7D] font-bold">STATUS</span>
-            <CorruptStatus okText="OK" className="font-extrabold tracking-wider" />
+          <div className="flex items-center justify-center lg:justify-between px-1.5 py-1 bg-[#FFF4FA] rounded-lg border border-[#F0C8DF] text-[10px] font-mono corrupt-status-tray">
+            <span className="hidden lg:inline text-[#806D7D] font-bold corrupt-hide">STATUS</span>
+            <CorruptStatus okText="OK" className="font-extrabold tracking-wider corrupt-hide" />
+            <span aria-hidden="true" className="corrupt-indicator hidden">CORRUPTION DETECTED</span>
           </div>
 
           <div className="flex items-center justify-center px-1.5 py-1 bg-white rounded-lg border border-[#F0C8DF] text-[10px] font-mono font-bold text-[#302432] shadow-sm">
             <span>{sysTime}</span>
-=======
-        {/* Mobile Toggle Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="block md:hidden rounded-full bg-white/5 p-1.5 text-gray-300 transition hover:bg-white/10"
-        >
-          <span className="sr-only">Toggle menu</span>
-          {isOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu Dropdown */}
-      {isOpen && (
-        <div
-          ref={mobileMenuRef}
-          className="md:hidden absolute top-16 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-sm bg-[#232323]/95 backdrop-blur-xl rounded-2xl border border-[#3A3A3A] shadow-xl z-40 overflow-hidden"
-        >
-          <div className="flex flex-col space-y-1 px-4 py-4">
-            {menuItems.map((item) =>
-              item.isPage ? (
-                <Link
-                  key={item.to}
-                  href={item.href || "#"}
-                  onClick={() => setIsOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all font-medium
-                    ${item.isHighlight
-                      ? "bg-[#4A6B7F]/20 text-[#8FC5F0] border border-[#4A6B7F]/40"
-                      : "text-gray-200 hover:text-sky-400 hover:bg-white/5"
-                    }
-                  `}
-                >
-                  {item.isHighlight ? (
-                    <FolderLock size={18} className="text-sky-400" />
-                  ) : item.name === "Connect" ? (
-                    <Users size={18} className="text-sky-400" />
-                  ) : (
-                    item.name === "ARCHIVES" && <BookOpen size={18} className="text-sky-400" />
-                  )}
-                  {item.name}
-                </Link>
-              ) : (
-                <ScrollLink
-                  key={item.to}
-                  to={item.to}
-                  smooth
-                  duration={500}
-                  spy
-                  offset={-80}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 text-gray-200 hover:text-sky-400 hover:bg-white/5 rounded-xl transition cursor-pointer"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-gray-500" />
-                  {item.name}
-                </ScrollLink>
-              )
-            )}
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/layout/navbar.tsx
           </div>
         </div>
       </aside>
@@ -449,7 +269,8 @@ function NavbarContent() {
 
             {/* Window Footer */}
             <div className="px-3.5 py-2 bg-[#FFE3F1] border-t border-[#F0C8DF] flex items-center justify-between text-[11px] font-mono text-[#806D7D]">
-              <span className="text-[#302432] font-semibold">STATUS: ONLINE</span>
+              <span className="text-[#302432] font-semibold corrupt-hide">STATUS: ONLINE</span>
+                <span aria-hidden="true" className="corrupt-indicator-mobile hidden">SYSTEM COMPROMISED</span>
               <span>SYS TIME: {sysTime}</span>
             </div>
           </div>

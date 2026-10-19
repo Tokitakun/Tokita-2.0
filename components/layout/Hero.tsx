@@ -23,9 +23,9 @@ import {
 } from "lucide-react";
 import { FaReact } from "react-icons/fa6";
 import { SiNextdotjs, SiTypescript, SiTailwindcss } from "react-icons/si";
-import law from "@/img/ce.webp";
-import { Magnetic, TiltCard } from "@/Components/fx";
-import { GlitchText, BootGlitch } from "@/Components/glitch";
+import law from "@/public/images/ce.webp";
+import { Magnetic, TiltCard } from "@/components/layout/fx";
+import { GlitchText, BootGlitch } from "@/components/layout/glitch";
 
 // ============================================================================
 // PRO AUDIO PLAYER (WITH PLAYLIST DRAWER) — KAWAII CYBER DESKTOP VIBES

@@ -7,11 +7,11 @@ import { Code2, Layers, Calendar, X, Terminal, Cpu, Globe } from "lucide-react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
 import projectsData from "../../public/data/project.json";
-import { ScrollProgress } from "@/Components/fx";
-import Navbar from "@/Components/Navbar";
-import Footer from "@/Components/footer";
-import Skills from "@/Components/skills";
-import { GlitchText } from "@/Components/glitch";
+import { ScrollProgress } from "@/components/layout/fx";
+import Navbar from "@/components/layout/navbar";
+import Footer from "@/components/layout/footer";
+import Skills from "@/components/sections/skills";
+import { GlitchText } from "@/components/layout/glitch";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 interface Project {

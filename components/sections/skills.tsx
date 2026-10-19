@@ -97,14 +97,8 @@ const TechNode = ({ item }: { item: any }) => {
     <div 
       className="group relative flex items-center gap-2 px-3 py-1.5 bg-[#FFF8FC] border border-[#F0C8DF] rounded-xl hover:border-[#FF75B9] hover:bg-[#FFE3F1] transition-all duration-150 cursor-default shadow-[1px_1px_0px_#FFE3F1]"
     >
-<<<<<<< HEAD:Components/skills.tsx
       <item.icon size={15} style={{ color: item.color }} className="group-hover:scale-110 transition-transform" />
       <span className="text-xs text-[#302432] font-mono font-semibold group-hover:text-[#F54DAD] transition-colors">
-=======
-      <item.icon size={16} className="text-gray-400 group-hover:text-white transition-colors relative z-10" style={{ color: item.color }} />
-      
-      <span className="text-xs text-gray-300 font-medium group-hover:text-white transition-colors relative z-10">
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/sections/skills.tsx
         {item.name}
       </span>
     </div>
@@ -184,10 +178,6 @@ const Skills = () => {
       ref={sectionRef}
       className="relative py-20 md:py-28 px-4 md:px-8 bg-[#FFF4FA] overflow-hidden border-t-2 border-[#F0C8DF]"
     >
-<<<<<<< HEAD:Components/skills.tsx
-=======
-
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/sections/skills.tsx
       <div className="relative z-10 max-w-6xl mx-auto">
         
         {/* HEADER */}

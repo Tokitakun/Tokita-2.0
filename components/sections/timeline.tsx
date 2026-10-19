@@ -3,14 +3,9 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-<<<<<<< HEAD:Components/timeline.tsx
 import { Briefcase, GraduationCap, Calendar, Sparkles } from "lucide-react";
-import timelineData from "../public/data/timeline.json";
-import { useReducedMotion } from "@/lib/useReducedMotion";
-=======
-import { Briefcase, GraduationCap, Calendar, ArrowRight } from "lucide-react";
 import timelineData from "@/public/data/timeline.json";
->>>>>>> 64cbbcef4cd3e46c1a1f567fed5ff42d1afa3cd9:components/sections/timeline.tsx
+import { useReducedMotion } from "@/lib/useReducedMotion";
 
 gsap.registerPlugin(ScrollTrigger);
 

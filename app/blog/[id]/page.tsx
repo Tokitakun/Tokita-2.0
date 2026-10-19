@@ -8,7 +8,7 @@ import {
   Quote, Sun, Moon, Share2, Hash, 
   ShieldAlert, Terminal, Sparkles
 } from "lucide-react";
-import Footer from "@/Components/footer";
+import Footer from "@/components/layout/footer";
 
 interface Cerpen {
   id: number;

@@ -38,6 +38,24 @@ Rules:
 - Dark backdrops only inside faux-terminal windows (e.g. blog reader dark mode).
 - No full-dark theme. Pink stays dominant.
 
+### Corrupted palette (applied when `html.corrupt-active` ← CORRUPTED phase)
+
+| Token | Hex | Role |
+|---|---|---|
+| `--color-bg` | `#2A0F1C` | Canvas (dark maroon paper) |
+| `--color-surface` | `#3B1A29` | Window bodies |
+| `--color-surface-pink` | `#4A2035` | Title bars, callouts |
+| `--color-primary-pink` | `#B0395B` | Buttons, borders, accents |
+| `--color-accent-pink` | `#C81E4A` | Crimson accent, glitch magenta |
+| `--color-deep-text` | `#F5DCE7` | Reading text (pale blush, AAA on paper) |
+| `--color-secondary-text` | `#D9A8BE` | Secondary labels |
+| `--color-border` | `#5C2C40` | Borders, dividers |
+| `--color-cyber-cyan` | `#55606B` | Muted cyan (desaturated) |
+| `--color-pixel-purple` | `#7A6B8F` | Muted purple |
+| `--color-success` | `#4E9A7D` | Online indicators |
+
+Contrast retained: `#F5DCE7` on `#2A0F1C` ≈ 12:1, `#D9A8BE` on `#2A0F1C` ≈ 7.5:1. Hard-coded hex card surfaces are dimmed via a CSS filter pass (`.corrupt-active :where(...)`) so panels stay readable without per-component edits.
+
 ## 3. Typography (3 families, strict roles)
 
 | Family | Role | Usage |
@@ -64,12 +82,27 @@ Rules:
 
 ## 6. Animation & Interaction Rules
 
-1. **Chromatic aberration** — `.glitch-rgb` on hover/focus of display text & key links; ±1.5px magenta/cyan ghosts, 80ms.
-2. **CRT interference** — `.crt-overlay` scanlines always-on (opacity 0.5, multiply); `.crt-tear` sweep 120ms every 18–40s.
-3. **Interface corruption** — `CorruptStatus` corrupts "ONLINE"→"ERR_0X0F" strings for ~0.3s every 9–24s; whispers flash 0.9–1.6s every 25–70s.
-4. **Boot distortion** — `.boot-glitch` 380ms one-shot on Hero mount.
-5. Hover: translate + pink shadow deepen. Buttons: active scale .95.
-6. Glitch never blocks interaction, never flashes large areas, never longer than ~400ms.
+Progressive instability is driven by ONE controller: `components/glitch-controller.tsx` mounted in `app/layout.tsx`. No component owns its own glitch timer; every effect reads state classes set on `<html>` by the controller.
+
+### Timeline (config in `GLITCH` constant, single source)
+
+| Phase | Elapsed | Behaviour |
+|---|---|---|
+| `NORMAL` | 0–30s | Fully clean. No glitch, flicker, RGB split, scanline interference, corrupted text or message. Pink identity, crisp type. |
+| `FIRST_ANOMALY` | ~30s | One short subtle incident (RGB split on a heading + tiny offset), then calm. |
+| `UNSTABLE` | >45s | Intermittent disturbances with quiet gaps (chromatic aberration, bands, tear, status label flicker, whispers). |
+| `CORRUPTED` | >90s | More frequent but still bounded events; corrupted palette token set lights up (`html.corrupt-active`). |
+
+### Per-tab session persistence
+- Session epoch stored in `sessionStorage` (`nafis_exe_session_start`).
+- Route change / refresh keeps elapsed time; a new tab = new session = clean again.
+- Timestamps, not interval counting, so backgrounded/throttled tabs restore correct phase without replaying missed effects.
+
+### Effect rules
+- Impulse classes (`glitch-impulse-*`) are added transiently by the controller and removed after their duration; recovery always returns to a valid state.
+- Gate: `html:not(.glitch-armed)` hard-disables all glitch CSS — the 30s clean window is enforced structurally.
+- `prefers-reduced-motion`: theme still progresses, glitch motion disabled, statics only.
+- Hover on windows/buttons: translate + pink shadow; active scale .95. No endless loops, no full-screen strobe.
 
 ### Reduced motion
 All glitch animations disabled; scanlines become static lighter lines; CorruptStatus/Whisper/CRT tear never fire. Global `prefers-reduced-motion` kill-switch in globals.css.

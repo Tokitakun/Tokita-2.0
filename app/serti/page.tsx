@@ -6,8 +6,6 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
-  Award, 
-  Trophy, 
   Calendar, 
   Building2, 
   Download, 
@@ -20,10 +18,10 @@ import {
 } from "lucide-react";
 
 import certificatesData from "../../public/data/serti.json";
-import Footer from "@/Components/footer";
-import { GlitchText } from "@/Components/glitch";
-import Navbar from "@/Components/Navbar";
-import { ScrollProgress } from "@/Components/fx";
+import Footer from "@/components/layout/footer";
+import { GlitchText } from "@/components/layout/glitch";
+import Navbar from "@/components/layout/navbar";
+import { ScrollProgress } from "@/components/layout/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 type Certificate = {
@@ -176,39 +174,58 @@ function CertificatesPage() {
           </div>
         </div>
 
-        {/* Tabs Filter */}
-        <div ref={tabsRef} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 border-b-2 border-[#F0C8DF] pb-5">
-          <div className="flex gap-2 bg-white p-1.5 rounded-2xl border-2 border-[#F0C8DF] shadow-[2px_2px_0px_#FFE3F1]">
+        {/* Desktop Folder Tabs — matches Skills/Projects workspace pattern */}
+        <div ref={tabsRef} className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-0">
+          <div className="flex items-center px-1 pt-3 border-b-2 border-[#F0C8DF] bg-[#FFF8FC] w-full gap-2 overflow-x-auto rounded-t-2xl">
+            {/* KOMPETENSI FOLDER TAB */}
             <button
+              type="button"
               onClick={() => setActiveTab("kompetensi")}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all min-h-[44px] ${
+              aria-pressed={activeTab === "kompetensi"}
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-t-xl font-mono text-xs font-bold transition-all border-t-2 border-x-2 -mb-[2px] ${
                 activeTab === "kompetensi"
-                  ? "bg-[#FF75B9] text-white shadow-[2px_2px_0px_#F0C8DF]"
-                  : "text-[#806D7D] hover:text-[#302432] hover:bg-[#FFE3F1]"
+                  ? "bg-white text-[#F54DAD] border-[#FF75B9] border-b-2 border-b-white z-10 shadow-[0_-2px_6px_rgba(245,77,173,0.1)]"
+                  : "bg-[#FFE3F1]/70 text-[#806D7D] border-[#F0C8DF] hover:bg-[#FFE3F1] hover:text-[#302432]"
               }`}
             >
-              <Award size={15} />
-              <span>Kompetensi ({certificates.kompetensi.length})</span>
+              <span className="px-1.5 py-0.5 rounded bg-[#FFF4FA] border border-[#F0C8DF] text-[10px]">
+                CRT
+              </span>
+              <span>KOMPETENSI</span>
+              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-[#FFE3F1] text-[#F54DAD] border border-[#F0C8DF]">
+                {certificates.kompetensi.length}
+              </span>
             </button>
+
+            {/* PRESTASI FOLDER TAB */}
             <button
+              type="button"
               onClick={() => setActiveTab("prestasi")}
-              className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all min-h-[44px] ${
+              aria-pressed={activeTab === "prestasi"}
+              className={`relative flex items-center gap-2 px-5 py-2.5 rounded-t-xl font-mono text-xs font-bold transition-all border-t-2 border-x-2 -mb-[2px] ${
                 activeTab === "prestasi"
-                  ? "bg-[#F54DAD] text-white shadow-[2px_2px_0px_#F0C8DF]"
-                  : "text-[#806D7D] hover:text-[#302432] hover:bg-[#FFE3F1]"
+                  ? "bg-white text-[#F54DAD] border-[#FF75B9] border-b-2 border-b-white z-10 shadow-[0_-2px_6px_rgba(245,77,173,0.1)]"
+                  : "bg-[#FFE3F1]/70 text-[#806D7D] border-[#F0C8DF] hover:bg-[#FFE3F1] hover:text-[#302432]"
               }`}
             >
-              <Trophy size={15} />
-              <span>Prestasi ({certificates.prestasi.length})</span>
+              <span className="px-1.5 py-0.5 rounded bg-[#FFF4FA] border border-[#F0C8DF] text-[10px]">
+                AWD
+              </span>
+              <span>PRESTASI</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-[#FFE3F1] text-[#F54DAD] border border-[#F0C8DF]">
+                {certificates.prestasi.length}
+              </span>
             </button>
-          </div>
-          
-          <div className="text-xs text-[#806D7D] font-mono font-bold">
-            Kategori: {activeTab === "kompetensi" ? "Sertifikasi Teknis" : "Penghargaan Kompetisi ★"}
+
+            {/* Right-aligned category readout inside tab strip */}
+            <div className="ml-auto pr-4 text-[10px] text-[#806D7D] font-mono font-bold hidden sm:block">
+              {activeTab === "kompetensi" ? "SERTIFIKASI_TEKNIS.DIR" : "PENGHARGAAN_KOMPETISI.DIR"}
+            </div>
           </div>
         </div>
 
-        {/* Certificates Grid */}
+        {/* Folder Content Area */}
+        <div className="p-4 sm:p-6 md:p-8 bg-white border-x-2 border-b-2 border-[#F0C8DF] rounded-b-2xl min-h-[400px] mb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {currentData.map((cert, index) => (
             <div
@@ -313,6 +330,7 @@ function CertificatesPage() {
             <p className="text-[#302432] font-bold text-sm">Tidak ada sertifikat dalam kategori ini.</p>
           </div>
         )}
+        </div>
       </main>
 
       {/* Lightbox Modal */}

@@ -24,6 +24,23 @@ const WHISPERS = [
   "are you still watching?",
 ];
 
+/**
+ * Gate helper shared by effect components: true once the controller crosses
+ * the 30s threshold (glitch-armed class on <html>). Tiny MutationObserver.
+ */
+function useGlitchArmed(): boolean {
+  const [armed, setArmed] = useState(false);
+  useEffect(() => {
+    const el = document.documentElement;
+    const update = () => setArmed(el.classList.contains("glitch-armed"));
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(el, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
+  }, []);
+  return armed;
+}
+
 /** Text with RGB channel separation on hover / focus. Pure CSS class. */
 export function GlitchText({
   children,
@@ -41,7 +58,8 @@ export function GlitchText({
   );
 }
 
-/** Status line that occasionally corrupts for a beat, then heals. */
+/** Status line that occasionally corrupts for a beat, then heals.
+ *  30s gate: while glitch-armed is absent (first 30s) it stays clean. */
 export function CorruptStatus({
   label = "STATUS",
   okText = "ONLINE",
@@ -51,9 +69,11 @@ export function CorruptStatus({
   okText?: string;
   className?: string;
 }) {
+  const armed = useGlitchArmed();
   const [corrupted, setCorrupted] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!armed) return; // strict 30s gate
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let timer: ReturnType<typeof setTimeout>;
     let clear: ReturnType<typeof setTimeout>;
@@ -73,7 +93,7 @@ export function CorruptStatus({
       clearTimeout(timer);
       clearTimeout(clear);
     };
-  }, [okText]);
+  }, [armed, okText]);
 
   return (
     <span className={`font-mono ${className}`} aria-live="off">
@@ -102,16 +122,21 @@ export function Whisper({
   maxDelayS?: number;
 }) {
   const [text, setText] = useState<string | null>(null);
+  const armed = useGlitchArmed();
   const reduced = useRef(false);
 
   useEffect(() => {
     reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!armed) return; // strict 30s gate
     if (reduced.current) return;
+    const root = document.documentElement;
+    const isUnstable = () => root.classList.contains("glitch-phase-unstable");
+    if (!isUnstable()) return; // whisper starts only at UNSTABLE (45s+)
     let show: ReturnType<typeof setTimeout>;
     let hide: ReturnType<typeof setTimeout>;
     let alive = true;
     const schedule = () => {
-      if (!alive) return;
+      if (!alive || !isUnstable()) return;
       show = setTimeout(() => {
         if (!alive) return;
         setText(phrases[Math.floor(Math.random() * phrases.length)]);
@@ -127,7 +152,7 @@ export function Whisper({
       clearTimeout(show);
       clearTimeout(hide);
     };
-  }, [phrases, minDelayS, maxDelayS]);
+  }, [armed, phrases, minDelayS, maxDelayS]);
 
   if (!text) return null;
   return (
@@ -138,55 +163,21 @@ export function Whisper({
 }
 
 /**
- * CrtOverlay — fixed full-viewport layer: scanlines + film grain + occasional
- * horizontal tear (a single 120ms band sweep every ~20-40s). pointer-events-none,
- * opacity kept low so text stays readable. Disabled under reduced motion
- * (static scanlines remain, flicker/tear removed).
+ * CrtOverlay — static scanline/grain layer. Part of the NORMAL pink aesthetic
+ * (not a glitch), so it stays visible from the start. Tear sweeps are driven
+ * by the controller's impulse classes (glitch-impulse-tear), never by a
+ * component-owned timer — this keeps the 30s gate absolute.
  */
 export function CrtOverlay() {
-  const [tearing, setTearing] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    let timer: ReturnType<typeof setTimeout>;
-    let reset: ReturnType<typeof setTimeout>;
-    const schedule = () => {
-      timer = setTimeout(() => {
-        setTearing(true);
-        reset = setTimeout(() => setTearing(false), 120);
-        schedule();
-      }, 18000 + Math.random() * 22000);
-    };
-    schedule();
-    return () => {
-      clearTimeout(timer);
-      clearTimeout(reset);
-    };
-  }, []);
-
   return (
     <div aria-hidden="true" className="crt-overlay pointer-events-none fixed inset-0 z-[9990]">
-      {tearing && <div className="crt-tear" />}
+      <div aria-hidden="true" className="crt-tear-layer" />
     </div>
   );
 }
 
-/** BootGlitch — one-shot 350ms distortion on first mount of a page shell. */
+/** BootGlitch — inert pass-through. The 30s gate forbids any glitch on first
+ *  mount, so the old boot distortion is no longer scheduled. */
 export function BootGlitch({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    el.classList.add("boot-glitch");
-    const t = setTimeout(() => el.classList.remove("boot-glitch"), 380);
-    return () => clearTimeout(t);
-  }, []);
-
-  return (
-    <div ref={ref} className="contents">
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }
