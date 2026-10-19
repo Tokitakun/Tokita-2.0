@@ -31,6 +31,7 @@ function NavbarContent() {
     { name: "Skills", tag: "SYS", href: "/project?folder=skills", matchPrefix: "/skills", folderQuery: "skills" },
     { name: "Certs", tag: "CRT", href: "/serti" },
     { name: "Stories", tag: "LOG", href: "/blog" },
+    { name: "Connect", tag: "SOC", href: "/connect" },
     { name: "Contact", tag: "MSG", href: "/contact" },
   ];
 
