@@ -1,24 +1,144 @@
 [
-  
   {
-  "id": 1,
-  "title": "TokiNime 2.0",
-  "shortDesc": "Website MyAnimelist ngambil api dari Jikan.moe",
-  "longDesc": "TokiNime Upgrade dari TokiList adalah website anime database yang menggunakan Jikan API untuk menampilkan informasi anime, karakter, genre, rating, episode, dan rekomendasi secara responsif.",
-  "tags": ["React", "Vite", "Tailwind CSS", "React Router", "Jikan API", "JavaScript","Lucide React"],
-  "status": "live",
-  "featured": false,
-  "image": "/TokiNime.webp",
-  "github": "https://github.com/Tokitakun/TokiNime2.0",
-  "demo": "https://nime.vercel.app/",
-  "year": 2026
-},
+    "id": 8,
+    "title": "TokiConvert",
+    "shortDesc": "Utilitas media lokal untuk konversi tanpa meninggalkan peramban.",
+    "longDesc": "Kembalikan kendali privasi data Anda. Utilitas media lokal yang memproses gambar, audio, video, dan dokumen tanpa meninggalkan peramban. Sebagian besar konverter web mengharuskan pengguna mengirim berkas ke server cloud. TokiConvert mengubah paradigma itu dengan eksekusi client-side offline-ready — tidak ada basis data, tanpa login, bebas pelacak, tanpa risiko kebocoran data.",
+    "tags": [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "Lucide React",
+      "HTML5 Canvas",
+      "Web Audio API",
+      "FFmpeg WASM",
+      "pdf-lib",
+      "JSZip"
+    ],
+    "status": "live",
+    "featured": true,
+    "image": "/convert.webp",
+    "github": "https://github.com/Tokitakun/TokiConvert",
+    "demo": "https://toki-convert.vercel.app/",
+    "year": 2026
+  },
+  {
+    "id": 9,
+    "title": "Bazma Tarteel",
+    "shortDesc": "Digitalisasi KBM halaqah Al-Qur'an santri SMK TI BAZMA.",
+    "longDesc": "Bazma Tarteel dirancang untuk mendigitalkan proses Kegiatan Belajar Mengajar (KBM) halaqah Al-Qur'an santri di lingkungan SMK TI BAZMA (Islamic Boarding School). Sistem ini memfasilitasi pencatatan kemajuan hafalan (Tahfidz) dan perbaikan bacaan (Tahsin) secara cepat di perangkat mobile maupun desktop, transparan, serta dapat diaudit secara akurat oleh pengelola lembaga.",
+    "tags": [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS v4",
+      "PostgreSQL",
+      "Prisma ORM",
+      "ExcelJS",
+      "Motion for React",
+      "Lucide React"
+    ],
+    "status": "live",
+    "featured": true,
+    "image": "/tarteel.webp",
+    "github": "https://github.com/abdoelzgit/smktibazmav3",
+    "demo": "https://github.com/abdoelzgit/smktibazmav3",
+    "year": 2026
+  },
+  {
+    "id": 2,
+    "title": "VibeAquaria",
+    "shortDesc": "Smart Aquascape Management System",
+    "longDesc": "VibeAquaria adalah platform berbasis web modern yang dirancang sebagai asisten pintar sekaligus wadah komunitas bagi para pehobi akuarium dan aquascape (para scaper). Platform ini menggabungkan keindahan visual Frosted Glassmorphism Light Mode dengan efisiensi teknologi Kecerdasan Buatan (AI) serta sistem database yang dinamis.",
+    "tags": [
+      "Next.js 14",
+      "Tailwind",
+      "Firebase",
+      "Framer",
+      "Typescript",
+      "AI Engine",
+      "Location Service"
+    ],
+    "status": "live",
+    "featured": true,
+    "image": "/aqua.webp",
+    "github": "https://github.com/Tokitakun/VibeAquaria",
+    "demo": "https://vibeaquaria.vercel.app/home",
+    "year": 2026
+  },
+  {
+    "id": 1,
+    "title": "TokiNime 2.0",
+    "shortDesc": "Website MyAnimelist ngambil api dari Jikan.moe",
+    "longDesc": "TokiNime Upgrade dari TokiList adalah website anime database yang menggunakan Jikan API untuk menampilkan informasi anime, karakter, genre, rating, episode, dan rekomendasi secara responsif.",
+    "tags": [
+      "React",
+      "Vite",
+      "Tailwind CSS",
+      "React Router",
+      "Jikan API",
+      "JavaScript",
+      "Lucide React"
+    ],
+    "status": "live",
+    "featured": false,
+    "image": "/TokiNime.webp",
+    "github": "https://github.com/Tokitakun/TokiNime2.0",
+    "demo": "https://nime.vercel.app/",
+    "year": 2026
+  },
+  {
+    "id": 5,
+    "title": "Mahiru",
+    "shortDesc": "Fan-site untuk my bini tuh",
+    "longDesc": "Website buatan untuk menjadi bukti bahwa aku sangat mencintai mahiru sehidup semati oomagaa MAHIRU!!.",
+    "tags": [
+      "Next.js",
+      "Tailwind",
+      "Lucide",
+      "Framer",
+      "Typescript",
+      "AI Engine"
+    ],
+    "status": "live",
+    "featured": true,
+    "image": "/mahiru.webp",
+    "github": "https://github.com/Tokitakun/Mahiru",
+    "demo": "https://mahiru-six.vercel.app/",
+    "year": 2026
+  },
+  {
+    "id": 3,
+    "title": "FinSmart",
+    "shortDesc": "Personal tracker financial",
+    "longDesc": "Sebuah Website sebagai tracker finansial terutama bagi GenZ yang mudah sekali membeli hal yang hedon, ini merupakan Capstone dari DBS Dicoding Camp di dibantu oleh teman-teman CFS.",
+    "tags": [
+      "Next.js",
+      "Express",
+      "Zod",
+      "Turborepo",
+      "Node.js"
+    ],
+    "status": "live",
+    "featured": true,
+    "image": "/finsmart.webp",
+    "github": "https://github.com/IvanoWisnuBudiLaras/CAPSTONE",
+    "demo": "https://finsmart-mu.vercel.app/dashboard",
+    "year": 2026
+  },
   {
     "id": 4,
     "title": "TokiList",
     "shortDesc": "Anime season tracker using REST API",
     "longDesc": "My first API integration project! Fetches and displays currently airing and seasonal anime using the Jikan API. Features search, filtering, and responsive card layout.",
-    "tags": ["HTML5", "CSS3", "JavaScript", "REST API", "Async/Await"],
+    "tags": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "REST API",
+      "Async/Await"
+    ],
     "status": "live",
     "featured": true,
     "image": "/toki.webp",
@@ -26,62 +146,34 @@
     "demo": "https://toki-list.vercel.app/",
     "year": 2025
   },
-
-{
-  "id": 3,
-  "title": "FinSmart",
-  "shortDesc": "Personal tracker financial",
-  "longDesc": "Sebuah Website sebagai tracker finansial terutama bagi GenZ yang mudah sekali membeli hal yang hedon, ini merupakan Capstone dari DBS Dicoding Camp di dibantu oleh teman-teman CFS.",
-  "tags": ["Next.js", "Express", "Zod", "Turborepo", "Node.js"],
-  "status": "live",
-  "featured": true,
-  "image": "/finsmart.webp",
-  "github": "https://github.com/IvanoWisnuBudiLaras/CAPSTONE",
-  "demo": "https://finsmart-mu.vercel.app/dashboard",
-  "year": 2026
-},
-{
-  "id": 2,
-  "title": "VibeAquaria",
-  "shortDesc": "Smart Aquascape Management System",
-  "longDesc": "VibeAquaria adalah platform berbasis web modern yang dirancang sebagai asisten pintar sekaligus wadah komunitas bagi para pehobi akuarium dan aquascape (para scaper). Platform ini menggabungkan keindahan visual Frosted Glassmorphism Light Mode dengan efisiensi teknologi Kecerdasan Buatan (AI) serta sistem database yang dinamis.",
-  "tags": ["Next.js 14", "Tailwind", "Firebase", "Framer", "Typescript", "AI Engine","Location Service"],
-  "status": "live",
-  "featured": true,
-  "image": "/aqua.webp",
-  "github": "https://github.com/Tokitakun/VibeAquaria",
-  "demo": "https://vibeaquaria.vercel.app/home",
-  "year": 2026
-},{
-  "id": 5,
-  "title": "Mahiru ",
-  "shortDesc": "Fan-site untuk my bini tuh ",
-  "longDesc": "Website buatan untuk menjadi bukti bahwa aku sangat mencintai mahiru sehidup semati oomagaa MAHIRU!!.",
-  "tags": ["Next.js", "Tailwind", "Lucide", "Framer", "Typescript", "AI Engine "],
-  "status": "live",
-  "featured": true,
-  "image": "/mahiru.webp",
-  "github": "https://github.com/Tokitakun/Mahiru",
-  "demo": "https://mahiru-six.vercel.app/",
-  "year": 2026
-},{
+  {
     "id": 6,
     "title": "Password Generator",
     "shortDesc": "Modern password generator with customizable options",
     "longDesc": "A secure password generator that allows users to create strong, randomized passwords with customizable length and character types. Built with vanilla JavaScript for optimal performance.",
-    "tags": ["HTML5", "CSS3", "JavaScript"],
+    "tags": [
+      "HTML5",
+      "CSS3",
+      "JavaScript"
+    ],
     "status": "live",
     "featured": true,
     "image": "/pass.webp",
     "github": "https://github.com/MuhammadNafeezKh/PasswordGenerator",
     "demo": "https://muhammadnafeezkh.github.io/PasswordGenerator/",
     "year": 2024
-  },{
+  },
+  {
     "id": 7,
     "title": "FishPedia 1.0",
     "shortDesc": "Ensiklopedia digital interaktif biota air tawar dan aquascape",
     "longDesc": "Fishpedia adalah ensiklopedia ikan digital interaktif yang awalnya hanya untuk tugas sekolah,namun melihat potensi dari project ini saya berpikir akan mengembangkannya.",
-    "tags": ["React 18/19", "Tailwind CSS", "Vite", "JavaScript (ES6+)"],
+    "tags": [
+      "React 18/19",
+      "Tailwind CSS",
+      "Vite",
+      "JavaScript (ES6+)"
+    ],
     "status": "live",
     "featured": true,
     "image": "/FishPedia.webp",

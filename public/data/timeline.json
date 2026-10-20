@@ -1,25 +1,26 @@
 [
   {
-    "date": "2024 - 2026",
-    "title": "SMK TI BAZMA",
-    "role": "Siswa & Organisasi",
-    "description": "Aktif mengembangkan diri melalui akademik dan organisasi sekolah.",
+    "date": "Sep 2026 - Okt 2026",
+    "title": "JHIC Web Development Competition",
+    "role": "Project Leader & Frontend Developer",
+    "description": "Mengikuti kompetisi redesign website sekolah sebagai leader sekaligus pengembang frontend.",
     "details": [
-      "Anggota OSIS Divisi Keimanan (2024/2025)",
-      "Ketua PASO & Sekretaris Eskul Robotik (2025/2026)",
-      "Memimpin koordinasi kegiatan keagamaan dan teknis robotik"
+      "Memimpin tim sebagai Project Leader dalam kompetisi redesign website sekolah",
+      "Mengembangkan antarmuka pengguna (UI) modern serta animasi interaktif sebagai Frontend Developer",
+      "Meraih kategori juara video 'The Most Engaging'",
+      "Berhasil menjadi Finalist Redesign Website Sekolah"
     ],
-    "type": "education"
+    "type": "achievement"
   },
   {
-    "date": "Nov 2025 - Sekarang",
-    "title": "NLFTs.ltd",
-    "role": "Frontend Engineer",
-    "description": "Mengembangkan proyek Travellings.id/Docs sebagai Frontend Developer.",
+    "date": "Juli 2026 - Sekarang",
+    "title": "Rakitweb",
+    "role": "Magang Frontend Developer",
+    "description": "Bergabung sebagai Frontend Developer Intern.",
     "details": [
-      "Project: Travellings.id/Docs",
-      "Membuat desain responsif dan memastikan fitur berfungsi dengan baik",
-      "Fokus pada pengembangan aplikasi berbasis formulir dan dokumentasi"
+      "Kontrak sebagai pengembang frontend",
+      "Fokus pada implementasi antarmuka pengguna yang modern",
+      "Kolaborasi dalam tim pengembangan web"
     ],
     "type": "work"
   },
@@ -36,15 +37,27 @@
     "type": "certification"
   },
   {
-    "date": "Juli 2026 - Sekarang",
-    "title": "Rakitweb",
-    "role": "Magang Frontend Developer",
-    "description": "Bergabung sebagai Frontend Developer Intern.",
+    "date": "Nov 2025 - Sekarang",
+    "title": "NLFTs.ltd",
+    "role": "Frontend Engineer",
+    "description": "Mengembangkan proyek Travellings.id/Docs sebagai Frontend Developer.",
     "details": [
-      "Kontrak sebagai pengembang frontend",
-      "Fokus pada implementasi antarmuka pengguna yang modern",
-      "Kolaborasi dalam tim pengembangan web"
+      "Project: Travellings.id/Docs",
+      "Membuat desain responsif dan memastikan fitur berfungsi dengan baik",
+      "Fokus pada pengembangan aplikasi berbasis formulir dan dokumentasi"
     ],
     "type": "work"
+  },
+  {
+    "date": "2024 - 2026",
+    "title": "SMK TI BAZMA",
+    "role": "Siswa & Organisasi",
+    "description": "Aktif mengembangkan diri melalui akademik dan organisasi sekolah.",
+    "details": [
+      "Anggota OSIS Divisi Keimanan (2024/2025)",
+      "Ketua PASO & Sekretaris Eskul Robotik (2025/2026)",
+      "Memimpin koordinasi kegiatan keagamaan dan teknis robotik"
+    ],
+    "type": "education"
   }
 ]

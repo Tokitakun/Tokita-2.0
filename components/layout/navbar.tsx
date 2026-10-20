@@ -93,7 +93,7 @@ function NavbarContent() {
       <aside
         ref={navRef}
         aria-label="Desktop Taskbar Navigation"
-        className="hidden md:flex fixed left-3 lg:left-4 top-4 bottom-4 w-16 lg:w-44 z-50 flex-col justify-between bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[4px_4px_0px_#F0C8DF,0_12px_28px_rgba(245,77,173,0.14)] backdrop-blur-md p-2 select-none overflow-hidden transition-all duration-200"
+        className="hidden md:flex nav-glitch fixed left-3 lg:left-4 top-4 bottom-4 w-16 lg:w-44 z-50 flex-col justify-between bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[4px_4px_0px_#F0C8DF,0_12px_28px_rgba(245,77,173,0.14)] backdrop-blur-md p-2 select-none overflow-hidden transition-all duration-200"
       >
         {/* Top: Window Header & Start Button */}
         <div className="flex flex-col gap-2">
@@ -190,7 +190,7 @@ function NavbarContent() {
 
       {/* MOBILE FLOATING TASKBAR (under md) */}
       <div className="md:hidden fixed bottom-3 inset-x-3 z-50 pointer-events-auto">
-        <header className="flex items-center justify-between h-12 px-3 bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[0_8px_24px_rgba(245,77,173,0.22),_2px_2px_0px_#F0C8DF] backdrop-blur-md">
+        <header className="nav-glitch flex items-center justify-between h-12 px-3 bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[0_8px_24px_rgba(245,77,173,0.22),_2px_2px_0px_#F0C8DF] backdrop-blur-md">
           {/* Start Button */}
           <Link
             href="/"
