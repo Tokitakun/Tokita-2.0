@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from 'react';
 import { 
@@ -16,7 +16,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import OrbitPlanet from "@/components/layout/OrbitPlanet";
-import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/layout/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -202,8 +201,7 @@ export default function ContactPage() {
   return (
     <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
-      <Navbar />
-      <div className="pt-16">
+      <div className="pt-6">
         <ContactSection />
       </div>
       <Footer />

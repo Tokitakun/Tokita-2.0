@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
@@ -19,7 +19,6 @@ import {
   Terminal,
   ArrowRight,
 } from "lucide-react";
-import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 
 interface Cerpen {
@@ -167,10 +166,9 @@ export default function BlogPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden pt-12">
-      <Navbar />
+    <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden pt-6">
 
-      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-16 pb-20 min-h-screen">
+      <main className="relative z-10 max-w-6xl mx-auto px-6 pt-8 pb-20 min-h-screen">
         
         {/* Header Section */}
         <header className="mb-12">

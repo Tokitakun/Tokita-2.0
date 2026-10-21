@@ -1,9 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { ScrollProgress } from "@/components/layout/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -28,9 +27,8 @@ export default function ConnectPage() {
   return (
     <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
-      <Navbar />
 
-      <main id="connect-select" className="relative z-10 pt-24 pb-16 px-4 md:px-8 max-w-6xl mx-auto">
+      <main id="connect-select" className="relative z-10 pt-8 pb-16 px-4 md:px-8 max-w-6xl mx-auto">
         {/* breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8 text-xs font-mono font-bold text-[#F54DAD]">
           <div className="flex items-center gap-2">

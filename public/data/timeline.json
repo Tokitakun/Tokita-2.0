@@ -52,11 +52,13 @@
     "date": "2024 - 2026",
     "title": "SMK TI BAZMA",
     "role": "Siswa & Organisasi",
-    "description": "Aktif mengembangkan diri melalui akademik dan organisasi sekolah.",
+    "description": "Aktif mengembangkan diri melalui akademik, organisasi sekolah, dan pengembangan proyek teknologi.",
     "details": [
-      "Anggota OSIS Divisi Keimanan (2024/2025)",
-      "Ketua PASO & Sekretaris Eskul Robotik (2025/2026)",
-      "Memimpin koordinasi kegiatan keagamaan dan teknis robotik"
+      "Anggota OSIS Divisi Keimanan & Sekretaris Eskul Robotik (2024/2025)",
+      "Ketua PASO (2025/2026)",
+      "Memimpin koordinasi kegiatan keagamaan, kepemudaan, dan teknis robotik",
+      "Founder & Fullstack Developer untuk Project Tarteel",
+      "Melakukan Redesign Web Sekolah"
     ],
     "type": "education"
   }

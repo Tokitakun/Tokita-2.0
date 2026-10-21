@@ -54,7 +54,7 @@ function NavbarContent() {
       gsap.fromTo(
         navRef.current,
         { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.45, ease: "power2.out" }
+        { x: 0, opacity: 1, duration: 0.45, ease: "power2.out", clearProps: "transform" }
       );
     }
   }, []);
@@ -93,7 +93,7 @@ function NavbarContent() {
       <aside
         ref={navRef}
         aria-label="Desktop Taskbar Navigation"
-        className="hidden md:flex nav-glitch fixed left-3 lg:left-4 top-4 bottom-4 w-16 lg:w-44 z-50 flex-col justify-between bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[4px_4px_0px_#F0C8DF,0_12px_28px_rgba(245,77,173,0.14)] backdrop-blur-md p-2 select-none overflow-hidden transition-all duration-200"
+        className="hidden md:flex nav-glitch !fixed left-3 lg:left-4 top-4 bottom-4 w-16 lg:w-44 z-50 flex-col justify-between bg-white/95 border-2 border-[#FF75B9] rounded-2xl shadow-[4px_4px_0px_#F0C8DF,0_12px_28px_rgba(245,77,173,0.14)] backdrop-blur-md p-2 select-none overflow-hidden transition-all duration-200"
       >
         {/* Top: Window Header & Start Button */}
         <div className="flex flex-col gap-2">

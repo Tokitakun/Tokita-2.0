@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -7,7 +7,6 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import projectsData from "../../public/data/project.json";
 import { ScrollProgress } from "@/components/layout/fx";
-import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import Skills from "@/components/sections/skills";
 import { SKILLS_COUNT } from "@/components/sections/skills";
@@ -235,7 +234,6 @@ export function UnifiedWorkspace({ defaultFolder = "projects" }: UnifiedWorkspac
   return (
     <div className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
-      <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 pt-8 md:pt-12 pb-20">
         <div className="bg-white border-2 border-[#FF75B9] rounded-2xl shadow-[6px_6px_0px_#F0C8DF] overflow-hidden">

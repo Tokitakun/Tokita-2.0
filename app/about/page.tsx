@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
@@ -16,7 +16,6 @@ import {
   Flame,
   User,
 } from "lucide-react";
-import Navbar from "@/components/layout/navbar";
 import Footer from "@/components/layout/footer";
 import { ScrollProgress, TiltCard } from "@/components/layout/fx";
 import { GlitchText } from "@/components/layout/glitch";
@@ -71,9 +70,8 @@ export default function AboutPage() {
   return (
     <div ref={containerRef} className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden selection:bg-[#FF75B9] selection:text-white">
       <ScrollProgress />
-      <Navbar />
 
-      <main className="relative z-10 pt-28 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
+      <main className="relative z-10 pt-8 pb-20 px-4 md:px-8 max-w-6xl mx-auto">
         {/* Breadcrumb / Status Header */}
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8 text-xs font-mono font-bold text-[#F54DAD]">
           <div className="flex items-center gap-2">

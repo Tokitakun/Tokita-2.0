@@ -517,7 +517,7 @@ body::before {
 }
 
 /* Navbar frame: faint lateral RGB edge + scanline sheen (desktop + mobile). */
-.nav-glitch {
+.nav-glitch:not(.fixed) {
   position: relative;
 }
 .nav-glitch::before,

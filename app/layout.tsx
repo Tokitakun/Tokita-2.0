@@ -4,6 +4,7 @@ import "./globals.css";
 import CustomCursor from "@/components/layout/cursor";
 import { CrtOverlay } from "@/components/layout/glitch";
 import GlitchController from "@/components/glitch-controller";
+import Navbar from "@/components/layout/navbar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,6 +56,7 @@ export default function RootLayout({
         <CustomCursor />
         <CrtOverlay />
         <GlitchController />
+        <Navbar />
         {children}
       </body>
     </html>

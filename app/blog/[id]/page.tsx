@@ -168,10 +168,10 @@ export default function CerpenDetail() {
         />
       </div>
 
-      <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-20 pb-20">
+      <main className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 pt-6 pb-20">
         
         {/* Top Controls Bar */}
-        <div className="flex items-center justify-between mb-8 sticky top-14 z-40 py-2.5 px-4 bg-white/95 backdrop-blur-md rounded-2xl border-2 border-[#F0C8DF] shadow-[3px_3px_0px_#FFE3F1]">
+        <div className="flex items-center justify-between mb-8 sticky top-4 z-40 py-2.5 px-4 bg-white/95 backdrop-blur-md rounded-2xl border-2 border-[#F0C8DF] shadow-[3px_3px_0px_#FFE3F1]">
           <Link 
             href="/blog" 
             className="inline-flex items-center gap-2 text-xs font-mono font-bold text-[#302432] hover:text-[#F54DAD] transition-colors"

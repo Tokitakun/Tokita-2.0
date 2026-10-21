@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
@@ -20,7 +20,6 @@ import {
 import certificatesData from "../../public/data/serti.json";
 import Footer from "@/components/layout/footer";
 import { GlitchText } from "@/components/layout/glitch";
-import Navbar from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/fx";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -51,7 +50,6 @@ export default function CertificatesListPage() {
   return (
     <div ref={containerRef} className="relative min-h-screen bg-[#FFF4FA] text-[#302432] overflow-x-hidden">
       <ScrollProgress />
-      <Navbar />
       <CertificatesPage />
     </div>
   );
@@ -133,7 +131,7 @@ function CertificatesPage() {
   const currentData = certificates[activeTab];
 
   return (
-    <div ref={pageRef} className="min-h-screen bg-[#FFF4FA] text-[#302432] relative overflow-hidden flex flex-col pt-16">
+    <div ref={pageRef} className="min-h-screen bg-[#FFF4FA] text-[#302432] relative overflow-hidden flex flex-col pt-6">
       
       {/* Main Container */}
       <main className="flex-grow max-w-6xl mx-auto px-6 py-12 md:py-20 w-full relative z-10">
