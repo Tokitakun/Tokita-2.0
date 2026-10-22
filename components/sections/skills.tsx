@@ -107,7 +107,7 @@ const TechNode = ({ item }: { item: any }) => {
   );
 };
 
-const Skills = () => {
+const Skills = ({ embedded = false }: { embedded?: boolean }) => {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -178,9 +178,13 @@ const Skills = () => {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative py-20 md:py-28 px-4 md:px-8 bg-[#FFF4FA] overflow-hidden border-t-2 border-[#F0C8DF]"
+      className={`relative overflow-hidden ${
+        embedded
+          ? "py-2 md:py-4 px-0 bg-transparent border-t-0"
+          : "py-20 md:py-28 px-4 md:px-8 bg-[#FFF4FA] border-t-2 border-[#F0C8DF]"
+      }`}
     >
-      <div className="relative z-10 max-w-6xl mx-auto">
+      <div className={`relative z-10 ${embedded ? "w-full" : "max-w-6xl mx-auto"}`}>
         
         {/* HEADER */}
         <div ref={headerRef} className="mb-14 text-center md:text-left">

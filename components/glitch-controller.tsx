@@ -22,10 +22,10 @@ import { useEffect } from "react";
 // ============================================================================
 
 export const GLITCH = {
-  normalMs: 15_000, // clean phase: 0-15s, identical to current normal design
-  unstableMs: 28_000, // intermittent disturbances begin right after first anomaly
-  corruptedMs: 55_000, // stronger bound disturbances + dark NSO veil begin
-  firstImpulseMs: 1_500, // first anomaly duration (1.5s) at second 15
+  normalMs: 10_000, // clean phase: 0-10s, identical to current normal design
+  unstableMs: 25_000, // intermittent disturbances begin right after first anomaly
+  corruptedMs: 50_000, // stronger bound disturbances + dark NSO veil begin
+  firstImpulseMs: 1_500, // first anomaly duration (1.5s) at second 10
   minQuietMs: 5_000, // quiet gap floor between impulses
   maxQuietMs: 12_000, // quiet gap ceiling (low = visible, still gapped)
 } as const;

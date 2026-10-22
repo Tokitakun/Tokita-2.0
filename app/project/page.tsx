@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect, useState, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -293,7 +293,7 @@ export function UnifiedWorkspace({ defaultFolder = "projects" }: UnifiedWorkspac
             {activeFolder === "projects" ? (
               <ProjectShowcase corruptionStage={corruptionStage} />
             ) : (
-              <div className="-mt-8"><Skills /></div>
+              <Skills embedded />
             )}
           </div>
 
